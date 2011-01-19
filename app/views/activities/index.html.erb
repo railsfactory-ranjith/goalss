@@ -1,0 +1,97 @@
+ <%=link_to  (:url => activities_path(:control=>"activities",:method=>"new_update") ,:frequency => '10')%>
+ 
+<div id="msg"></div>
+<% if (session[:invited_member] && session[:invited_member].email==current_user.email) || (session[:invited_leader] && session[:invited_leader].leader_email_invite==current_user.email) || (session[:facebook_invite_group_id])%>
+
+<div id="pop-up">
+    <div style="background-color:#FFFFFF; border:1px solid #CDD3D8; width:<%=@group ? "560":"695"%>px;min-height:175px;padding:2px;">
+      <div class="light_box_close"><a onclick="document.getElementById('pop-up').style.display='none';document.getElementById('bloverlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg" /></a></div>
+      
+      <div class="lightbox_header" style="width:<%=@group ? "540":"680"%>px;">Group Membership Confirmation</div><br/>
+      <%if @group.allowed_to_activate?%>
+      <div style="color:#406481;float:left;font-family:Arial,Helvetica,sans-serif;font-size:15px;margin-left:16px;line-height: 20px;">
+      <br/><%=full_name(@invitation.user)%> has invited you to join in <span class="number"><%=(session[:invited_leader] || session[:facebook_invite_group_id]) ? @invitation.name : @invitation.group.name%></span>
+       <%if session[:invited_leader]%> as Leader <%end%>
+        <p>Join in the Group?</p>
+      </div>
+      <div class="clear"><!-- --></div>
+      <div class="button_invite_light">
+          <a  href="javascript:void(0)"><img src="/images/decline.png" alt="Decline" onclick="cancel_inv()"/></a>
+         <%=link_to image_tag("accept.png"),:controller=>"group_activities",:action=>"add_group_member"%>
+      </div>
+      <%else%>
+      <%session[:facebook_invite_group_id]=nil%>
+      <%session[:invited_leader]=nil%>
+      <%session[:invited_member]=nil%>
+          <div style="color:red;float:left;margin-top:4px;font-family:Arial,Helvetica,sans-serif;font-style:italic;font-size:15px;margin-left:20px;line-height: 20px;">Sorry group member size exceeded, cannot add a new member</div>
+          <img src="/images/ok.png" style="margin-top:130px;margin-left:400px;" onclick="close_pop_up();">
+      <%end%>
+    </div>
+  </div>
+<div id="bloverlay" ></div>
+<%end%>
+
+<div id="top_activity">
+  <%= render :partial=>"top_activity"%>
+</div>
+
+<div id="recent_activity_left_container" >
+    <%=render :partial=>"collection"%>
+</div>
+	<div id="footer_filter">
+     <%=render :partial=>"footer_filter"%>
+  </div>
+
+
+    <div class="clear"><!-- --></div>
+<script>
+
+function mark_new_activity(gid)
+{
+
+     Element.show('loader') 
+     new Ajax.Request('/activities/save_user_detail/', {asynchronous: true, evalScripts: true,  method: 'POST', parameters:'gid=' + gid});
+}
+function send_read_recepit(coll)
+
+{
+      Element.show('loader') 
+      new Ajax.Request('<%= send_leader_mail_activities_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'id=' + coll});
+     
+  //  new Ajax.Request('/activities/send_leader_mail/?id='+coll, {asynchronous: true, evalScripts: true, method: 'get'});
+}
+function older_post(limit)
+{
+    Element.show('loader') 
+    new Ajax.Request('<%= older_post_activities_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'limit=' + limit});
+}
+function footer(gid)
+{
+
+    Element.show('loader') 
+    new Ajax.Request('<%= footer_activities_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'gid=' + gid });
+}
+function older_post_group(gid,limit)
+{
+    Element.show('loader') 
+    new Ajax.Request('<%= older_post_group_activities_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'limit=' + limit + '&gid=' + gid});
+}
+
+function cancel_inv()
+{
+var sure= confirm("Are you sure? Do you want to decline the invitation?");
+if(sure==true){
+ new Ajax.Request('<%= decline_inv_activities_path%>', {asynchronous: true, evalScripts: true,  method: 'get'});
+ $('pop-up').style.display='none';
+ $('bloverlay').style.display='none';
+ } 
+}
+
+function close_pop_up()
+{
+ $('pop-up').style.display='none';
+ $('bloverlay').style.display='none';
+
+}
+
+</script>

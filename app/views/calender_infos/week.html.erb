@@ -1,0 +1,246 @@
+<!-- container div start here-->
+
+<%=javascript_include_tag "calendar_date_select/calendar_date_select.js"%>
+<%= stylesheet_link_tag "calendar_date_select/gfblue" %>
+<div class="signup1">Week view</div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div class="clear"><!-- --></div>
+<!-- thumbnail image container div start here-->
+<div class="group_bg">
+<%=render :partial=>"group_activities/status_update"%>
+<br />
+</div>
+<!-- thumbnail image container div ends here-->
+
+<!-- date calnder container div start here-->
+<div class="create_group_form">
+<div class="date_calender_container">
+<div class="left_cal"><%=link_to image_tag("/images/cal_left_arrow.jpg"),{:controller => 'calender_infos',:action =>'move_week',:left => true,:month => @month,:year => @year,:date => @begin_w.day,:prev => @prev},{:id =>"ggg"} %></div>
+<div class="cal_head"><strong><%=Date::MONTHNAMES[@month]%> - <%=@year%></strong></div>
+<div class="left_cal"><%=link_to image_tag("/images/date_right_arrow.jpg"),{:controller => 'calender_infos',:action =>'move_week',:right => true,:month => @month,:year => @year,:date => @end_w.day,:next => @next},{:id =>"hhh"} %></div>
+<form id="cal_fun" name="cal_fun">
+<input type=hidden id ="calender_value" value="" name="calender_value">
+<div class="cal"><a href="#"><%= calendar_date_select_tag "hidden_date_selector", " ", :hidden => "true",:clear_button => false ,:onchange => "javascript:document.forms.cal_fun.submit();"%></a></div>
+</form>
+<div class="calender_table">
+<ul>
+<li>Monday</li>
+<li>Tuesday</li>
+<li> Wednesday</li>
+<li> Thursday	</li>
+<li> Friday</li>
+<li>Saturday</li>
+<li>Sunday</li>
+</ul>
+</div>
+<!-- date container div strat here-->
+<div class="date_container">
+
+
+	<% for i  in 0..6
+
+
+			 cur = @begin_w+i
+			 if cur.month ==  @month	
+    
+			     if !@week_details[i].empty? %>
+			          
+								<div class="monday_week">
+								<div class="number_date"><%=cur.day%></div>
+								<% for obj in @week_details[i] %>
+											<div class="clear"><!-- --></div>
+
+													<%
+													color= 'ffffff';
+													ug = GroupUser.find_by_group_id_and_user_id(obj.group_id,current_user.id)
+													if !ug.nil?
+													color = ug.color_code if !ug.color_code.nil?
+													end
+													%>
+												<div class="box_container_color" style="background:#<%=color%>;">
+												<div class="side_image"><img src="/images/icon.png" alt="icon" /></div>
+                                                <%truncate_group_name(obj.group.name)%>
+												<div class="abip"><a href="<%=group_updates_path(:id=>obj.group.id)%>" ><%=@group_name%></a></div>
+												<div class="abip"><%=truncate_text_val(obj.title)%></div>
+												<div class="abip"><a href="<%=profile_thirdparty_user_path(:id=>obj.responsible_members[0].user_id) unless obj.responsible_members.empty?%>"><% if !obj.responsible_members.empty?%>
+												<%=h truncate(full_name(obj.responsible_members[0].user),20)%>s
+												<%end%></a></div>
+												</div>
+								<%end%>
+                <div class="abip"><span id="modal"><%=link_to "More" ,{:action => "more_info" ,:year =>@year,:month =>@month,:date => cur.day},:id => "cal_day_#{cur.day}",:style =>"font-size: 11px;"%></span>
+								<script>
+											new Control.Modal($('cal_day_<%=cur.day%>'), {className:'modal_container',width: 0,height: 0})
+								</script></div>
+         </div>
+			 
+			   <% else %>
+        
+			 			 <div class="monday_week">
+							<div class="number_date"><%=cur.day%></div>
+							<div class="color_area">
+							<div class="color_box"></div>
+							</div>
+							<div class="color_area">
+							<div class="color_box"></div>
+							</div>
+							<div class="clear"><!-- --></div>
+							<div class="side_image"></div>
+							<div class="abip"></div>
+							<div class="abip"></div>
+							<div class="abip"></div>
+							<div class="abip"></div>
+							</div>
+			 <%end
+			else %>
+					 <div class="monday_week">
+						<div class="number_date"></div>
+						<div class="color_area">
+						<div class="color_box"></div>
+						</div>
+						<div class="color_area">
+						<div class="color_box"></div>
+						</div>
+						<div class="clear"><!-- --></div>
+						<div class="side_image"></div>
+						<div class="abip"></div>
+						<div class="abip"></div>
+						<div class="abip"></div>
+						<div class="abip"></div>
+						</div>
+						 <%
+							 @week_details[i]=[]
+			 end %>
+
+<%end%>
+<!-- monday div start here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here--><!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+
+<!-- monday div start here-->
+<!-- monday div ends here-->
+</div>
+<!-- date container div ends here-->
+</div>
+
+</div>
+<!-- date calnder container div ends here-->
+<div class="cleart"><!-- --></div>
+
+<div class="clear"><!-- --></div>
+
+ </div>
+
+
+   <!-- container div ends here-->
+   </div></div>
+    <!-- wrapper div ends here-->
+
+
+<div class="f-b-m-wrap">
+		<div class="footer-bottom-menu">
+		  <ul>
+        <li> <a href="/calender_infos/week?filter=no"><span style="<%=params[:group_id] ? "":"background:#D5E1EA"%>">All</span></a> </li>
+        <% if @favorites && !@favorites.empty? %>
+                <% @favorites.each do |favourite|%>
+                        <%group_color=current_user.group_users.find_by_group_id(favourite.group.id)%>
+                        <%if !group_color.nil?%>
+                                <%gcolor=group_color.color_code%>
+                        <%else%>
+                                <%gcolor="000000"%>
+                        <%end%>
+                      <li> <%if current_user.is_active_member?(favourite.group_id)%><a href="/calender_infos/group_week?date=<%= @end_w.day%>&month=<%= @month%>&right=true&year=<%=@year%>&group_id=<%=favourite.group.id%>"  
+                      <% if favourite.group.id == session[:filter_group].to_i %> style="background:#<%=gcolor%>;border:1px solid black" 
+                         <%else%>  style="background:#<%=gcolor%>;border:1px solid white" <%end%> ><span title="<%= favourite.group.name unless favourite.nil?%>" ><%= h truncate(favourite.group.name,10) unless favourite.nil?%>(<%=new_activities(favourite.group.id)%>)</span></a></li>
+                <%end%>
+                <%end%>
+        <%end%>
+        <li class=""><a id="more" href="/calender_infos/calendar_foot?date=<%= @end_w.day%>"><span id="ligdhtbox">MORE <script>new lightbox($('more'), {className:'light_box_container_admin'});</script></span></a></li>
+    </ul>
+		 </div>  
+	</div><!--f-b-m-wrap-->
+	<div class="copy-wrap">	
+		  <div class="copy">
+		 &copy; GroupHopper 2010  <a href="<%= support_path%>">Support</a><a href="<%= privacy_path%>">Privacy</a>
+		  </div>    
+	</div><!--copy-wrap-->	  
+</div>
+
+<!-- container div ends here-->

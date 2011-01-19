@@ -1,0 +1,84 @@
+
+
+
+
+<%form_for :message,:url=>post_reply_message_path(:id=>params[:id]), :html => { :method=>:post,:multipart => true,:name=>"reply",:id=>"reply" } do|f|%>
+
+<div class="light_box_close"><a onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+  <div class="lightbox_header" style="width: 743px;">Reply To User</div>
+  <div class="clear"></div>
+  <div class="clear"></div>
+  <div class="my_activity_left_container" style="margin-left: 22px;">
+    <div class="text-field">  
+      <dl class="composer_fields clearfix">
+        <dt id="dt_to_field"><label for="to_field">To:</label></dt>
+        <dd id="dd_to_field" class="field">
+          <div tabindex="-1" id="ids" class="clearfix tokenizer" onclick="$('autocomplete_input').focus()" style="border: 1px solid rgb(132, 150, 186); width: 650px;">
+            <span class="tokenizer_stretcher"></span><span class="tab_stop" style="border: 0pt none ;"><input id="hidden_input" tabindex="-1" type="text" /></span>  
+            
+            <a class="token" style="cursor: pointer; color: black; text-decoration: none;" href="#" tabindex="-1">
+              <span id="element_1"><span><span><span><input id="<%=@reciever.email%>" name="ids[]" value="<%=@reciever.email%>" type="hidden"><%=full_name(@reciever)%><span class="x" onmouseout="this.className='x'" onmouseover="this.className='x_hover'" onclick="remove_element('element_1');return false;">&nbsp;</span></span></span></span></span>
+            </a>
+            
+            <div id="autocomplete_display" class="tokenizer_input"><input autocomplete="off" size="1" tabindex="" id="autocomplete_input" style="border: medium solid rgb(255, 255, 255); background-color: rgb(255, 255, 255); width: 20px;" type="text" /></div>                                                                          
+          </div>
+          <div id="autocomplete_populate" class="clearfix autocomplete typeahead_list" ></div>   
+          <div id="error_rec" class="error_msg"> </div>
+        </dd>
+        <dt><label for="subject_field">Subject:</label></dt>
+        <dd class="field">
+          <input class="inputtext" id="message_subject" name="message[subject]" size="30" style="height: 20px; width: 650px;" value="RE: <%=@message.subject%>" type="text" />
+        </dd>
+        <dt>
+          <label for="message_field">Message:</label>
+        </dt>
+        <dd class="field">
+          <textarea class="DOMControl_autogrow" id="message_message" name="message[message]" style="width: 650px;"></textarea>
+        </dd>
+      </dl>
+      <div class="multiupload">
+        Files (maximum 10):
+        <div id="files_list" class="message_thread_attachment" style="margin-left: 75px; width: 650px;"></div>
+        <div style="margin-left: 75px;"><input name="attachment[fileff_0]" id="image_data" size="44" type="file"></div>
+        <br>
+        <script type="text/javascript">
+          var multi_selector = new MultiSelector(document.getElementById( 'files_list' ), 10 );
+          multi_selector.addElement(document.getElementById( 'image_data' ));
+        </script>
+      </div>
+      <span class="bottom-button">
+        <img src="/images/cancel.jpg" onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'">
+          <!--<img src="/images/send.jpg" name="send" onclick="validate();"/>-->
+        <img src="/images/send.jpg?"  onclick="check_recipients();">
+      </span>
+    </div>
+  </div>
+  
+
+
+ <%end%>
+
+<script type="text/javascript">
+
+
+
+
+document.reply.autocomplete_input.focus();
+ 	// preload images.
+  (new Image()).src='/images/token.gif';
+  (new Image()).src='/images/token_selected.gif';
+  (new Image()).src='/images/token_hover.gif';
+  (new Image()).src='/images/token_x.gif';
+
+  var typeahead = new Autocompleter.LocalAdvanced('autocomplete_input', 'autocomplete_populate', contacts, {                                                  
+                            frequency: 0.1,
+                            updateElement: addContactToList,
+                            search_field: "name",
+                            fullSearch: true,
+                            ignoreCase: true
+                        });
+												
+  var hidden_input = new HiddenInput('hidden_input',typeahead);
+  
+
+</script>

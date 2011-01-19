@@ -1,0 +1,37 @@
+<%=javascript_include_tag "prototype"%>
+
+
+
+<div class="invite_menu">
+    <ul>
+      <li><%=link_to_remote "From Anywhere",:update => "contacts",:url => { :action => "invite_from_anywhere",:id=>params[:id]} %></li>
+      <li><%=link_to_remote "FaceBook",:update => "contacts",:url => { :action => "fbook",:id=>params[:id]} %></li>
+      <li class="current7"><%=link_to_remote "Gmail",:update => "contacts",:url => { :action => "gmail",:id=>params[:id]} %></li>
+      <li><%#=link_to_remote "GroupHopper",:update => "contacts",:url => { :action => "invite_from_grouphopper",:id=>params[:id]} %></li>
+    </ul>
+</div>
+
+<div class="recipient_form">
+<form onsubmit="this.href='/groups/display_contacts?width=500&height=500&username='+escape(document.forms[0].username.value)+'&pwd='+document.forms[0].password.value+'&id=<%=params[:id]%>';return false" >
+
+      <div class="inne_label">
+        <span class="star">*</span>
+        Gmail Email:
+      </div>
+      <input type="text" name="username" class="recipient_text_field" id="username"></input> 
+      <div class="inne_label">
+        <span class="star">*</span>
+          Gmail Password:
+      </div>
+      <input type="password" name="password" class="recipient_text_field" id="gpassword"></input>
+       <div class="inne_label" style="border: medium none ;">
+        <span class="star" style="visibility: hidden;">*</span>
+      </div>
+      <div class="goal_link">
+        <a >GroupHopper will not store your password</a>
+      </div> 
+     <!--<input type="submit" value="Find people"  class="thckbox" rel="AjaxGroup" onClick="this.href='/groups/display_contacts?width=500&height=500&username='+escape(document.forms[0].username.value)+'&pwd='+document.forms[0].password.value+'&id=<%=params[:id]%>'; return false"></input></div>-->
+    
+</form>
+<a href="#" id="findgmail"><img  alt="find" style="margin:9px 3px 8px 8px;" src="/images/find_people.jpg" onclick="findcontacts();"/></a>
+    <div class="clear"></div>

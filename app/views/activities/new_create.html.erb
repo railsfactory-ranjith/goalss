@@ -1,0 +1,57 @@
+<div style="background-color:#FFFFFF; border:1px solid #CDD3D8; float:left; width:604px;">
+<%if (session[:filter_group] && !session[:filter_group].nil?) || !params[:grp_id].nil? %>
+<div class="lightbox_header">Advanced Share</div><%else%>
+<div class="lightbox_header">Select which groups you want to see your post and attachments</div><%end%>
+<div class="light_box_close"><a onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="clear"><!-- --></div>
+<%unless @groups.empty?%>
+<%remote_form_for(:group, :url => { :action => "new_create" ,:controller => "activities",:control=>params[:control],:gid=>params[:gid]}, :html => { :multipart => true,:id=>"new_create" }) do |f| %>
+<%#form_for "group", :url=>group_activities_path(:control=>params[:control]),  :html=>{:method=>:post}  do |f|%>
+<div class="l-b-c-c-wrap">
+<div class="light_box_check_container">
+<% leader_update=0%>
+<div class="sharewith">
+Share with:
+</div>
+<%=(@groups.count>8) ? "<div class='new_group_wrap'>" : ""%>
+<%for group in @groups%>
+<%unless group.nil?%>
+<div class="checkbox-info-wrap" >
+<input type="checkbox" class="light_box_check" value="<%=group.group_id%>" name="groups[<%=group.group_id%>]" id="<%=h truncate(group.group.name,20) %>" >
+<div class="check_letter" style="width:240px;"><%=h wrap_text(group.group.name,50)%></div></div>
+<%end%>
+<%end%>
+<%=(@groups.count>8) ? "</div>" : ""%>
+<input type="hidden" value="" id="status_update1" name="status" />
+<div class="clear"><!-- --></div>
+<div class="leaderoptions"> 
+Leader Options:
+</div>
+
+  <div class="checkbox-info-wrap advanced-share">
+  <%=check_box_tag "post","is_by_leader",false,:class=>"light_box_check"%>
+  <div class="check_letter" style="width:510px;">
+  Leader Update (For important messages.Requires members to send a read receipt to you)</div></div>
+  </div>
+  <div class="clear"><!-- --></div>
+
+
+
+  <div class="clear"><!-- --></div>
+<div class="button_share_container">
+<!--<button class="cancel_share"><img alt="cancel" src="/images/share_cancel.jpg"></button>
+<button><img alt="share" src="/images/share.jpg"></button>-->
+<img src="/images/share_cancel.jpg" onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" />
+<%= image_submit_tag "/images/share.jpg",:id=>"share", :onclick=>"return check_advanced_share('new_create');" %>
+<div id="check_error" style="color:red;"></div>
+</div></div>
+<%end%>
+<%else%>
+
+  <div class="share_warning">Sorry, you are not a member in any active groups.</div>
+  <div class="share_ok"><img src="/images/ok.png" onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" /></div>
+<%end%>
+</div>
+<script>
+document.getElementById('status_update1').value = document.getElementById('status').value;
+</script>

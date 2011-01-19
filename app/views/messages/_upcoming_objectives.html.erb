@@ -1,0 +1,19 @@
+
+
+
+  <div class="right_header">Upcoming objectives</div>
+  <div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"/></div>
+  <%unless @objectives.nil? || @objectives.empty?%>
+    <%@objectives.each do |obj|%>
+      <%group_color=find_group_color(obj)%>
+    <div class="right_content_container" style="border: 1px solid #CDD3D8; background: <%=group_color%> none repeat scroll 0% 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+      <div class="due">Due: <%if obj.due_date%><a href= "<%=move_month_calender_infos_path(:month=>obj.due_date.month,:year=>obj.due_date.year)%>"><%=user_date_format(obj.due_date)%></a><%end%>
+        <span style="margin-left: 20px;">Responsible:</span>
+        <%obj.responsible_members.each do |user|%>
+        <a href="<%=user_activity_link(user.user_id)%>"><%=h full_name(user.user)%></a>
+        <%end%>
+      </div>
+      <div class="finder"><a href="<%= group_info_group_infos_path(:id=>obj.group.id)%>"><%=h truncate(obj.title,45)%></a></div>
+    </div>
+<%end%>
+<%end%>

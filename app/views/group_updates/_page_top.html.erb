@@ -1,0 +1,17 @@
+<%unless params[:id]%>
+<%params[:id]=@id%>
+<%end%>
+<script>
+ Element.hide('loader');
+ </script>
+<div class="signup1"><span id="activity_count"><%= render :partial=>"activities/activity_count"%></span><a href="#" onclick="mark_new_activity(<%=@group.id%>);">Mark new activity as read</a><font style="color:green;margin-left:150px;"><%=flash[:file_notice]%></font></div>
+<div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg" /></div>
+<div class="clear"><!-- --></div>
+<!-- thumbnail image container div start here-->
+
+<!-- thumbnail image container div ends here-->
+<!-- create group container div staryt here-->
+<!-- create group container div ends here-->
+<div class="group_bg">
+  <%=render :partial=>"group_activities/status_update"%>
+</div>

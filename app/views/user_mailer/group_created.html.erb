@@ -1,0 +1,15 @@
+Thanks for creating a group on GroupHopper. 
+
+Please take a moment to review your group's information.
+
+The details of your group are below:
+  Group Name:<%=h @group.name%>
+  Goal: <%=h @group.description%>
+  <%= @group.due_date ? "Due date: #{@group.due_date.strftime('%D')}" : "No due date"%>
+  
+  <%i=1%><%for obj in @group.objectives%><%unless obj.nil?%>
+  Objective:<%=i%> <%=h obj.title%>
+  Description: <%=h obj.description%>
+  <%= obj.due_date ? "Due date: #{obj.due_date.strftime('%D')}" : "No due date"%>
+  
+  <% i+=1 %> <%end%> <%end%>

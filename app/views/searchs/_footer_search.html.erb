@@ -1,0 +1,29 @@
+	<div class="f-b-m-wrap">
+		<div class="footer-bottom-menu">
+		  <ul><% group_count=0%>
+      <% group_count=params[:groups].count unless params[:groups].nil?%>
+<li ><a href="#" onclick="filter_search_footer('<%= @search%>','all','1','<%= @favorites.count unless @favorites.nil? %>','<%= "no" %>')"><span style="<%=(params[:gid] || session[:filter_group]) ? "":"background:#D5E1EA"%>">ALL</span></a></li>
+<% c=0 %>
+<% if @favorites && !@favorites.empty? %>
+<%i=1%>
+<% @favorites.each do |favourite|%>
+  <%group_color=current_user.group_users.find_by_group_id(favourite.group.id)%>
+  <%if !group_color.nil?%>
+    <%gcolor=group_color.color_code%>
+  <%else%>
+    <%gcolor="000000"%>
+  <%end%>
+     <li> <a href="#" onclick="filter_search_footer('<%= @search%>',<%= favourite.group_id%>,<%= i%>,'<%= @favorites.count%>','<%= "footer" %>')" 
+    <% if favourite.group.id == session[:filter_group].to_i %> style="background:#<%=gcolor%>;border:1px solid black" <%else%>  style="background:#<%=gcolor%>;border:1px solid white" <%end%>><span><%= h truncate(favourite.group.name,10) unless favourite.nil?%>(<%=new_activities(favourite.group.id)%>)</span></a></li>
+  <!--<li class= "<%#= (((name==favourite.group.name) && !params[:all]) && (group_count==1)) || c==1 ? 'active' : '' %>"><a  href="#" onclick="filter_search_footer('<%#= @search%>',<%#= favourite.group_id%>,<%#= i%>,'<%#= @favorites.count%>','<%#= "footer" %>')"><span><%#= truncate(favourite.group.name,12) unless favourite.nil?%></span></a></li>-->
+<%end%><%end%>
+<li class=""><a id="more" href="/activities/more_footer?search=<%= @search%>&fav_count=<%= @favorites.count%>"><span id="lightbox">MORE <script>new lightbox($('more'), {className:'light_box_container_admin'});</script></span></a></li>
+ </ul>
+		 </div>  
+	</div><!--f-b-m-wrap-->
+	<div class="copy-wrap">	
+		  <div class="copy">
+		 &copy; GroupHopper 2010  <a href="<%= support_path%>">Support</a><a href="<%= privacy_path%>">Privacy</a>
+		  </div>    
+	</div><!--copy-wrap-->	  
+</div>

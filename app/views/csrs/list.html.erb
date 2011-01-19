@@ -1,0 +1,49 @@
+<%= javascript_include_tag "prototype.js" %>
+  <script language="javascript" type="text/javascript">
+   
+    </script>  
+<div class="signup1" >CSR Management-Admin<span class="success_msg"> <%= flash[:notice]%></span></div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div class="clear"><!-- --></div>
+<div class="login_btn" >
+<%= link_to image_tag("add_csr.jpg", :class=>"previous" ,:id=>"Previous"), :action => 'new' %>
+</div>
+<%#= link_to 'Add New CSR' ,csr_new_path %></tr>
+<div class="admin_menu_container">
+<div class="csr_menu">
+<ul><li>
+CSR Name
+<%= sort_link_helper("img", "lastname", {:controller=>'csrs', :action => "csr_sort"})  %>
+<%= des_sort_link_helper("img3", "lastname", {:controller=>'csrs', :action => "csr_sort"}) %>
+</li>
+<li>
+Date Created
+<%= sort_link_helper("img1", "created_at", {:controller=>'csrs', :action => "csr_sort"}) %>
+<%= des_sort_link_helper("img4", "created_at", {:controller=>'csrs', :action => "csr_sort"}) %>
+</li>
+<li>
+Status
+<%= sort_link_helper("img2", "state", {:controller=>'csrs', :action => "csr_sort"}) %>
+<%= des_sort_link_helper("img5", "state", {:controller=>'csrs', :action => "csr_sort"}) %>
+</li></ul>
+</div>
+<div id="csr">
+<%=render :partial=>"csr_sort"%>
+</div></div><div class="pagenation_container">
+<%=will_paginate @csrs%></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

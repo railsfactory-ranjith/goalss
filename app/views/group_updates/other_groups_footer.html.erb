@@ -1,0 +1,14 @@
+<div style="background-color:#FFFFFF; border:1px solid #CDD3D8; float:left; width:700px; margin:6px">
+<div class="lightbox_header" style="width:660px;">Select a group</div>
+<div class="light_box_close"><a onclick="document.getElementById('lightbox_container').style.display='none';document.getElementById('lightbox_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="clear"><!-- --></div>
+
+<div class="light_box_check_container">
+<%=(@membership.count>8) ? "<div class='new_group_wrap'>" : ""%>
+<%for group in @membership%>
+<div class="check_letter click-group-style" ><a  href="<%=group_updates_path(:gid=>group.group_id)%>"><%=h wrap_text(group.group.name)%>(<%=new_activities(group.group_id)%>)</a></div>
+<div class="clear"><!-- --></div>
+<%end%>
+<%=(@membership.count>8) ? "</div>" : ""%>
+</div>
+</div>

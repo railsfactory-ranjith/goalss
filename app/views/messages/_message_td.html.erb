@@ -1,0 +1,63 @@
+<%= javascript_include_tag "prototype.js"%>
+
+<%i=0%>
+  <div class="my_acticity_inner_container" style="border:  <%=@message.is_focused ? "red 2px solid":"2px solid #CDD3D8;"%>; margin-top: 1px;">
+    <div class="post-my-act-inner-container" style="border:<%=(@message.user==current_user) ? "2px solid #3179F3" : "2px solid #CDD3D8;"%>">
+        <div class="my_activity_right" style="background: #<%=back_ground_color(@message.group.id)%> none repeat scroll 0% 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+          <div class="left_squaer_img1"><%=user_image(@message.user)%></div>
+          <div class="sub_content1">
+            <a class="mit-user-name" href="<%=user_activity_link(@message.user.id)%>"><%=h truncate(@message.user.user_profile.first_name+" "+@message.user.user_profile.last_name,40)%> :</a>
+            <br/><pre><%=h wrap_text(@message.message,80)%></pre>
+            <div class="hours1"><%=user_time_format(@message.created_at)%></div>
+            <div class="attachment">
+              <%unless @message.attachments.empty?%>
+                <%if @message.attachments.count>1%>
+                  <a href="/messages/attachment?id=<%=@message.id%>" id="att<%=i%>">Attachment(s)</a><a class="arrow_bg" href="#"><img alt="arrow" src="/images/arrow.png"/></a><script>new Control.Modal($("att<%=i%>"), {className:'modal_container'})</script>
+                <%else%>
+                  <%=link_to @message.attachments[0].filename, download_file_activities_path(:id=>@message.attachments[0].id) %>
+                <%end%>
+              <%end%>
+              <%if @message.group.is_active%><a class="more-link" style="color: rgb(255, 120, 0);float:right;" id="reply0" href="/messages/reply_message/<%=@message.id%>?ur=<%=@message.user_id%>">Reply</a><script>new Control.Modal($("reply0"), {className:'modal_container'})</script><%end%>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+    </div>
+  </div>
+  
+
+<%@message_thread.each do |msg|%>
+    <%i+=1%>
+  <div class="my_acticity_inner_container" style="border:  <%=msg.is_focused ? "red 2px solid":"2px solid #CDD3D8;"%>; margin-top: 1px;">
+  <%color=back_ground_color(msg.group.id)%>
+    <div class="post-my-act-inner-container" style="border:2px solid #<%=(msg.user==current_user) ? "3179F3" : color%>;">
+        <div class="my_activity_right" style="background: #<%=color%> none repeat scroll 0% 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+          <div class="left_squaer_img1"><%=user_image(msg.user)%></div>
+          <div class="sub_content1">
+            <a class="mit-user-name" href="<%=user_activity_link(msg.user.id)%>"><%=h truncate(msg.user.user_profile.first_name+" "+msg.user.user_profile.last_name,40)%> :</a>
+            <br/><pre><%=h wrap_text(msg.message,80)%></pre>
+            <div class="hours1"><%=user_time_format(msg.created_at)%></div>
+            <div class="attachment">
+              <%unless msg.attachments.empty?%>
+                <%if msg.attachments.count>1%>
+                  <a href="/messages/attachment?id=<%=msg.id%>" id="att<%=i%>">Attachment(s)</a><a class="arrow_bg" href="#"><img alt="arrow" src="/images/arrow.png"/></a><script>new Control.Modal($("att<%=i%>"), {className:'modal_container'})</script>
+                <%else%>
+                  <%=link_to msg.attachments[0].filename, download_file_activities_path(:id=>msg.attachments[0].id) %>
+                <%end%>
+              <%end%>
+              <%if @message.group.is_active%><a class="more-link" style="color: rgb(255, 120, 0);float:right;" id="reply<%=i%>" href="/messages/reply_message/<%=@message.id%>?ur=<%=msg.user_id%>">Reply</a><script>new Control.Modal($("reply<%=i%>"), {className:'modal_container'})</script><%end%>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+    </div>
+  </div>
+<%end%>
+
+
+
+
+
+
+
+

@@ -1,0 +1,24 @@
+
+<%if flash[:notice] %>
+ <font color="green"> <%=flash[:notice] %></font>
+<%end%>
+<font color="red"><%=flash[:error]%></font>
+<p>
+
+</p>
+<%= javascript_include_tag :defaults %>
+<% form_for :promotion do |f|  %>
+  <font color="red"><%= f.error_messages %></font>
+ <font color="red">  <%= error_message_on "promotion", "title" %></font>
+   <% if params[:count]%>
+  <div id="new_promotion">
+    <% for @count in 1..params[:count].to_i %>
+      <%=render :partial=>"promotion"%>    
+    <%end%>
+  </div>
+  <%end%>
+<div id="promotion_link">
+  <%=render :partial=>"promotion_link"%>
+</div>
+<%end %>
+

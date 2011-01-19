@@ -1,0 +1,26 @@
+
+<% i = 0%>
+<% for  group in @groups%>
+<div class="admin_menu_con" style="<%= (i%2) == 0 ? '' : 'background-color:#fafdfe' %>">
+<ul>
+<li><%#= "#{group.name}"%>
+<%=link_to truncate(group.name), :controller => 'admin/groups', :action => 'group_details',:id=>"#{group.id}" %></li>
+<li><%= %><%= truncate(group.user.user_profile.first_name+' '+ group.user.user_profile.last_name)%></li>
+<% user=User.find_by_id(group.group_leader_id)%>
+<%unless user.nil?%>
+<li><%= truncate( user.user_profile.first_name+' ' +user.user_profile.last_name)%></li>
+<%else%>
+<li><%= truncate(group.user.user_profile.first_name+' ' +group.user.user_profile.last_name)%></li>
+<%end%>
+<li><%= group.created_at.strftime("%m/%d/%Y") %></li>
+<li><%= group.is_active ? 'Active' :' Suspend'%></li>
+</ul>
+</div>
+<% i = i+1%>
+<% end %>
+
+
+
+
+
+

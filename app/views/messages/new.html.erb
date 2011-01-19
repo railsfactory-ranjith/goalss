@@ -1,0 +1,162 @@
+
+
+
+<div class="messages-compose-wrap">
+  <div class="signup1">Compose Messages</div>
+  <div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"/></div>
+<div class="clear"></div>
+  <div class="group_bg">
+    <%=render :partial=>"group_activities/status_update"%>
+  </div>
+  <%form_for :message,:url=>messages_path, :html => { :multipart => true } do|f|%>
+  <div class="create_group_form">
+    <div class="my_activity_left_container">
+      <div class="text-field">
+        <div class="inne_label"><span class="star">*</span>To:</div>
+        <!--<select class="inner_field" name=""><option>Group List</option></select>-->
+        <%= f.select("group_id", @groups.collect {|c| [ truncate(c.name, 38), c.id ] },{:prompt=>"-select-"},:class=>"inner_field1")  %>
+        <a id="choose_people" href="#" ><span onclick="return check_group_selected();">Choose People</span></a>
+<div id="error_group_select" class="error_msg">
+</div>
+        <div class="clear"></div>
+      </div>
+      <div class="text-field">
+        <div class="inne_label"></div><div style="font-size:12px;color:#333;"><div class="inner_long_field" id="recievers123"></div></div>
+        <div class="clear"></div>
+      </div>
+      <div class="text-field">
+        <div class="inne_label">Subject:</div>
+        <%=f.text_field :subject,:class=>"inner_long_field"%>
+        <div class="clear"></div>
+      </div>
+      
+      <div class="text-field" >
+        <span class="field-text-wrap" style="height:25px;">Attachment:</span>
+        <span class="field-box-wrap" >
+         <span class="textfield-sec-wrap" id="upload_data"><%= f.file_field :uploaded_data, :size=>"44"%></span>
+<span class="text-inner-links" id="this_one">
+ 
+          
+	 
+            <%#=render :partial=>"file_attached", :objects=>@easy %>
+          
+	 </span> 
+
+        </span>
+      </div>
+      <div class="text-field">
+        <span class="field-text-wrap">Message:</span>
+        <span class="field-box-wrap"><%=f.text_area :message,:size => "58x4"%></span>
+      </div>
+      <span class="bottom-button">
+        <%=image_submit_tag "save-to-draft.jpg",{:name=>"draft"}%>
+        <%=link_to image_tag("cancel.jpg"),new_message_path%>
+        <%=image_submit_tag "send.jpg",{:name=>"send", :onclick=>"return check_group_selected_now();"}%>
+      </span>
+    </div>
+    <div class="my_activity_right_container">
+      <div class="right_header">Upcoming objectives</div>
+      <div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"/></div>    
+      <div class="gol_flow_container">
+<ul>
+<li>&copy; GroupHopper 2010</li>
+<li><a href="<%= support_path%>">Support </a></li>
+<li><a href="<%= privacy_path%>">Privacy</a></li>
+</ul>
+</div>
+  </div>
+  <div id="hide"></div>
+  
+  <%end%>
+</div>
+<div class="clear"></div>
+<div class="clear"></div>
+</div>
+
+<script>
+<!-- Create an instance of the multiSelector class, pass it the output target and the max number of files -->
+	var multi_selector = new MultiSelector( document.getElementById( 'this_one' ), 10 );
+	<!-- Pass in the file element -->
+	multi_selector.addElement( document.getElementById( 'message_uploaded_data' ) );
+
+function check_group_selected()
+{
+
+ if ($("message_group_id").value=="")  
+  {
+  $("error_group_select").innerHTML="Please select a group";
+  return false;
+  }
+  
+  else
+  {
+
+  $("error_group_select").innerHTML="";
+  $("choose_people").href="/messages/find_group_members/"+$("message_group_id").value;
+  new Control.Modal($("choose_people"), {className:'modal_container'});}
+
+}
+
+function check_group_selected_now()
+{
+if (document.getElementById('member')==null)
+{
+$("error_group_select").innerHTML="Please add atleast one recipient";
+return false;
+}
+else
+{
+$("error_group_select").innerHTML="";
+  $("choose_people").href="/messages/find_group_members/"+$("message_group_id").value;
+  new Control.Modal($("choose_people"), {className:'modal_container'});}
+}
+
+function addRecepients(){
+  var c = new Array();
+  c = document.getElementsByTagName('input');
+  var member_name=new Array();
+  var member_id="";
+  var k=false;
+  var j=1;
+  var name="";
+   document.getElementById('hide').innerHTML ="";
+  for (var i = 0; i < c.length; i++)
+  {
+    if (c[i].type == 'checkbox')
+    {
+      if(c[i].checked == true)
+      {
+        member_name[j]=c[i].name
+        name=name+c[i].name+', ';
+        member_id+=c[i].value+",";
+        k=true;
+        j++;
+      }
+    }
+  }
+  if (k==true)
+  {
+    document.getElementById('hide').innerHTML='<input type=hidden name=recipients[name] id=member value='+member_id+' />';
+    document.getElementById('recievers123').innerHTML =name;
+    document.getElementById('modal_container').style.display='none';
+    document.getElementById('modal_overlay').style.display='none';
+    return true;
+  }
+  else
+  {
+    document.getElementById('check_boxx_error').innerHTML = "Please select atleast one member";
+    return false;
+  }
+}
+
+function save_file()
+{
+    //Element.show('loader') 
+
+  
+    new Ajax.Request('/messages/save_file', { asynchronous:true, evalScripts:true, method: 'post', parameters:'files='+$("message_uploaded_data").value});
+    
+$("message_uploaded_data").value=""
+}
+
+</script>

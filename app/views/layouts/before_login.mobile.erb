@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<%= javascript_include_tag :defaults %>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<% if mobile_device? %>
+<title>GroupHopper</title>
+<%else%>
+<title>GroupHopperooooooo </title>
+<%end%>
+
+
+<link href="/stylesheets/default.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<!-- main container div start here-->
+<div id="main_container">
+<!-- wrapper div start here-->
+<div id="wrapper">
+<!-- header div start here-->
+<div id="header">
+<div class="logo"><a href="<%= root_path%>"><img src="/images/logo.jpg" alt="logo" /></a></div>
+<div id="menu">
+<ul>
+<%if controller.controller_name=="sessions" && controller.action_name=="new"%>
+<li class="current"><a href="#">Hommmme</a></li>
+<%else%>
+<li><a href="<%= root_path%>">Hommmmme</a></li>
+<%end%>
+<%if (controller.controller_name=="users" || controller.controller_name=="betasignups")&& (controller.action_name=="new" || controller.action_name=="create" || controller.action_name=="signup_beta")%>
+<li class="current"><a href="<%= signup_beta_betasignups_path%>">Signnnup</a></li>
+<%#= user_signup_path%>
+<%else%>
+<li><a href="<%= signup_beta_betasignups_path%>">Signnnup</a></li>
+<%end%>
+<%if controller.controller_name=="staticpages" && controller.action_name=="features"%>
+<li class="current"><a href="<%= features_path%>">Features</a></li>
+<%else%>
+<li><a href="<%= features_path%>">Features</a></li>
+<%end%>
+<%if controller.controller_name=="staticpages" && controller.action_name=="about_us"%>
+<li class="current"><a href="<%= about_us_path%>">Abooooout</a></li>
+<%else%>
+<li><a href="<%= about_us_path%>">Abooooout</a></li>
+<%end%>
+</ul>
+</div>
+<div class="login"><a href="<%= root_path%>">Login</a></div>
+</div>
+<!-- header div ends here-->
+<!-- container div start here-->
+<div id="container" style="min-height: 500px;">
+<%= yield%>
+<div class="clear"><!-- --></div>
+
+</div>
+<!-- container div ends here-->
+<%#agent = request.headers["HTTP_USER_AGENT"].downcase%>
+<%#puts agent%>
+  <%#  MOBILE_BROWSERS.each do |m|%>
+     <%#puts "mobile_application" if agent.match(m)%>
+   <%# end%>
+  <%#puts "application"%>
+  
+
+<div class="copy">
+© GroupHopper 2010  <a href="<%= support_path%>">Support</a><a href="<%= privacy_path%>">Privacy</a>
+
+</div>
+</div>
+<!-- wrapper div ends here-->
+</div>
+<!-- main container div ends here-->
+</body>
+</html>

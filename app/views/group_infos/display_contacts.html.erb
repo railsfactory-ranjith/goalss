@@ -1,0 +1,56 @@
+
+<div class="lightbox_header">Contacts</div>
+<div class="light_box_close"><a onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="error_msg" style="margin-left:220px;"><%=flash[:error]%></div>
+<div class="clear"></div>
+<div style="float:left;height:500px;overflow-x:hidden;overflow-y:scroll;width:605px;">
+<div style ="margin: 28px 0pt 0pt 92px;">
+  <% form_tag  invite_members_group_infos_path(:id=>params[:id])  do %>
+    <% if @contacts %>
+      <% for contact in @contacts%>
+       <div class="scroll_con">
+        <%if contact[0].nil? || contact[0].empty? || (contact[0]==contact[1])%>
+          <%contact[0]=contact[1]%>
+          <%c=""%>
+        <%else%>
+          <%c=contact[0]%>
+        <%end%>
+        <%= check_box "contact", contact[0].to_s,{:class=>"scroll_chk"},contact[1].to_s,0 %>
+      <div class="scroll_square"></div>
+      <div class="scroll_content"><%=c%></div>
+     <div class="scroll_content"> <%=  contact[1] %></div>
+     </div>
+    <%end%> 
+    <div class="clear"></div>
+
+       <div style="height:27px;margin-left:300px;width:86px;padding-bottom:10px;">
+        <%= image_submit_tag "draft1-invite.jpg"%>
+      </div>
+
+   
+  <%end%>
+  <% unless  @result.nil? || @result.empty? || @result[0].empty?%>
+    <%for contact in @result[0]%>
+    <div class="scroll_con">
+      <%= check_box "contact", find_username(contact),{:class=>"scroll_chk"},contact.email,0 %>
+      <div class="scroll_square"></div>
+      <div class="scroll_content"> <%=find_username(contact)%></div>
+      <div class="scroll_content"><%=  contact.email %></div>
+       </div> 
+    <%end%>
+     <div class="clear"></div>
+     <div style="height:27px;margin-left:300px;width:86px;padding-bottom:10px;">
+        <%= image_submit_tag "draft1-invite.jpg"%>
+      </div>
+          
+    <%end%>
+    <input type="hidden" value="" name="personal_message" id="per_message" />
+<%end%>
+ </div>
+<div class="clear"></div>
+</div>
+</div>
+
+<script>
+$('per_message').value=$('message').value
+</script>

@@ -1,0 +1,22 @@
+<% a=@easy.size %>
+<% i=0 %>
+<% while i < a %>
+<% if @easy[i]!="NULL" %>
+          <a href="javascript:anchor_test(<%= i %>)"><%= @easy[i] %></a>
+	  
+	  <% end %>
+<% i= i+1 %>
+<% end %>
+       
+    
+<SCRIPT language="JavaScript">
+function anchor_test(a)
+{
+var r=confirm("Are you sure you want to remove this file?");
+if (r==true)
+  {
+  
+    new Ajax.Request('/messages/save_file', { asynchronous:true, evalScripts:true, method: 'post', parameters:'id='+a});
+}
+}
+</script>

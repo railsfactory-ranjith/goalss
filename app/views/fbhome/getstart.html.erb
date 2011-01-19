@@ -1,0 +1,36 @@
+<div>
+  <p>
+    <h1>Step 1:</h1>
+    <table>
+      <tr><td><%if flash.now[:error_notice]%><font color="red" size="2"><%=flash.now[:error_notice]%></font><br/><br/><%end%></td></tr>
+      <tr>
+        <td>a) Generate your unique one-time code on facebook <a href="<%=@code_gen%>" target="_blank">here</a></td>
+      </tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr>
+        <td>
+          b) Paste your one-time code below and click "Next"
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%form_tag get_session_path do -%>
+            <input type="text" name="user_token" id="user_token"/>
+            <INPUT type="submit" name="Next" value="Next">            
+          <%end-%>
+        </td>
+      </tr>
+      <tr><td>&nbsp;</td></tr>
+      <%if @exist_accounts.length>0%>
+      <tr><td><font color="green">You can post messages directly for registered facebook accounts below:</font></td></tr>      
+        <%for exist_account in @exist_accounts%>
+          <tr>
+          <td>* <a href="<%=create_test_session_path(:id=>exist_account.id)%>" ><%=exist_account.fb_user_name%></a></td>
+          </tr>
+        <%end%>      
+      <%end%>
+    </table>
+
+  </p>
+
+</div>

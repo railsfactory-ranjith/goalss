@@ -1,0 +1,148 @@
+
+<!-- my asctivity left container div start here-->
+<div class="create_group_form" id= "group_update_left_container">
+<div class="my_activity_left_container">
+<%if @collections.empty?%>
+
+<div style="text-align:center;color:red;font-family:Arial, Helvetica, sans-serif;font-weight:bold;font-size:12px;font-style:italic;">No Updates</div>
+
+<%else%>
+<%i=0%>
+<%for collection in @collections%>
+<%i+=1%>
+<%a=collection.user_posts.find_by_user_id(current_user.id)%>
+<!-- my activity left inner container div start here-->
+<%if collection.is_by_leader && a && a.leader_update_read==false%>
+<div  style="border: 1px solid rgb(213, 225, 234); margin-top: 2px; background-color: rgb(248, 96, 96);" class="my_acticity_inner_container">
+<%elsif a && a.is_read == false%>
+<div  style="border: 1px solid rgb(213, 225, 234); margin-top: 2px; background-color: rgb(254, 180, 114);" class="my_acticity_inner_container">
+<%else%>
+<div  style="border: 1px solid rgb(213, 225, 234); margin-top: 2px; background-color" class="my_acticity_inner_container">
+<%end%>
+<% if collection.is_group_log%>
+<%if collection.objective_id %>
+<div class="my_activity_left_icon"><img alt="alert" src="/images/information.png"></div>
+<div style="background:<%=@group_color%>;border-left: 1px solid rgb(213, 225, 234);" class="my_activity_right">
+<div class="left_squaer_img1"><%=user_image(collection.user)%></div>
+<div class="sub_content1"><a href="<%=user_activity_link(collection.user_id)%>"><%=truncate(collection.user.user_profile.first_name+" "+collection.user.user_profile.last_name,40)%>:</a>
+<%=h truncate(collection.content,50)%> <br><a href="<%=group_info_group_infos_path(:id=>collection.group_id)%>"><%a=Objective.find_by_id(collection.objective_id).title%><%= truncate(a,50)%></a><br>
+<%else%>
+<div class="my_activity_left_icon"><img alt="alert" src="/images/information.png"></div>
+<div style="background:<%=@group_color%>;border-left: 1px solid rgb(213, 225, 234);" class="my_activity_right">
+<div class="left_squaer_img1"><%=user_image(collection.user)%></div> 
+<%u=User.find_by_id(@group.group_leader_id)%>
+<div class="sub_content1"><a href="<%=user_activity_link(collection.user_id)%>"><%=truncate(collection.user.user_profile.first_name+" "+collection.user.user_profile.last_name,40)%>:</a>
+<%=h collection.content%> <br><a href="<%=user_activity_link(collection.receiver_id)%>"><%= truncate(full_name(u),40)%></a><br>
+<%end%>
+<%elsif collection.receiver_id%>
+<div class="my_activity_left_icon"><%if collection.is_by_leader %><img alt="alert" src="/images/alert.png"/><%else%><img alt="alert" src="/images/comment.png"/><%end%></div>
+<div style="background:<%=@group_color%>;border-left: 1px solid rgb(213, 225, 234);" class="my_activity_right">
+<div class="left_squaer_img1"><%=user_image(collection.user)%></div>
+<%u=User.find_by_id(collection.receiver_id)%>
+<div class="sub_content1"><a href="<%=user_activity_link(collection.user_id)%>"><%=truncate(collection.user.user_profile.first_name+" "+collection.user.user_profile.last_name,40)%> > </a><a href="<%=user_activity_link(collection.receiver_id)%>"><%=truncate(u.user_profile.first_name+" "+u.user_profile.last_name,40)%></a>
+<div id="post<%=i%>" style="text-align: justify;"><pre><%=h wrap_text(truncate(collection.content,100),80)%></pre><%if collection.content.length>100%><%= link_to_remote "More" ,{:url => {:controller=>'activities',:action =>'expand_post', :id =>collection.id,:div=>"post#{i}"}},:style=>"color:#FF7800;"%><%end%></div>
+
+<%else%>
+<div class="my_activity_left_icon"><%if collection.is_by_leader %><img alt="alert" src="/images/alert.png"/><%else%><img alt="alert" src="/images/comment.png"/><%end%></div>
+<div style="background:<%=@group_color%>;border-left: 1px solid rgb(213, 225, 234);" class="my_activity_right">
+<div class="left_squaer_img1"><%=user_image(collection.user)%></div>
+
+<div class="sub_content1"><a href="<%=user_activity_link(collection.user_id)%>"><%=truncate(collection.user.user_profile.first_name+" "+collection.user.user_profile.last_name,40)%>:</a>
+<div id="post<%=i%>" style="text-align: justify;"><pre><%=h wrap_text(truncate(collection.content,100),80)%></pre><%if collection.content.length>100%><%= link_to_remote "More" ,{:url => {:controller=>'activities',:action =>'expand_post', :id =>collection.id,:div=>"post#{i}"}},:style=>"color:#FF7800;"%><%end%></div>
+<%end%>
+<div class="hours1"><%=user_time_format(collection.created_at)%></div>
+<%unless collection.attachments.empty?%>
+<%if collection.attachments.count>1%>
+<div class="attachment"><a href="/activities/attachment?id=<%=collection.id%>" id="att<%=i%>">Attachment(s)</a><a class="arrow_bg" href="#"><img alt="arrow" src="/images/arrow.png"/></a><script>new Control.Modal($("att<%=i%>"), {className:'modal_container'})</script></div>
+<%else%>
+<div class="attachment"><%#=link_to collection.attachments[0].filename,collection.attachments[0].public_filename%>  
+<%=link_to collection.attachments[0].filename, download_file_activities_path(:id=>collection.attachments[0].id) %>
+</div><%end%>
+<%end%>
+</div>
+<%if show_comment(collection)%><div class="comment"><%=link_to "Comment",status_comment_group_activities_path(:id=>collection.id),{:id=>"post_comment#{i}"}%><script>new Control.Modal($("post_comment<%=i%>"), {className:'modal_container'})</script></div><%end%>
+
+<!-- my activity div start here-->
+
+
+<%if !collection.comments.empty?%>
+<div class="clear"></div>
+<%j=0%>
+<%comments=Comment.find(:all,:conditions=>['post_id=? and receiver_id is null',collection.id])%>
+<%comments.each do |com|%>
+<%j+=1%>
+<div class="left_squaer_img_inner"><%=user_image(com.user)%></div>
+<div class="sub_content_inner"><a href="<%=user_activity_link(com.user_id)%>"><%=truncate(com.user.user_profile.first_name+" "+com.user.user_profile.last_name,40)%></a>
+<div id="<%=i%>comment<%=j%>" style="text-align: justify;"><pre><%=h truncate(com.content,60)%></pre>
+<%if com.content.length>60%>
+<%= link_to_remote "More" ,{:url => {:controller=>'activities',:action =>'expand_comment', :id =>com.id,:div=>"#{i}comment#{j}"}},:style=>"color:#FF7800;"%>
+<%end%>
+<div class="attachment">
+<%=comment_attachment(com)%>
+</div>
+</div>
+<div class="clear"></div>
+<div class="hours1"><%=user_time_format(com.created_at)%></div>
+</div>
+<div class="clear"></div>
+<%end%>
+<%end%>
+<%if collection.is_by_leader == true && a && a.leader_update_read == false%>
+<div class="comment"><a href="#" onclick="send_read_recepit(<%=@group.id%>, <%=collection.id%>)">Send read recepit</a></div>
+<%end%>
+</div>
+<!-- my activity div ends here-->
+</div>
+<!-- my activity left inner container div ends here-->
+<%end%>
+
+
+
+<%end%>
+
+
+
+</div>
+
+<!-- my asctivity left container div ends here-->
+
+<!-- my_activity_right_container div start here-->
+<div class="my_activity_right_container">
+<div class="right_header">Upcoming objectives</div>
+<div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"></div>
+<%for obj in @objectives%>
+<div style="background:<%=@group_color%>; border: 1px solid rgb(213, 225, 234);" class="right_content_container">
+<div class="due">Due: <a href="<%=move_month_calender_infos_path(:month=>obj.due_date.month,:year=>obj.due_date.year)%>"><%= user_date_format(obj.due_date)%></a>	<span style="margin-left: 20px;">Responsible:</span>
+<%for owner in obj.users%>
+<%unless owner.nil?%>
+<a href="<%=user_activity_link(owner.id)%>"><%=truncate(owner.user_profile.first_name+" "+owner.user_profile.last_name,40)%></a>
+<%end%>
+<%end%></div>
+<div class="finder"><a href="<%=group_info_group_infos_path(:id=>obj.group.id)%>"><%=h truncate(obj.title,40)%></a></div>
+</div>
+<%end%>
+
+
+
+<div class="gol_flow_container">
+<ul>
+<li>&copy; GroupHopper 2010</li>
+<li><a href="<%= support_path%>">Support </a></li>
+<li><a href="<%= privacy_path%>">Privacy</a></li>
+</ul>
+</div>
+
+</div>
+<!-- my_activity_right_container div ends here-->
+
+
+</div>
+<!-- left sign div start here--><!-- left sign div ends here-->
+
+<div class="clear"><!-- --></div>
+
+
+<div class="clear"><!-- --></div>
+ 
+
+

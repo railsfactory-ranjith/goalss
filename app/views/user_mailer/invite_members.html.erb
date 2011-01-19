@@ -1,0 +1,18 @@
+<%=h "#{@user.user_profile.first_name} #{@user.user_profile.last_name}"%> has invited you to join a group on GroupHopper. GroupHopper is a social communication service for easy, quick, and effective communication. 
+
+<%unless @message.blank?%>Please see the message below:<%end%>
+
+<%= @message%>
+
+Thanks,
+<%=h "#{@user.user_profile.first_name} #{@user.user_profile.last_name}"%>
+
+Please click on the link below to join the group:
+<%= @url %>
+
+
+
+
+
+
+

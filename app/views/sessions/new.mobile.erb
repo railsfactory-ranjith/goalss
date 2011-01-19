@@ -1,0 +1,31 @@
+<div style="text-align: center;" class="signup1">Welcome to MyGroupHopper.com. Please sign in
+below.</div>
+<div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"></div>
+<div class="clear"><!-- --></div>
+<!-- left sign div start here-->
+<%if flash[:error]%><div class="login_error"><%= flash[:error]%></div><%end%>
+<%if flash[:notice]%><div class="login_sucess"><%= flash[:notice]%></div><%end%>
+<%if flash[:notice1]%><div class="login_sucess"><%= flash[:notice1]%></div><%end%>
+<div class="login_box">
+<div class="inne_right_account">
+<% form_tag session_path do -%>
+<div class="inne_label">Email address</div>
+<%#= text_field :user,:email ,:class=>"inner_field" ,:value=>"params&&params[:user]&&params[:user][:email] ? '#{params[:user][:email]}' : ' '" %>
+<input type="text", name="user[email]" class="inner_field" value="<%=params[:user]&&params[:user][:email] ? "#{params[:user][:email]}" : "" %>">
+<div class="clear"><!-- --></div>
+<div class="inne_label">Password</div>
+<%#= password_field :user,:password, :class=>"inner_field" %>
+<input type="password", name="user[password]" class="inner_field" value="<%=params[:user]&&params[:user][:password] ? "#{params[:user][:password]}" : "" %>">
+<div class="clear"><!-- --></div>
+<div class="login_btn"><%= image_submit_tag "/images/login.jpg",:id=>"login" %></div>
+</div>
+<div class="clear"><!-- --></div>
+<div class="forgot_password"><a href="user_forgot_password">Forgot Your Password?</a></div>
+<div class="just_click">It&rsquo;s easy to create an account. <a href="<%= signup_beta_betasignups_path%>">Just click here.</a></div>
+<%end%>
+</div>
+<!-- left sign div ends here-->
+
+<!-- right sign div strat here-->
+<div class="clear"><!-- --></div>
+<!-- right sign div ends here-->

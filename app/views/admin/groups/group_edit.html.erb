@@ -1,0 +1,49 @@
+
+
+ 
+ 
+ 
+ 
+ <div class="admin_light_box">
+  <div class="signup_lightbox">Change Group Leader</div>
+  <div class="light_box_close"><img src='/images/close.gif' style="float:right;" onclick="document.getElementById('lightbox_container').style.display='none';document.getElementById('lightbox_overlay').style.display='none'" href="javascript:void(0)"></img></div>
+  <div class="clear"><!-- --></div>
+  <div class="down_arrow_lightbox"><img alt="down_arrow" src="/images/down_arrow.jpg"/></div>
+  <div class="clear"><!-- --></div>
+  <div class="inform_lightbox">Please select a group leader from the list of users below. If the user is not already a member of the group, pleasse invite the user to join</div>
+  <div class="clear"><!-- --></div>
+  <div class="group_leader">
+    <%remote_form_for @group ,:url => {:controller=>'admin/groups', :action => 'change_leader',:id=>@group.id},
+    :html =>{:multipart=>:true,:method =>:post} do |f| %>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label_light_box" style="margin-top:8px;" >Group Leader</div>
+    <%= select :user, :userprofile_id, UserProfile.all.collect {|p| [ p.first_name+'  '+p.last_name, p.id ] }, {:selected=> @group.group_leader_id ? @group.group_leader_id : @group.user_id},:class=>"inner_field_lightbox",:style=>"margin-top:5px;"%>
+    <div class="clear"><!-- --></div>
+    <div class="change_leader_container">
+    <img src="/images/share_cancel.jpg" id="cancel" class="cancel_change" onclick="document.getElementById('lightbox_container').style.display='none';document.getElementById('lightbox_overlay').style.display='none'" href="javascript:void(0)"></img>
+    <%=image_submit_tag "/images/change_leader.jpg" ,:onclick=>"return check_leader();",:class=>"change_leader_button",:id=>"change_leader" %>    </div><%end%>
+ <div class="clear"><!-- --></div>
+    <div class="dash_code">&nbsp;</div>
+    <div class="or_letter">OR</div>
+    <div class="invite_new_user">Invite a new user and promote him or her to the group leader when they join.</div>
+    <div class="clear"><!-- --></div>
+    <%remote_form_for @group ,:url => {:controller=>'admin/groups', :action => 'invite_leader',:id=>@group.id} do |f| %>
+   <div class="inne_label_light_box" style="margin-top:18px;" >Email Address</div>
+    <%= text_field_tag "group[leader_email_invite]",nil, :maxlength=>100 ,:class=>"inner_field_lightbox",:style=>"margin-top:15px;",:onkeyup=>"return ismaxlength(this)" %>
+    <div class="error_msg"><div id="errorpop"></div></div>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label_light_box" >First Name</div>
+    <%= text_field_tag "group[first_name]",nil, :maxlength=>40 ,:class=>"inner_field_lightbox",:onkeyup=>"return ismaxlength(this)" %>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label_light_box" >Last Name</div>
+    <%= text_field_tag "group[last_name]",nil, :maxlength=>40 ,:class=>"inner_field_lightbox",:onkeyup=>"return ismaxlength(this)" %>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label_light_box" >Personal Invitation</div>
+    <%= text_area_tag "group[message]",nil,:class=>"inner_field_lightbox",:style=>"height:80px;" ,:maxlength=>"500"%>
+    <div class="clear"><!-- --></div>
+    <div class="change_leader_container">
+    <img src="/images/share_cancel.jpg" class="cancel_change"  onclick="document.getElementById('lightbox_container').style.display='none';document.getElementById('lightbox_overlay').style.display='none'" href="javascript:void(0)"></img>
+    <%=image_submit_tag "/images/invite_leader.jpg",:class=>"change_leader_button",:id=>"invite_leader"%>
+    </div><%end%>
+</div>
+</div>

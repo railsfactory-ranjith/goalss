@@ -1,0 +1,51 @@
+<%if flash[:error] %>
+<font color="red"><%=flash[:error] %></font>
+<% end %>
+<%= javascript_include_tag :defaults %>
+<%=calendar_date_select_includes "gfblue" %>
+<%=stylesheet_link_tag "default.css"%>
+<%@id=params[:id]%>
+<div id="container">
+  <div class="signup1">Create Group</div>
+  <div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+  <div class="clear"><!-- --></div>
+  <!-- thumbnail image container div start here-->
+  <div class="group_bg">
+    <%=render :partial=>"group_activities/status_update"%>
+    <br />
+  </div>
+  <!-- thumbnail image container div ends here-->
+  <!-- create group container div staryt here-->
+ <%=render :partial=>"group_header"%>
+  <div class="create_header">Create Group</div>
+  <div class="create_group_form">
+  <%#form_for(@group) do |f|%>
+   <%form_for @group, :url=>group_path(:id=>@id), :html=>{:method=>:put} do |f|%>
+   
+  <div class="inne_label" style="margin-top: 10px;">
+    <span class="star">*</span>
+      Group Name:
+  </div>
+  <%=f.text_field :name, :class=>:inner_field_create ,:maxlength=>"100" %><div class="error_msg"><%= error_message_on :group, :name %></div>
+  <div class="clear"></div>
+  <div class="inne_label">
+    <span class="star">*</span>
+    Goal: 
+  </div>
+  <%=f.text_area :description, :class=>:text_area, :cols => "40", :rows => "5",:maxlength=>"4000",:onkeyup=>"return ismaxlength(this)"%><div class="error_msg"><%= error_message_on "group", "description" %></div>
+  <div class="clear"></div>
+    <div class="inne_label">
+    <span class="star">*</span>
+    Due Date: 
+  </div>
+  <%= f.calendar_date_select "due_date",:class=>"calendar_field",:time=>false,:popup => :force, :valid_date_check => "date >= (new Date()).stripTime()"%> 
+  <%= check_box_tag 'no_due_date', value="0",checked = @group.due_date.nil?%>
+  <font color="#333333" size="2">No Due Date</font>  <div class="clear"></div><div class="inne_label" style="border: medium none ; visibility: hidden;">Due Date:</div><div class="error_msg"><%=flash.now[:due_Date_error]%></div>
+  <div class="clear"></div>
+ <div class="button_container">
+      <%= image_submit_tag "next.jpg",:class=>:next, :id=>"Next"%>
+  </div>
+  <%end%>
+</div>
+
+

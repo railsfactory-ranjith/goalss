@@ -1,0 +1,45 @@
+
+#ex
+{
+padding:10px;
+border:5px solid gray;
+margin:0px;
+position:fixed;
+top:30px;
+right:5px;
+width:500px;
+overflow: auto;
+background:gray;
+}
+#exa
+{
+padding:10px;
+border:4px solid gray;
+margin:0px;
+top:30px;
+left:5px;
+width:500px;
+}
+#bot li {
+border-top: 1px  #80c080;
+list-style: none;
+padding: 0;
+float: left;
+margin: 0 0.15em;
+width:77px;
+height: 2em;
+line-height: 2em;
+color: #0d2474;
+text-decoration: none;
+text-align: center;
+border-color: #ccc #888 #555 #bbb;
+border-bottom: 1px  #80c080;
+}
+#invite
+{
+padding:10px;
+margin:0px;
+top:30px;
+left:5px;
+width:500px;
+}

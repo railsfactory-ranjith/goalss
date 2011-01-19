@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>GroupHopper</title>
+<link href="/stylesheets/default.css" rel="stylesheet" type="text/css" />
+<%= javascript_include_tag "prototype.js" %>
+<%=javascript_include_tag 'control_modal.js'%>
+<%#=javascript_include_tag 'multifile.js'%>
+<%=javascript_include_tag 'multifile_compressed.js'%>
+ <%= stylesheet_link_tag "control_modal"%>
+ <%= javascript_include_tag 'lightbox.js'%>
+<%= stylesheet_link_tag 'lightbox'%>
+<%= stylesheet_link_tag 'pagination'%>
+ <%= javascript_include_tag "effects.js"%>
+<%= javascript_include_tag "dragdrop.js"%>
+<%= javascript_include_tag "scriptaculous.js"%>
+<%= javascript_include_tag "builder.js"%> 
+<%= javascript_include_tag "controls.js"%>
+<%= javascript_include_tag "application.js" %>
+<script type="text/javascript">
+
+<!-- Create an instance of the multiSelector class, pass it the output target and the max number of files -->
+	<!--var multi_selector = new MultiSelector( document.getElementById( 'attached_file' ), 10 );-->
+	<!-- Pass in the file element -->
+	<!--multi_selector.addElement( document.getElementById( 'attachment_uploaded_data' ) );-->
+<!--
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+
+//-->
+
+function chek_create_group(max_group,used_group)
+{
+  if (max_group > used_group)
+  {
+    return true;
+  } 	
+  else
+  {
+    alert("Please upgrade your plan or suspend a group. You are allowed to have " + max_group +  " active group(s)" );
+    return false;
+  }
+}
+
+ var state = 'none';
+function showhide(layer_ref) {
+
+if (state == 'block') {
+state = 'none';
+}
+else {
+state = 'block';
+}
+if (document.all) { 
+eval( "document.all." + layer_ref + ".style.display = state");
+}
+if (document.layers) {
+document.layers[layer_ref].display = state;
+}
+if (document.getElementById &&!document.all) {
+hza = document.getElementById(layer_ref);
+hza.style.display = state;
+}
+} 
+</script>
+
+ 
+</head>
+<%#puts params.inspect%>
+<%if (controller.controller_name=="group_infos" && controller.action_name=="group_info") %>
+<body id="control_modal_container" >
+<%elsif controller.controller_name=="messages" && controller.action_name=="message_thread"%>
+<body id="reply_thread_control_modal_container">
+<%else%>
+<body >
+<%end%>
+
+<!-- main container div start here-->
+<div id="main_container" <%=request.env['HTTP_USER_AGENT'].index('MSIE') ? 'class="ie-browser"': ""%>>
+		<!-- wrapper div start here-->
+		<div id="wrapper">
+		<!-- header div start here-->
+		<div id="header">
+		<div class="logo"><a href="<%=activities_path%>"><img src="/images/logo.jpg" alt="logo" /></a></div>
+		<div class="loading" id="loader" style="display:none;"><img alt="loading" src="/images/loading.gif"></div>
+		<div id="menu">
+		<ul>
+		<%if controller.controller_name=="activities"%>
+		<li class="current"><a href="<%= activities_path%>">Activity </a></li>
+		<%else%>
+		<li><a href="<%= activities_path%>">Activity </a></li>
+		<%end%>
+		<%if controller.controller_name=="groups"|| controller.controller_name=="group_infos" || controller.controller_name=="group_updates"%>
+		<li class="current"><a href="<%= list_groups_path%>">Groups</a></li>
+		<%else%>
+		<li><a href="<%= list_groups_path%>">Groups</a></li>
+		<%end%>
+
+		<%if controller.controller_name=="messages"%>
+		<li class="current"><a href="/inbox">Messages</a></li>
+		<%else%>
+		<li><a href="/inbox" id="inboxs" >Messages</a></li>
+		<%end%>
+		<%if controller.controller_name=="calender_infos"%>
+		<li class="current"><a href="<%=calender_infos_path%>">Calendar</a></li>
+		<%else%>
+		<li><a href="<%=calender_infos_path%>">Calendar</a></li>
+		<%end%>
+		</ul>
+		</div>
+		<div class="login_menu">
+		<ul>
+
+		<%if controller.action_name!="signup3" && controller.action_name!="rpx_create" && controller.action_name!="signup3"%>
+		<li><a style="text-decoration:none;"class="tooltip" id="profile" href="<%=profile_thirdparty_user_path(:id=>current_user.id)%>"><p ><%= truncate(current_user.user_profile.first_name)  %> </p><%#= current_user.user_profile.first_name%><span><%= wrap_text(current_user.user_profile.first_name+" "+current_user.user_profile.last_name,27)%></span></a></li>
+		<% if current_user.is_free_user.nil? || current_user.is_free_user%>
+		<li><a href="<%= edit_user_path(:id=>current_user.id)%>">My Account </a></li>
+		<%else%>
+		<li><a href="<%= edit_paid_users_path(:id=>current_user.id)%>">My Account </a></li>
+		<%end%>
+		<li><a href="/users/settings">Settings</a></li>
+		<li><a href="<%= user_logout_path%>">Logout</a></li>
+		<%else%>
+		<li><a href="#"><%#= truncate_text_val(current_user.user_profile.first_name)  %></a></li>
+		<li><a href="#">My Account </a></li>
+		<li><a href="/users/settings">Settings</a></li>
+		<li><a href="#">Logout</a></li>
+		<%end%>
+		</ul>
+		</div>
+		<div class="searcg_box">
+		<%form_for :groups, :url=> {:controller=>"searchs",:action=>"simple_search"}  do |f|%>
+		<input name="search" id="searchs" type="text" class="search_field" value="<%= params[:search]%>"/>
+		<div class="search_btn"><a href="#" id="simple_search" >
+
+		<%= image_submit_tag "search-separate-img.jpg",:id=>"simple_search",:onclick=>"return simple_search()" %></a>
+		<div id="search_lbl">
+		<a href="#">
+		<img id="tric_str" src="/images/search-separate-img-arro.jpg" alt="search" onclick="showhide('basic_search');" />
+		<!--<img src="/images/search-separate-img-arro.jpg" alt="search"  />--></a></div></div>
+		<div class="advance"><a id="search_advanced" href="#" ><span onclick="check_values()">Advanced</span></a></div>
+		<div class="search-drop-wrap" id="basic_search" style="display:none; visibility:none"  >
+			<ul>
+			<li>
+		      <input type="checkbox" value="all_loc" name="location[all_loc]" id="all_locations" onclick="check_basic_location()"  >
+		       <label for="All">All</label></li>
+			<li>
+			<input type="checkbox"  value="status_update" name="location[status_update]" id="status_update_basic_search" onclick="uncheck_locations()" >
+			<label for="All">Status Updates</label></li>
+			<li>
+			<input type="checkbox" value="message" name="location[message]" id="message_basic"  onclick="uncheck_locations()"  >
+			<label for="All">Messages</label></li>
+			<li>
+			<input type="checkbox" value="goal_obj" name="location[goal_obj]" id="goal_obj_basic" onclick="uncheck_locations()"  >
+			<label for="All">Goal/Objectives</label></li>
+		    </ul>
+		</div><%end%>
+		</div>
+		<div class="clear"><!-- --></div>
+		<%if controller.controller_name=="groups"|| controller.controller_name=="group_infos" || controller.controller_name=="group_updates"%>
+		   <%if controller.action_name=="group_info" || controller.action_name=="invite_members" || controller.controller_name=="group_updates" %>
+			<div class="dropmenu">
+			<%unless controller.action_name=="wrong_group"%>
+				    <ul><% truncate_group_name(@group.name)%>
+					    <li><a href="#" title="<%= @group.name%>"><%=@group_name%><img src="/images/arrow.png" alt="arrow"  style="margin-left:5px;"/></a>
+				<%@gs=current_user.group_membership%>
+        <%#@gs.delete(@group)%>
+        
+				<%@user_groups=Group.find_all_by_id(@gs.collect{|g| g.group_id})%>
+				 <% @groups=[] %>
+			<% @gs.each_with_index do |g,i|%>
+		      <% @g=@user_groups[i] %>
+          <%unless @g.nil?%>
+		      <%if @g.group_leader_id==current_user.id || @g.user_id==current_user.id%>
+			<%@groups<<@g unless g.is_deleted%>
+		      <%else%>
+			<%@groups<<@g if (@g.is_active && g.is_active && !g.is_deleted)%>
+		      <%end%>
+		      <%end%>   
+		      <%end%>   
+						<ul>
+			<% m=0 %>
+
+			      <%for group in @groups%>
+			    <%m=m+1%>
+			    <%if m<10%>
+			   <%truncate_group_name(group.name)%>
+				<li><a href="<%= group_updates_path(:id=>group.id)%>" title="<%= group.name%>"><%=@group_name%></a></li>
+			  <%end%>
+			   <%end%>    
+			   <% if @groups.count>=10%>
+			   <li class=""><span id="lightbox"><a id="more" href="/groups/more_footer?1=6">MORE </span></a><script>new lightbox($('more'), {className:'light_box_container_admin'});</script></li>
+			   <%end%>
+				</ul>		
+					</li>
+					</ul>
+		      <%end%>
+			</div>
+			<div class="sub_menu" style="margin-left:0px;">
+			<%unless controller.action_name=="wrong_group"%>
+			    <ul>
+				<%if controller.action_name=="index"%>            
+				    <li class="current5" ><a href="<%=group_updates_path(:id=>@group.id)%>">Updates</a></li>
+				<%else%>
+				    <li><a href="<%=group_updates_path(:id=>@group.id)%>">Updates</a></li>
+				<%end%>  
+				<%if controller.action_name=="group_info" || controller.action_name=="invite_members"%>
+				    <li class="current5"><a href="<%=group_info_group_infos_path(:id=>@group.id)%>">Group Info </a></li>
+				<%else%>  
+				    <li><a href="<%=group_info_group_infos_path(:id=>@group.id)%>">Group Info </a></li>
+				 <%end%> 
+				<%if current_user.is_free_user%>
+				<li><a id="call1" href="<%= check_user_account_users_path%>">Create New Group </a><script>new Control.Modal($("call1"), {className:'modal_container'});</script></li>
+				<%else%>
+				<li><a href="<%= new_groups_path%>" onClick="return chek_create_group('#{current_user.user_plan.max_group}','#{current_user.groups_owned.count}')">Create New Group </a></li>
+				<%end%>
+			    </ul>
+			    <%end%>
+			</div>
+		    <%else%>
+			<div class="dropmenu">
+				    <ul>
+					    <li><a href="#" >View Group<img src="/images/arrow.png" alt="arrow"  style="margin-left:5px;"/></a>
+		       <% @groups=[] %>
+			<% @user_groups=current_user.group_membership%>
+			<%@all_groups=Group.find_all_by_id(@user_groups.collect{|g| g.group_id})%>
+			<%@user_groups.each_with_index do |g,i|%>
+			<% @g=@all_groups[i]%>
+      <%unless @g.nil?%>
+			<%if @g.group_leader_id==current_user.id || @g.user_id==current_user.id%>
+			  <%@groups<<@g unless g.is_deleted%>
+			<%else%>
+			  <%@groups<<@g if (@g.is_active && g.is_active && !g.is_deleted)%>
+			<%end%>
+		      <%end%>        
+      <%end%>        
+			<ul>
+			<% m=0 %>
+
+			      <%for group in @groups%>
+			    <%m=m+1%>
+			    <%if m<10%>
+			    <%truncate_group_name(group.name)%>
+							<li><a href="<%=group_updates_path(:id=>group.id)%>" title="<%= group.name%>"><%=@group_name%></a></li>
+			  <%end%>
+			   <%end%>    
+			   <% if @groups.count>=10%>
+			   <li class=""><a id="more" href="/groups/more_footer?1=6"><span id="lightbox">MORE <script>new lightbox($('more'), {className:'light_box_container_admin'});</script></span></a></li>
+			   <%end%>
+				</ul>		        </li>
+					</ul>
+			    </div>
+			<div class="sub_menu" style="margin-left:0px;">
+			<%unless controller.action_name=="wrong_group"%>
+			    <ul>
+			    <%if controller.controller_name=="groups" && (controller.action_name=="new" ||controller.action_name=="edit"|| controller.action_name=="update" ||controller.action_name=="create")%>
+				<li class="current5"><a href="#">Create New Group </a></li>
+			    <%else%>
+			      <%if current_user.is_free_user%>
+				<li><a id="call" href="<%=new_groups_path%>">Create New Group </a><script>new Control.Modal($("call"), {className:'modal_container'});</script></li>
+				<%else%>
+				<li><a href="<%= new_groups_path%>" onClick="return chek_create_group(<%=current_user.user_plan.max_group%>,<%=current_user.groups_owned.count%>)">Create New Group </a></li>
+				<%end%>
+			    <%end%>
+			    </ul>
+			    <%end%>
+			</div>
+		    <%end%>
+		<%end%>
+
+		<%if controller.controller_name=="calender_infos"%>
+		<div class="sub_menu">
+		<ul>
+		<%if controller.action_name=="index" || controller.action_name=="move_month" || controller.action_name =="group_move"%>
+		<li class="current5"><a href="<%=calender_infos_path%>">Month</a></li>
+		<%else%>
+		<li><a href="<%=calender_infos_path%>">Month</a></li>
+		<%end%>
+		<%if controller.action_name=="week" || controller.action_name=="group_week"%>
+		<li class="current5"><a href="/calender_infos/week">Week</a></li>
+		<%else%>
+		<li><a href="/calender_infos/week">Week</a></li>
+		<%end%>
+		</ul>
+		</div>
+		<%end%>
+
+		<%if controller.controller_name=="activities"%>
+		<div style="margin-left: 215px;" class="sub_menu">
+		<ul>
+		<%if controller.action_name=="index"%>
+		<li class="current5"><a href="<%= activities_path%>">Recent Activity</a></li>
+		<%else%>
+		<li><a href="<%= activities_path%>">Recent Activity</a></li>
+		<%end%>
+		<%if controller.action_name=="my_activities"%>
+		<li class="current5"><a href="<%=my_activities_activities_path%>">My Activity</a></li>
+		<%else%>
+		<li><a href="<%=my_activities_activities_path%>">My Activity</a></li>
+		<%end%>
+		</ul>
+		</div>
+		<%end%>
+		  <%if controller.controller_name=="messages"%>
+		<div style="margin-left: 215px;" class="sub_menu">
+		  <ul>
+		  
+		      
+		      <%if controller.action_name=="message_thread"%>
+		      <li><a href="/inbox">Inbox</a></li>
+		      <li><a href="/drafts">Drafts</a></li>
+		      <li><a id="sent" href="/sentitems">Sent</a></li>
+		      <li><a  id="trash" href="/messages/trash">Storage</a></li>
+		      <li id="newmessage" ><a href="/messages/new">New Message</a></li>
+		      <%else%>
+		       <li class="<%if controller.action_name=="inbox"%><%= "current5"%><%end%>"><a href="/inbox">Inbox</a></li>
+		     <!-- <li class="current5"><a href="javascript:;">Compose</a></li>-->
+		      <li class="<%if controller.action_name=="drafts"%><%= "current5"%><%end%>"><a id="draft" href="/drafts">Drafts</a></li>
+		      <li class="<%if controller.action_name=="sentitems"%><%= "current5"%><%end%>" ><a id="sent" href="/sentitems">Sent</a></li>
+		      <li class="<%if controller.action_name=="trash"%><%= "current5"%><%end%>"><a id="trash" href="/messages/trash">Storage</a></li>
+		      <li class="<% if (controller.action_name=="new" || controller.action_name=="create" || controller.action_name=="edit")   %><%= "current5"%><%end%>" id="newmessage" ><a href="/messages/new">New Message</a></li>
+			  
+		    <%end%>
+		  </ul>
+		</div>
+		<%end%>
+
+		</div>
+		<!-- header div ends here-->
+		<!-- container div start here-->
+	<div id="container">
+   <%= yield%>
+   </div>
+
+
+
+</body>
+
+</html>
+
+    
+

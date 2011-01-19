@@ -1,0 +1,48 @@
+<%=javascript_include_tag "prototype"%>
+  <script type="text/javascript">
+    function popup(mylink, windowname)
+{
+if (! window.focus)return true;
+var href;
+if (typeof(mylink) == 'string')
+   href=mylink;
+else
+   href=mylink.href;
+my_window = window.open(href, windowname, 'width=600,height=350,scrollbars=yes,titlebar=no');
+return false;
+}
+  
+  function get_value()
+  {
+    document.getElementById("personal_message").value=document.getElementById("message").value;
+  }
+  </script>
+<%if @id%>
+<%params[:id]=@id%>
+<%end%>
+<div class="invite_menu">
+  <ul>
+    <li class="current7"><%=link_to_remote "From Anywhere",:update => "contacts",:url => { :action => "invite_from_anywhere",:id=>params[:id]} %></li>
+     <li><a href="<%= getstart_path%>" onClick="return popup(this, 'notes')">FaceBook</a><%#=link_to_remote "FaceBook",:update => "contacts",:url => { :action => "fbook",:id=>params[:id]} %></li>
+    <li><%=link_to_remote "Gmail",:update => "contacts",:url => { :action => "gmail",:id=>params[:id]}%></li>
+    <li><%#=link_to_remote "GroupHopper",:update => "contacts",:url => { :action => "invite_from_grouphopper",:id=>params[:id]}%></li>
+  </ul>
+</div>
+
+<div class="recipient_form">
+  <%form_remote_tag :url=>{:action=>"add_direct_contacts"},:html=>{:method=>:get},:complete => "$('direct_mail').value='';" do%>
+    <div class="inne_label">
+      <span class="star">*</span>
+      <a class="tooltip" >Recipients Email:<span>Enter the direct mail address to invite members to your group</span></a>
+    </div>
+    <%=text_area_tag "direct_mail",@invalid_mail,{:class=>"recipient_text_area",:onblur=>"get_value();"}%>
+    <div class="inne_label" style="border: medium none ; visibility: hidden;">Due Date:</div>
+    <div class="error_msg"><%=flash.now[:mail_error]%></div>
+    <input type="hidden" name="personal_message" value="" id="personal_message" />
+    <div class="button_container" style="margin-top: 30px;">
+      <%=image_submit_tag("update.jpg",{:id=>"Update",:onclick => 'get_value();'})%>
+    </div>
+  <%end%>
+</div>
+
+

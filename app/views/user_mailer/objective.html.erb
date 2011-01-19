@@ -1,0 +1,5 @@
+Group: <%= @group_name%>
+Objective : <%= @objective.title %>
+Description: <%= @objective.description %>
+<%= @responsible_members.empty? ? "" : "Responsible: #{@responsible_members.join(',')}"%>
+<%= @objective.due_date ? "Due date: #{@objective.due_date.strftime('%D')}" : ""%>

@@ -1,0 +1,35 @@
+<%=stylesheet_link_tag 'pagination' %>
+<div class="admin_header">CSR Dashboard<span class="successful_msg"> <%= flash[:notice]%></span></div>
+<div class="admin_menu_container">
+<div class="admin_menu">
+<ul><li><a href="#" >
+Group name
+<%= sort_link_helper("img", "name", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]})%> 
+<%= des_sort_link_helper("img3", "name", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]}) %></li>
+<li>
+<a href="#">Owner
+<%= sort_link_helper("img1", "first_name", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]})%> 
+<%= des_sort_link_helper("img4", "first_name", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]}) %></li>
+<li>
+<a href="#">Group Leader
+<%= sort_link_helper("img2", "group_leader_id", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]})%> 
+<%= des_sort_link_helper("img5", "group_leader_id", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]}) %></li>
+<li>
+<a href="#">Created at
+<%= sort_link_helper("img_creat1", "created_at", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]})%> 
+<%= des_sort_link_helper("img_creat2", "created_at", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]}) %></li>
+</li><li>
+<a href="#">Status
+<%= sort_link_helper("img_active1", "is_active", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]})%> 
+<%= des_sort_link_helper("img_active2", "is_active", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]}) %></li>
+</li></ul>
+</div>
+
+<div id="group">
+<%=render :partial=>"manager_dashboard"%><div class="clear"><!-- --></div>
+</div></div><div class="clear"><!-- --></div>
+ <div  class="digg_pagination" >
+ <%= will_paginate @groups, :container => false %>
+    </div>
+	
+				

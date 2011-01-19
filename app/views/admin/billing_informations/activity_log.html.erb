@@ -1,0 +1,31 @@
+<%=stylesheet_link_tag 'pagination' %>
+<div id="billing-history-container">
+<div class="signup1">View Billing Information  <%= link_to " &lt;&lt; Back ", :back %>        </div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div class="clear"><!-- --></div>
+<div class="right_sign" style="margin-left:0px;">
+<div class="inform">Activity Log</div>
+<div class="clear"><!-- --></div>
+<div class="billing-history-wrap">
+    <div class="billing-history-titles">
+		<span class="date-bill">Date</span>
+        <span class="method-bill">User Name</span>
+        <span class="discrip-bill">Description</span>
+        <span class="changes-bill">Group Name</span>        
+    </div>
+<div class="detail-billing-history-wrap">
+<% for  log in @logs%>
+    <div class="detail-billing-hist">
+		<span class="calender-detail-bill"><%= log.created_at.strftime("%m/%d/%Y")%></span>
+     <span class="visa-detail-bill"><%= truncate(log.user.user_name,30) %></span>
+     <span class="plan-detail-bill"><%= truncate(log.comment,35)%></span>
+      <span class="changes-bill"><%= truncate(log.group.name,40)%></span>     
+</div>
+<% end %></div>
+<div class="clear"><!-- --></div>
+<div  class="digg_pagination" >
+<%= will_paginate @logs, :container => false %>
+</div></div></div></div>
+
+
+

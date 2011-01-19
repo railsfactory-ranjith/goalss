@@ -1,0 +1,150 @@
+
+
+<!-- thumbnail image container div ends here-->
+<!-- create group container div staryt here-->
+<!-- create group container div ends here-->
+<%if current_user.group_users.empty?%>
+  <div style="font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:bold;">You are not a member of any groups.
+  <%if current_user.is_free_user !=0%>
+    <a id="callsss" href="<%= check_user_account_users_path%>" style="color:#2673AF;margin-left:10px;text-decoration:underline;">Create New Group </a><script>new Control.Modal($("callsss"), {className:'modal_container'});</script>
+  <%else%>
+    <a href="<%= new_group_path%>" style="color:#2673AF;margin-left:10px;text-decoration:underline;">Create New Group </a>
+  <%end%></div>
+<%end%>
+<div class="create_group_form">
+  <%#=render :partial=>"status_update"%>
+<!-- my asctivity left container div start here-->
+<div  class="my_activity_left_container">
+<%i=0%>
+<%for collection in @collections%>
+<%i+=1%>
+<% back_ground_color(collection.post.group_id)%>
+<!-- my activity left inner container div start here-->
+<%if collection.post.is_by_leader && collection.leader_update_read==false%>
+<div  style="border: 1px solid #<%= @group_color%>; margin-top: 2px; background-color: rgb(248, 96, 96);" class="my_acticity_inner_container">
+<%elsif collection.is_read == false%>
+<div  style="border: 1px solid #<%= @group_color%>; margin-top: 2px; background-color: rgb(254, 180, 114);" class="my_acticity_inner_container">
+<%else%>
+<div  style="border: 1px solid #<%= @group_color%>; margin-top: 2px; background-color" class="my_acticity_inner_container">
+<%end%>
+
+
+
+<%if collection.post.is_group_log%>
+<%if collection.post.objective_id%>
+<div class="my_activity_left_icon"><img alt="alert" src="/images/information.png"/></div>
+<div style="background: none repeat scroll 0% 0% #<%= @group_color%>; border-left: 1px solid rgb(213, 225, 234);" class="my_activity_right">
+<div class="sub_content1"><img alt="icon" src="/images/icon.png"/><a href="<%=group_updates_path(:id=>collection.post.group.id)%>"><%=h truncate(collection.post.group.name,40)%></a>
+<a style="text-decoration: none;" href="#"> :</a><%=h collection.post.content%> <a href="<%=group_info_group_infos_path(:id=>collection.post.group_id)%>"><%=Objective.find_by_id(collection.post.objective_id).title%></a>
+<div class="clear"><!-- --></div>
+<%end%>
+<%elsif collection.post.receiver_id%>
+<div class="my_activity_left_icon">
+<img alt="alert" src="/images/comment.png" />
+</div>
+<div style="background: none repeat scroll 0% 0% #<%= @group_color%>; border-left: 1px solid rgb(213, 225, 234);" class="my_activity_right">
+<div class="left_squaer_img1"><%=user_image(collection.post.user)%></div>
+<div class="sub_content1"><img alt="icon" src="/images/icon.png"/><a href="<%=group_updates_path(:id=>collection.post.group.id)%>"><%=h truncate(collection.post.group.name,40)%></a><a style="text-decoration: none;" href="#"> :&nbsp;</a><a href="<%=user_activity_link(collection.post.user.id)%>"><%= truncate(full_name(collection.post.user),40)%></a>
+<%u=collection.post.receiver%>
+<a style="text-decoration: none;" href="#"> > </a><a href="<%=user_activity_link(collection.post.receiver_id)%>"><%=truncate(full_name(u),40)%>:</a>
+<div id="post<%=i%>" style="text-align: justify;"><pre><%=h wrap_text(truncate(collection.post.content,100),80)%></pre><%if collection.post.content.length>100%><%= link_to_remote "More" ,{:url => {:controller=>'activities',:action =>'expand_post', :id =>collection.post.id,:div=>"post#{i}"}},:style=>"color:#FF7800;"%><%end%></div>
+
+<%else%>
+<div class="my_activity_left_icon">
+<%if collection.post.is_by_leader%><img alt="alert" src="/images/alert.png"><%else%><img alt="alert" src="/images/comment.png"><%end%>
+</div>
+<div style="background: none repeat scroll 0% 0% #<%= @group_color%>; border-left: 1px solid rgb(213, 225, 234);" class="my_activity_right">
+<div class="left_squaer_img1"><%=user_image(collection.post.user)%></div>
+<div class="sub_content1"><img alt="icon" src="/images/icon.png"/><a href="<%=group_updates_path(:id=>collection.post.group.id)%>"><%=h truncate(collection.post.group.name,40)%></a><a style="text-decoration: none;" href="#"> :&nbsp;</a><a href="<%=user_activity_link(collection.post.user.id)%>"><%= truncate(full_name(collection.post.user),40)%></a>
+<div id="post<%=i%>" style="text-align: justify;"><pre><%=h wrap_text(truncate(collection.post.content,100),80)%></pre><%if collection.post.content.length>100%><%= link_to_remote "More" ,{:url => {:controller=>'activities',:action =>'expand_post', :id =>collection.post.id,:div=>"post#{i}"}},:style=>"color:#FF7800;"%><%end%></div>
+<%end%>
+<div class="hours1"><%=user_time_format(collection.post.created_at)%></div>
+<%unless collection.post.attachments.empty?%>
+<%if collection.post.attachments.count>1%>
+<div class="attachment"><a href="/activities/attachment?id=<%=collection.post.id%>" id="att<%=i%>">Attachment(s)</a><a class="arrow_bg" href="#"><img alt="arrow" src="/images/arrow.png"/></a><script>new Control.Modal($("att<%=i%>"), {className:'modal_container'})</script></div>
+<%else%>
+<div class="attachment"><%#=link_to collection.post.attachments[0].filename,collection.post.attachments[0].public_filename%> <%=link_to collection.post.attachments[0].filename, download_file_activities_path(:id=>collection.post.attachments[0].id) %></div><%end%>
+<%end%>
+</div>
+<%if show_comment(collection.post)%><div class="comment"><%=link_to "Comment",status_comment_group_activities_path(:id=>collection.post.id),{:id=>"status_comment#{i}"}%><script>new Control.Modal($("status_comment<%=i%>"), {className:'modal_container'})</script></div><%end%>
+
+
+<%j=0%>
+<%comments=Comment.find_all_by_post_id(collection.post.id)%>
+<%if !comments.empty?%>
+<%comments.each do |com|%>
+<%j+=1%>
+<div class="clear"></div>
+<div class="left_squaer_img_inner"><%=user_image(com.user)%></div>
+<div class="sub_content_inner"><a href="<%=user_activity_link(com.user_id)%>"> <%= truncate(full_name(com.user),40)%>: </a>
+<div id="<%=i%>comment<%=j%>"><pre><%=h truncate(com.content,60)%></pre>
+<%if com.content.length>60%>
+<%= link_to_remote "More" ,{:url => {:action =>'expand_comment', :id =>com.id,:div=>"#{i}comment#{j}"}},:style=>"color:#FF7800;"%>
+<%end%>
+<div class="attachment">
+<%=comment_attachment(com)%>
+</div>
+</div>
+<div class="clear"></div>
+<div class="hours1"><%=user_time_format(com.created_at)%></div>
+</div>
+<div class="clear"></div>
+<%end%>
+<%end%>
+
+<%if collection.post.is_by_leader && collection.leader_update_read==false%>
+<div class="comment"><a href="#" onclick="send_read_recepit(<%=collection.id%>)">Send read recepit</a></div>
+<%end%>
+</div>
+<!-- my activity div ends here-->
+</div>
+<!-- my activity left inner container div ends here-->
+<%end%>
+
+
+
+</div>
+<!-- my asctivity left container div ends here-->
+
+<!-- my_activity_right_container div start here-->
+<div class="my_activity_right_container">
+<%=render :partial=>"/messages/upcoming_objectives"%>
+
+
+
+<div class="gol_flow_container">
+<ul>
+<li>&copy; GroupHopper 2010</li>
+<li><a href="<%= support_path%>">Support </a></li>
+<li><a href="<%= privacy_path%>">Privacy</a></li>
+</ul>
+</div>
+
+</div>
+<!-- my_activity_right_container div ends here-->
+
+
+</div>
+<!-- left sign div start here--><!-- left sign div ends here-->
+
+<!-- right sign div strat here-->
+<div class="clear"><!-- --></div>
+<!-- right sign div ends here-->
+<div class="clear"><!-- --></div>
+<% if params[:gid] || controller.action_name=="my_activity_send_leader_mail"%>
+<% params[:gid]="" if !params[:gid]%><div  class="digg_pagination" >
+<%= will_paginate @collections, :renderer => 'RemoteLinkRenderer',:params=>{:action=>'footer_myactivity', :gid=>params[:gid],:controller=>'activities'},:prev_label => 'Previous', :next_label => 'Next'  %></div>
+<%else%>
+ <div  class="digg_pagination" >
+<%= will_paginate @collections, :container => false %>
+</div>
+<%end%>
+<div class="clear"><!-- --></div>
+
+ </div>
+<div class="clear"><!-- --></div>
+   </div>
+   <!-- container div ends here-->
+   </div></div>
+    <!-- wrapper div ends here-->
+<div class="clear"><!-- --></div>

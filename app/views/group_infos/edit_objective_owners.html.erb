@@ -1,0 +1,34 @@
+<%= javascript_include_tag "prototype" %>
+<div style="background-color:#FFFFFF; border:1px solid #CDD3D8; float:left; width:604px;">
+<div class="lightbox_header">Add responsible persons</div>
+<div class="light_box_close"><a onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="clear"><!-- --></div>
+<%form_for "members", :url=>update_objective_owners_group_infos_path(:id=>params[:id]),  :html=>{:method=>:put}  do |f|%>
+<div class="light_box_check_container">
+<%for member in @members%>
+<%unless member.nil?%>
+
+<div class="checkbox-info-wrap" style="width: 266px;">
+<%if @objective_owners.include?(member.id)%>
+<input type="checkbox" class="light_box_check" value="<%=member.id%>" name="objective_owner[<%=member.user_profile.first_name%>]" id="<%=member.id%>" checked="yes" />
+<%else%>
+<input type="checkbox" class="light_box_check" value="<%=member.id%>" name="objective_owner[<%=member.user_profile.first_name%>]" id="<%=member.id%>" />
+<%end%>
+<div class="check_letter" style="width:240px;"><%=full_name(member)%></div>
+</div>
+<%end%>
+<%end%>
+<input type="hidden" value="" id="status_update1" name="status" />
+</div>
+<div class="button_share_container right-side-button">
+<!--<button class="cancel_share"><img alt="cancel" src="/images/share_cancel.jpg"></button>
+<button><img alt="share" src="/images/share.jpg"></button>-->
+<div class="comments_error" style="width:510px;"><div id="check_boxx_error"></div></div>
+<div class="clear"><!-- --></div>
+<img src="/images/share_cancel.jpg" onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" />
+<%= image_submit_tag "/images/select1.png",:id=>"share", :onclick=>"return check_checkboxes_checked();" %>
+<!--<a href="#" onclick="check_all_in_document()" style="color:#0260B8;font-size:11px;">Select All</a>-->
+ </div>
+
+<%end%>
+</div>

@@ -1,0 +1,26 @@
+<%for obj in @objectives%>
+  <div class="objective_details_container" style="margin-top: 2px;background:<%=@group_color%>;">
+    <div class="objective_con"><strong><%=h wrap_text(obj.title,44)%></strong></div>
+    <%if @allow_edit_group%>
+      <div class="pencil_btn"><a id="obj_<%=obj.id%>" class="tooltip" style="text-decoration:none;" href="<%=edit_group_infos_path(:id=>obj.id)%>"><img style="margin:0px 3px 0px -2px;" alt="Edit" src="/images/pencil.png"/><span>Edit Objective</span></a><script>new Control.Modal($("obj_<%=obj.id%>"), {className:'modal_container'});</script></div>
+      <div class="minus_btn"><a onclick="if (confirm('Are you sure? Do you want to delete this objective?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'delete'); f.appendChild(m);f.submit(); };return false;" href="/group_infos?id=<%=obj.id%>" class="tooltip" style="text-decoration:none;"><span>Delete the Objective</span>
+        <img src="/images/minus_btn.jpg?1269241235" alt="Delete"/></a></div>
+      <div class="owner_btn"><a id="edit_owner<%=obj.id%>"  class="tooltip" href="<%=edit_objective_owners_group_infos_path(:id=>obj.id)%>"><img style="margin:0px 3px 0px -2px;" alt="Delete" src="/images/edit-icon2.jpg"/><span>Edit Responsible members</span></a><script>new Control.Modal($("edit_owner<%=obj.id%>"), {className:'modal_container'});</script></div>
+    <%end%>
+    <div class="objective_con"><pre><%=h wrap_text(obj.description,44)%></pre></div>
+    <%if obj.due_date.nil?%>
+      <div class="objective_con"><strong>Due:</strong><%= " No"%>
+        <span style="margin-left: 75px;">Responsible:</span>
+    <%else%>
+      <div class="objective_con"><strong style="margin-right:4px;">Due:</strong><a href="<%=move_month_calender_infos_path(:month=>obj.due_date.month,:year=>obj.due_date.year)%>"><%=user_date_format(obj.due_date)%><%#= obj.due_date.strftime("%m/%d/%Y")%></a>
+        <span style="margin-left: 30px;">Responsible:</span>
+    <%end%>
+    <%obj.responsible_members.each do |owner|%>
+      <%unless owner.nil?%>
+        <a href="<%=user_activity_link(owner.user_id)%>"><%=truncate(full_name(owner.user),40)%></a>
+      <%end%>
+    <%end%>
+    </div>
+  </div>
+<%end%>
+<div class="digg_pagination"><%= will_paginate @objectives%></div>

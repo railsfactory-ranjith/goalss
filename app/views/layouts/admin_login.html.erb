@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<%= javascript_include_tag :defaults %>
+<%=javascript_include_tag 'control_modal.js'%>
+ <%= stylesheet_link_tag "control_modal"%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>GroupHopper</title>
+<link href="/stylesheets/default.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<div id="admin-login-wrap">
+<!-- wrapper div start here-->
+<div id="wrapper">
+<!-- header div start here-->
+<div id="header">
+<div class="logo"><a href="#"><img src="/images/logo.jpg" alt="logo" /></a></div>
+<div id="menu" style="width:435px;height:48px;">
+<ul>
+<%	if current_admin %>
+    <%	if current_admin.is_manager==true %>
+      <%if controller.controller_name=="admins" && controller.action_name=="new"%>
+        <li class="current"><a href="<%= manager_dashboard_path %>">Home</a></li>
+      <%else%>
+        <li><a href="<%= manager_dashboard_path %>">Home</a></li>
+      <%end%>
+      <%if controller.controller_name=="pricing_controls" && (controller.action_name=="edit" || controller.action_name=="update")%>
+        <li class="current"><a href="<%= edit_pricing_control_path(:id=>current_admin.id)%>">Pricing Control</a></li>
+      <%else%>
+        <li><a href="<%= edit_pricing_control_path(:id=>current_admin.id)%>">Pricing Control</a></li>
+      <%end%>
+      <%if controller.controller_name=="csrs" && controller.action_name=="activity_log"%>
+        <li class="current"><a href="<%= activity_log_csrs_path%>">Activity Log</a></li>
+      <%else%>
+        <li><a href="<%= activity_log_csrs_path%>">Activity Log</a></li>
+      <%end%>
+      <%if controller.controller_name=="csrs" && controller.action_name=="list"%>
+        <li class="current"><a href="<%=csr_list_path%>">CSR </a></li>
+      <%else%>
+        <li><a href="<%=csr_list_path%>">CSR </a></li>
+      <%end%>
+      <%if controller.controller_name=="access_codes" && controller.action_name=="edit"%>
+        <li class="current"><a href="<%= edit_access_code_path(:id=>current_admin.id) %>">TEST </a></li>
+      <%else%>
+        <li><a href="<%= edit_access_code_path(:id=>current_admin.id) %>">TEST </a></li>
+      <%end%>
+    <% else %>
+      <%if controller.controller_name=="admins" && controller.action_name=="csr_dashboard"%>
+        <li class="current"><a href="<%= csr_dashboard_path %>">Home</a></li>
+      <%else%>
+        <li><a href="<%=  csr_dashboard_path %>">Home</a></li>
+      <%end%>
+      <%if controller.controller_name=="csrs" && controller.action_name=="activity_log"%>
+        <li class="current"><a href="<%= activity_log_csrs_path%>">Activity Log</a></li>
+      <%else%>
+        <li><a href="<%= activity_log_csrs_path%>">Activity Log</a></li>
+      <%end%>
+    <% end %>
+</ul>
+</div>
+<div class="login_menu" style="width:214px">
+<ul>
+<%	if current_admin.is_manager==true %>
+<li><a href="<%#=index_staticpages_path%>"><!--Static pages--></a></li>
+  <li><a><%#= current_admin.firstname%><b>Admin</b></a></li>
+  
+<% else %>
+  <li><a><b><%= truncate(current_admin.firstname,35)%>[CSR]</a></b></li> 
+<% end %>
+<li><a href="<%= logout_path %>">Logout</a></li>
+</ul>
+<% end %></div>
+</div>
+
+
+<div id="container" style="min-height:400px;" >
+
+<%= yield%>
+<div class="clear"><!-- --></div>
+</div>
+
+
+
+</div>
+
+</div>
+</div>
+<div class="copy-wrap">
+	<div class="copy" >
+	&copy; GroupHopper 2010  <a href="<%= support_path%>">Support</a><a href="<%= privacy_path%>">Privacy</a>
+
+	</div>
+</div>	
+
+
+</body>
+</html>

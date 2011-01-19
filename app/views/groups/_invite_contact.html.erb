@@ -1,0 +1,10 @@
+
+  <% if @contact %>
+    <% @contact.each do |contact1|%>
+      <%unless contact1[1]=="0"%>
+        <%= check_box "contact1" , contact1[0].to_s,{},contact1[1].to_s,0 %><%=contact1[0]%>
+        <p><%=  contact1[1] %></p>
+      <%end%>
+    <%end%>
+<%end%>
+  

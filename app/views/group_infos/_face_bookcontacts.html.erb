@@ -1,0 +1,49 @@
+  <script type="text/javascript">
+  function popup(mylink, windowname)
+{
+if (! window.focus)return true;
+var href;
+if (typeof(mylink) == 'string')
+   href=mylink;
+else
+   href=mylink.href;
+my_window = window.open(href, windowname, 'width=600,height=350,scrollbars=yes,titlebar=no');
+return false;
+}
+  function get_value()
+  {
+    document.getElementById("personal_message").value=document.getElementById("message").value;
+  }
+  </script>
+<div class="invite_menu">
+  <ul>
+    <li><%=link_to_remote "From Anywhere",:update => "contacts",:url => { :action => "invite_from_anywhere",:id=>params[:id]} %></li>
+        <li><a href="<%= getstart_path%>" onClick="return popup(this, 'notes')">FaceBook</a><%#=link_to_remote "FaceBook",:update => "contacts",:url => { :action => "fbook",:id=>params[:id]} %></li>
+    <li><%=link_to_remote "Gmail",:update => "contacts",:url => { :action => "gmail",:id=>params[:id]} %></li>
+    <li><%#=link_to_remote "GroupHopper",:update => "contacts",:url => { :action => "invite_from_grouphopper",:id=>params[:id]} %></li>
+  </ul>
+</div>
+<div class="recipient_form">
+  <%#form_tag  display_contacts_group_infos_path do %>
+    <div class="inne_label">
+      <span class="star">*</span>
+      Facebook email:
+    </div>
+    <%=text_field_tag :femail ,nil,:class=>"recipient_text_field"%>
+    <div class="inne_label">
+      <span class="star">*</span>
+      Facebook password:
+    </div>
+    <%=password_field_tag :fpassword, nil,:class=>"recipient_text_field"%>
+    <div class="inne_label" style="border: medium none ;">
+      <span class="star" style="visibility: hidden;">*</span>
+    </div>
+    <div class="goal_link">
+      <a>GroupHopper will not store your password</a>
+    </div>
+    <button style="float: right; margin-top: 10px;">
+      <img alt="find" src="/images/find_people.jpg"/>
+    </button>
+    <%#end%>
+  <div class="clear"></div>
+</div>

@@ -1,0 +1,33 @@
+<div id="billing-history-container">
+<div class="signup1"> <%= link_to " &lt;&lt; Back ", :back %></div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div class="clear"><!-- --></div>
+  <div class="right_sign" style="margin-left:0px;">
+    <div class="inform">Billing History</div>
+    <div class="clear"><!-- --></div>
+    <div class="billing-history-wrap">
+      <div class="billing-history-titles">
+          <span class="date-bill">Date</span>
+          <span class="method-bill">Method</span>
+          <span class="discrip-bill">Description</span>
+          <span class="changes-bill">Charges</span>        
+      </div><!--billing-history-titles-->
+   
+	<div class="detail-billing-history-wrap">
+   <% for history in @historys%>
+    	<div class="detail-billing-hist">
+        	<span class="calender-detail-bill"><%= history.created_at.strftime("%m/%d/%Y")%></span>
+            <span class="visa-detail-bill"><%= UserCreditcard.find_by_user_id(history.user_id).card_type%></span>
+            <span class="plan-detail-bill"><%= history.pricing_plan.plan_name%>( From to To ) </span>
+            <span class="doller-detail-bill">$<%= history.amount%></span>
+        </div>
+   <%end%>
+    </div><!--detail-billing-history-wrap-->
+
+
+
+</div><!--billing-history-wrap-->
+</div>
+<div class="clear"><!-- --></div>
+
+</div>

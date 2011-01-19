@@ -1,0 +1,31 @@
+
+<%form_for "group", :url=>group_activities_path,  :html=>{:method=>:post}  do |f|%>
+<div class="group_bg">
+<div class="group_img"><img alt="img" src="/images/img1.jpg"/></div>
+
+  <%=text_area_tag "status",nil,:class=>"group_mid_white"%>
+
+<button class="select_group"><img alt="share" src="/images/share_with_stealth.jpg"/>
+</button>
+</br>
+</br>
+<div class="attach_file"><a href="#">Attach File</a></div>
+<div class="select_group_link"><a id="status_update" href="#" onclick="check_value();">Select Groups and share</a></div>
+</div>
+<%end%>
+<script>
+function check_value(event)
+{
+if (document.getElementById('status').value=="")
+{
+
+alert("Please enter the Status");
+ Event.stop(event)
+ }
+else
+{
+$("status_update").href="/group_activities/create?"
+  new Control.Modal($("status_update"), {className:'modal_container'});
+}
+}
+</script>

@@ -1,0 +1,8 @@
+	 <span class="inner-text-links">	 
+	 <% for attach in @attachm %>
+	 <% i=attach.id %>
+	 <% j=attach.attachable_id %>
+ <%= attach.filename %><a href="javascript:anchor_test(<%= i %>,<%= j %>)"><img src="/images/wrong-icon.jpg"/></a>
+ <% end %>
+ </span>
+ 

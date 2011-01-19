@@ -1,0 +1,126 @@
+<%#= javascript_include_tag :defaults %>
+<%#= javascript_include_tag 'jquery-1.4.2.js' %>
+<%= stylesheet_link_tag 'pagination'%>
+<%= stylesheet_link_tag 'common'%>
+<%@id=params[:id]%>
+<style>
+a{color:#3b5998;text-decoration:underline;}
+</style>
+<div id="message-inbox-thread">
+<div class="signup1"><%=h @message.group.name%><font style="color:green;"> <%=flash.now[:conclude_thread]%><%=flash[:thread_reply]%><%=flash[:message_thread]%></font><a href="/inbox" style="margin-left:448px;"><< Back to messages</a></div>
+<div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"/></div>
+<div class="clear"></div>
+<div class="group_bg"><%=render :partial=>"group_activities/status_update"%></div>
+  <%form_for :message,:url=>post_in_message_thread_message_path(:id=>@id,:page=>params[:page]),:html=>{:method=>:post,:multipart=>true} do |form| %>
+    <div class="create_group_form">
+      <div class="my_activity_left_container">
+        <div class="nav-messages">
+        <span class="admin-tool-text">Between :</span>
+          <ul class="admin-tool-links">
+          <li> <%@message.message_users.each do |user|%><a href="<%=user_activity_link(user.user.id)%>"><%=h truncate(" "+full_name(user.user))%></a>,<% end %></li>
+          </ul>   
+        </div>
+        <div class="nav-messages">
+          <span class="admin-tool-text">Subject :</span>
+          <ul class="admin-tool-links">
+          <li><a href="#"><%=h wrap_text(@message.subject,50)%></a></li>
+          </ul>
+        </div>
+        <div id ="message_thread"><%=render :partial=>"message_td"%></div>
+        <%if @message_thread.count>10%><div class="digg_pagination"><%=will_paginate @message_thread, :container => false %></div> <%end%>
+        <%if @message.group.is_active%>
+        <%#unless @message.is_closed%>
+        <div id="msg_admin_tools">
+          <%#if @leader && !@message.is_closed%>
+            <div class="nav-messages">
+              <span class="admin-tool-text">Message Thread Tools :</span>
+              <ul class="admin-tool-links">
+              <li><a href="javascript:show_focus();">Flag Message</a></li>
+              <!--<li><a href="javascript:show_con();">Conclude Thread</a></li><br />-->
+              <div id="mess_foc" style="display:none;font-size:10px;margin-left:12px;margin-top:5px;color:#2673AF;"><input type="checkbox" name="mess_focus" id="messsss" />Flag Message</div>
+              <!--<div id="con_thread" style="display:none;font-size:10px;margin-left:12px;margin-top:5px;color:#2673AF;"><input type="checkbox" name="conclude_thread" id="conclude" />Conclude Thread</div>-->
+              </ul>
+            </div>
+          <%#end%>
+        </div>
+          <div id="msg_thread_active">
+            <div class="nav-messages"><span class="admin-tool-text">Reply :</span></div>
+            <div class="clear"></div>
+            <div class="text-field">
+              <span class="inne_label">Message:</span>
+              <span class="field-box-wrap"> <%=text_area_tag "message[message]",nil,:size => "58x4"%></span>
+            </div>
+            <div class="button-inbox-thread"><%=image_submit_tag "replaytoall.png",:style=>"width:99px;"%></div>
+            <div class="text-field">
+              <span class="inne_label">Attachment:</span>
+              <div style="margin-left:158px;"class="message_thread_attachment">
+                <span class="text-inner-links" id="this_one"> </br></span>
+              </div>
+              <span class="field-box-wrap" >
+                <span class="textfield-sec-wrap" id="upload_data"><div style="margin-left:157px;"><%= form.file_field "uploaded_data", :size=>"44"%></div></span>
+              </span>
+            </div>
+          </div>  
+        <%end%>
+      </div>  
+      <div class="my_activity_right_container"><%=render :partial=>"upcoming_objectives"%></div>
+    </div>
+  <%end%>
+
+<script>
+var multi_selector = new MultiSelector( document.getElementById( 'this_one' ), 10 );
+	<!-- Pass in the file element -->
+	multi_selector.addElement( document.getElementById( 'message_uploaded_data' ) );
+
+var i=1,k=1;
+function show_focus()
+{
+if((i%2)==0)
+{
+Effect.SlideUp('mess_foc',{ duration: 0.3 });
+i++;
+}else
+{Effect.SlideDown('mess_foc',{ duration: 0.3 });i++;}
+}
+
+function remove_element(ele)
+{
+var remove = $(ele);
+remove.parentNode.removeChild(remove);
+}
+
+ function show_con()
+{
+if((k%2)==0)
+{
+Effect.SlideUp('con_thread',{ duration: 0.3 });
+k++;
+}else
+{Effect.SlideDown('con_thread',{ duration: 0.3});k++;}
+}
+             
+                        // preload images.
+                        (new Image()).src='/images/token.gif';
+                        (new Image()).src='/images/token_selected.gif';
+                        (new Image()).src='/images/token_hover.gif';
+                        (new Image()).src='/images/token_x.gif';
+
+                        var contacts = [
+                        <%@group_users.each do |user|%>
+                        {name:"<%=user.user.user_profile.first_name+" "+user.user.user_profile.last_name%>",email:"<%=user.user.email%>"}, 
+                        <%end%>
+                        {name:"",email:""}];
+
+
+                        var typeahead = new Autocompleter.LocalAdvanced('autocomplete_input', 'autocomplete_populate', contacts, {                                                 
+                            frequency: 0.1,
+                            updateElement: addContactToList,
+                            search_field: "name",
+                            fullSearch: true,
+                            ignoreCase: true
+                        });
+                                               
+                        var hidden_input = new HiddenInput('hidden_input',typeahead);
+                       
+
+</script>

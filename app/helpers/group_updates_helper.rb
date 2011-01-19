@@ -1,0 +1,2 @@
+module GroupUpdatesHelper
+end

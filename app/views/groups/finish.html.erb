@@ -1,0 +1,25 @@
+
+<meta http-equiv="Refresh" content="10;URL= <%= activities_path%>" />
+<div id="container">
+  <div class="signup1">Create Group</div>
+  <div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+  <div class="clear"><!-- --></div>
+  <!-- thumbnail image container div start here-->
+  <div class="group_bg">
+     <%=render :partial=>"group_activities/status_update"%>
+    <br />
+  </div>
+  <!-- thumbnail image container div ends here-->
+  <!-- create group container div staryt here-->
+ <%=render :partial=>"group_header"%>
+  <div class="create_group_form">
+    <div class="invite_full">
+      Congratulations! You've set up your Group and GroupHopper. An email about your group has been sent to your email. You will be automatically directed to the
+      <a href="<%= activities_path%>">Home Page.</a>
+      
+    </div>
+    <div class="clear"></div>
+    <div class="clear"></div>
+  </div>
+</div>
+

@@ -1,0 +1,23 @@
+<div style="text-align: center;" class="signup1">Welcome to MyGroupHopper.com. Please sign in
+below.</div>
+<div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"></div>
+<div class="clear"><!-- --></div>
+<!-- left sign div start here-->
+<%if flash[:error]%><div class="login_error"><%= flash[:error]%></div><%end%>
+<%if flash[:notice]%><div class="login_sucess"><%= flash[:notice]%></div><%end%>
+<div class="login_box">
+<div class="inne_right_account">
+<% form_tag admin_session_path do -%>
+<div class="inne_label">Email address</div>
+<%= text_field :admin,:email,:class=>"inner_field" %>
+<div class="clear"><!-- --></div>
+<div class="inne_label">Password</div>
+<%= password_field :admin,:password, :class=>"inner_field" %>
+<div class="clear"><!-- --></div>
+<div class="login_btn"><%= image_submit_tag "/images/login.jpg",:id=>"login" %></div>
+
+</div>
+<div class="clear"><!-- --></div>
+<div class="forgot_password"><a href="<%= forgot_password_path %>">Forgot Your Password?</a></div>
+<% end -%>
+</div>

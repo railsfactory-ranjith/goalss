@@ -1,0 +1,28 @@
+<%=stylesheet_link_tag 'pagination' %>
+<div class="table_header">
+<div class="groupname">
+<%= groups_link_helper("sort", "name", {:controller=>'paid_users', :action => "group_list",:id=>current_user.id,:page=>params[:page]}) %>
+Group name</div>
+<div class="leader">
+<%= groups_link_helper("afirstname", "first_name", {:controller=>'paid_users', :action => "group_list",:id=>current_user.id,:page=>params[:page]}) %>
+Leader</div>
+<div class="started"><%= groups_link_helper("acreated_at", "created_at", {:controller=>'paid_users', :action => "group_list",:id=>current_user.id,:page=>params[:page]}) %>Started</div>
+<div class="status"><%= groups_link_helper("ais_active", "is_active", {:controller=>'paid_users', :action => "group_list",:id=>current_user.id,:page=>params[:page]})   %>Status</div>
+<div class="edit"></div></div>
+<div id="group_lists">
+<% for  group in @groups%>
+<div class="groupname_con"><%=link_to truncate(group.name,20), group_updates_path(:id=>group.id) %></div>
+<div class="leader_con">
+<%unless group.group_leader_id.nil?%>
+<%leader=User.find_by_id(group.group_leader_id)%>
+<a href="<%=user_activity_link(leader.id)%>"><%= truncate(leader.user_profile.first_name+" "+leader.user_profile.last_name,30)%></a>
+<%else%>
+<a href="<%=user_activity_link(leader.id)%>"><%= truncate(group.user.user_profile.first_name+" "+group.user.user_profile.last_name,30)%></a>
+<%end%>
+</div>
+<div class="started_con"><%= user_date_format(group.created_at) %></div>
+<div class="status_con"><%= group.is_active ? 'Active' : 'Suspend' %></div>
+<div class="edit"><%= link_to "Edit",:controller=>'paid_users',:action=>'group_update',:id=>group.id%></div>
+<div class="clear"><!-- --></div>
+<% end %>
+</div>

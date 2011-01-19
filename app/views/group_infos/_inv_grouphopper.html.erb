@@ -1,0 +1,49 @@
+<%=javascript_include_tag "prototype"%>
+  <script type="text/javascript">
+  function popup(mylink, windowname)
+{
+if (! window.focus)return true;
+var href;
+if (typeof(mylink) == 'string')
+   href=mylink;
+else
+   href=mylink.href;
+my_window = window.open(href, windowname, 'width=600,height=350,scrollbars=yes,titlebar=no');
+return false;
+}
+  function get_value()
+  {
+    document.getElementById("personal_message").value=document.getElementById("message").value;
+  }
+  </script>
+
+<div class="invite_menu">
+  <ul>
+    <li><%=link_to_remote "From Anywhere",:update => "contacts",:url => { :action => "invite_from_anywhere",:id=>params[:id]} %></li>
+        <li><a href="<%= getstart_path%>" onClick="return popup(this, 'notes')">FaceBook</a><%#=link_to_remote "FaceBook",:update => "contacts",:url => { :action => "fbook",:id=>params[:id]} %></li>
+    <li><%=link_to_remote "Gmail",:update => "contacts",:url => { :action => "gmail",:id=>params[:id]} %></li>
+    <li class="current7"><%#=link_to_remote "GroupHopper",:update => "contacts",:url => { :action => "invite_from_grouphopper",:id=>params[:id]} %></li>
+  </ul>
+</div>
+
+<div class="recipient_form">
+  <form onsubmit="this.href='/groups/display_contacts?width=500&height=500&username='+escape(document.forms[0].username.value)+'&pwd='+document.forms[0].password.value+'&id=<%=params[:id]%>';return false" >
+      <div class="inne_label">
+      Email:
+    </div>
+    <%=text_field_tag :goal_flo_email ,nil,:class=>"recipient_text_field"%>
+    <div class="inne_label">
+      Name:
+    </div>
+    <%=text_field_tag :user_name, nil,:class=>"recipient_text_field"%>
+    <div class="inne_label" style="border: medium none ;">
+      <span class="star" style="visibility: hidden;">*</span>
+    </div>
+    <div class="inne_label" style="border: medium none ;">
+        <span class="star" style="visibility: hidden;">*</span>
+      </div>
+      
+     
+ <a href="#" id="goal_contacts"><img onclick="search_contacts();" alt="find" style="margin:9px 3px 8px 59px;" src="/images/find_people.jpg"/></a>
+ 
+    <div class="clear"></div>

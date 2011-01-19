@@ -1,0 +1,125 @@
+<%=calendar_date_select_includes "gfblue" %>
+<div class="create_header">Please enter your billing information below. The billing information should match your credit card information</div>
+<div class="clear"/>
+<font color="red"><%= flash.now[:error]%></font>
+<div class="left_sign">
+  <div class="inne_right_account">
+<%form_for :user_billing_informations, :url=>create_pay_bill_paid_users_path(:plan=>params[:plan],:coupon=>params[:coupon_code]),:html=>{:method=>:post} do %>
+
+    <div class="inne_label" style="margin-top: 10px;">
+      Organization:
+      </div>
+      <%=text_field :user_billing_informations,:company_name,:class=>"inner_field" %><span class="star"><%=error_message_on :user_billing_informations,:company_name%></span>
+      <div class="clear"/>
+      <div class="inne_label" style="margin-top: 10px;">
+      <span class="star">*</span>
+      First Name:
+      </div>
+      <%=text_field :user_billing_informations,:first_name,:class=>"inner_field" %><span class="star"><%=error_message_on :user_billing_informations,:first_name%></span>
+      <div class="clear"/>
+      <div class="inne_label" style="margin-top: 10px;">
+      <span class="star">*</span>
+      Last Name:
+      </div>
+      <%=text_field :user_billing_informations,:last_name,:class=>"inner_field" %><span class="star"><%=error_message_on :user_billing_informations,:last_name%></span>
+      <div class="clear"/>
+      <div class="inne_label" style="margin-top: 10px;">
+      <span class="star">*</span>
+      Address 1:
+      </div>
+      <%=text_field :user_billing_informations,:address_1,:class=>"inner_field" %><span class="star"><%=error_message_on :user_billing_informations,:address_1%></span>
+      <div class="clear"/>
+      <div class="inne_label" style="margin-top: 10px;">
+      Address 2:
+      </div>
+      <%=text_field :user_billing_informations,:address_2,:class=>"inner_field" %><span class="star"><%=error_message_on :user_billing_informations,:address_2%></span>
+      <div class="clear"/>
+      <div class="inne_label" style="margin-top: 10px;">
+      <span class="star">*</span>
+      Country:
+      </div>
+      <% list_country%>
+      <%= select :user_billing_informations, :country, @country, {:prompt=>"-select-"}, :class=>"inner_field" %><span class="star"><%=error_message_on :user_billing_informations,:country%></span>
+      <div class="clear"/>
+      <div class="inne_label" style="margin-top: 10px;">
+      <span class="star">*</span>
+      City:
+      </div>
+      <%=text_field :user_billing_informations,:city,:class=>"inner_field" %><span class="star"><%=error_message_on :user_billing_informations,:city%></span>
+      <div class="clear"/>
+      <div class="inne_label" style="margin-top: 10px;">
+      <span class="star">*</span>
+      State:
+      </div>
+      <%=text_field :user_billing_informations,:state,:class=>"inner_field" %><span class="star"><%=error_message_on :user_billing_informations,:state%></span>
+      <div class="clear"/>
+      <div class="inne_label" style="margin-top: 10px;">
+      <span class="star">*</span>
+      Postal code:
+      </div>
+      <%=text_field :user_billing_informations,:zipcode,:class=>"inner_field" %><span class="star"><%=error_message_on :user_billing_informations,:zipcode%></span>
+      <div class="clear"/>
+      <div class="inne_label" style="margin-top: 10px;">
+      <span class="star">*</span>
+      Phone:
+      </div>
+      <%=text_field :user_billing_informations,:phonenumber,:class=>"inner_field" %><span class="star"><%=error_message_on :user_billing_informations,:phonenumber%></span>
+      <div class="clear"/>
+
+      <div class="inne_label" style="margin-top: 10px;">
+      <span class="star">*</span>
+      Email:
+      </div>
+      <%=text_field :user_billing_informations,:email_address,:class=>"inner_field" %><span class="star"><%=error_message_on :user_billing_informations,:email_address%></span>
+      <div class="clear"/>
+      <div style="margin-top: 10px;font-color:#333333;font-weight:900;" class="inne_label">
+      Credit Card
+      </div>
+      <div class="clear"/>
+      <div class="inne_label" style="margin-top: 10px;">
+      <span class="star">*</span>
+      Card Type:
+      </div>
+      <%#=text_field :user_creditcards,:card_type,:class=>"inner_field" %>
+<%if params[:user_creditcards] && params[:user_creditcards][:card_type]%>
+      <%= select :user_creditcards, :card_type, ["VISA", "Master card", "American Express"], {:selected=>params[:user_creditcards][:card_type] }, :class=>"inner_field" %>
+      <%else%>
+      <%= select :user_creditcards, :card_type, ["VISA", "Master card", "American Express"], {:selected=> "VISA"}, :class=>"inner_field" %>
+      <%end%>
+      <span class="star"><%=error_message_on :user_creditcards,:card_type%></span>
+      <div class="clear"/>
+      <div class="inne_label" style="margin-top: 10px;">
+      <span class="star">*</span>
+      Card Number:
+      </div>
+      <%=text_field :user_creditcards,:last_digit,:class=>"inner_field" %><span class="star"><%=error_message_on :user_creditcards,:last_digit%></span>
+      <div class="clear"/>
+      <div class="inne_label" style="margin-top: 10px;">
+      <span class="star">*</span>
+      CVV Number:
+      </div>
+      <%=password_field :user_creditcards,:ccv_number,:class=>"inner_field" %><span class="star"><%=error_message_on :user_creditcards,:ccv_number%></span>
+      <div class="clear"/>
+      <div class="inne_label" style="margin-top: 10px;">
+      <span class="star">*</span>
+      Expiration:
+      </div>
+      <%#=select("user_creditcards","exp_month",Date::MONTHNAMES.compact, {:prompt=>"-month-"}, :class=>"inner_birth" )%><span class="star"><%#=error_message_on :user_creditcards,:exp_month%></span>
+      <%if params[:user_creditcards]&& params[:user_creditcards][:month]%>
+      <%=select("user_creditcards","exp_month",(1..12).entries, {:prompt=>"#{params[:user_creditcards][:month]}"}, :class=>"inner_birth" )%><span class="star"><%#=error_message_on :user_creditcards,:exp_month%></span>
+      <%else%>
+      <%=select("user_creditcards","exp_month",(1..12).entries, {:prompt=>"-month-"}, :class=>"inner_birth" )%><span class="star"><%#=error_message_on :user_creditcards,:exp_month%></span>
+      <%end%>
+      <%if params[:user_creditcards] && params[:user_creditcards][:year]%>
+      <%=select("user_creditcards","exp_year",(Time.now.year..2030).entries, {:prompt=>"#{params[:user_creditcards][:year]}"}, :class=>"inner_birth" )%><span class="star"><%=error_message_on :user_creditcards,:exp_month%><%=error_message_on :user_creditcards,:exp_year%></span>
+      <%else%>
+      <%=select("user_creditcards","exp_year",(Time.now.year..2030).entries, {:prompt=>"-year-"}, :class=>"inner_birth" )%><span class="star"><%=error_message_on :user_creditcards,:exp_month%><%=error_message_on :user_creditcards,:exp_year%></span>
+      <%end%>
+      <div class="clear"/>
+      <div class="button_container">
+<%=link_to image_tag("cancel.jpg"),edit_user_path(:id=>current_user.id)%>
+<%=image_submit_tag "next.jpg" ,{:style=>"margin-right:20px;"}%></div>
+      
+<%end%></div>
+</div>
+<div class="clear"><!-- --></div>

@@ -1,0 +1,127 @@
+<div id="attach_notify"class="attach_not1"></div>
+
+<%# params[:id]=params[:gid] if !params[:id] %>
+<%# params[:id]=params[:grp_id] if params[:grp_id]%>
+<%unless controller.controller_name=="group_updates" || controller.controller_name=="group_infos" %>
+<%assign_filter%>
+<%end%>
+<%form_tag :controller=>"group_activities",:action=>"create",:id=>params[:id] do%>
+  <div class="groupimg-groupmes">
+	  <div class="group_img">
+     <%if current_user.attachment%>
+<%= image_tag(current_user.attachment.public_filename(:size1)) %>
+<%else%>
+<img alt="img" src="/images/img_not_avl2.jpg"/>
+<%end%>
+    </div>
+     <%=text_area_tag "status",session[:status_update],:class=>"group_mid_white"%>
+  </div>
+  <%if (controller.controller_name=="group_infos"  ||controller.controller_name=="group_updates" || params[:gid]) && (params[:id]!="0") %>
+    <%group_name=(group_name(params[:gid] || params[:id]))[0..16]%>
+    <% group_name=(group_names(params[:grp_id])) if params[:grp_id]%>
+    <% params[:id]=params[:grp_id] if params[:grp_id]%>
+    <div class="group-botton-links">
+			<div class="group-botton-checkbox">
+            <%ua=request.env['HTTP_USER_AGENT']%>
+              <%if ua.index('Firefox')%>
+                     <input  class="select_group" onclick="return check_value_status('<%=@group.is_active%>');" type="submit"  title="<%= group_name(params[:gid] || params[:id])%>" value="SHARE WITH <%=@group.name[0..20]%>"></input>
+             <%else%>
+                     <input  class="select_group" onclick="return check_value_status('<%=@group.is_active%>');" type="submit"  title="<%= group_name(params[:gid] || params[:id])%>" value="SHARE WITH <%=@group.name[0..20]%>"></input>
+            <%end%>
+        <%if @group.group_leader_id==current_user.id || @group.user==current_user%>
+	      <div class="checkbox-details" style="display:none; visibility:none"><%#=check_box_tag "post","is_by_leader",false %>
+          <span>Leader's Update</span>
+        </div><!--checkbox-details--><%end%>
+      </div>
+      <div class="attachfiles-selectgroup">
+		  <div   class="attach_file">
+		    <a  href="/users/upload_file?id=<%=current_user.id%>&control=group"   id="attach_f">Attach File</a><span id ="count_file">()</span>
+        <script>new Control.Modal($('attach_f'), {className:'modal_container',width: 0,height: 0});</script>
+			</div>
+			<div class="select_group_link">
+			<%if @group.group_leader_id==current_user.id%><a href="#" id="status_update_1"><div <% if controller.controller_name=="group_updates" ||controller.controller_name=="group_activities"%> onclick="check_group_updates('<%= params[:id]%>');" <% else %> onclick="check_value_all();"<%end%>>Advanced Share</div></a><%end%>
+			</div>
+      </div><!--attachfiles-selectgroup-->		
+		</div>
+  <%else%>  
+  <div class="group-botton-links">
+		<div class="group-botton-checkbox">
+	    <div id="status_update" >
+       <input  class="select_group" onclick="check_value();" type="submit"  title="allgroups" value="SELECT GROUPS AND SHARE "></input>
+      </div>
+      <div class="checkbox-details" style="display:none; visibility:none" ><%=check_box_tag "post","is_by_leader",false %>
+        <span>Leader's Update</span>
+      </div><!--checkbox-details-->
+    </div>
+    <div class="attachfiles-selectgroup">
+      <div   class="attach_file">
+		    <a href="/users/upload_file?id=<%=current_user.id%>&control=group"  id="attach_f">Attach File </a><span id ="count_file">()</span>
+        <script>new Control.Modal($('attach_f'), {className:'modal_container',width: 0,height: 0});</script>
+			</div>
+			<div class="select_group_link">
+			<%if current_user.is_leader?%><a href="#" id="status_update_1"><div onclick="check_value_all();" >Advanced share</div></a><%end%>
+			</div>
+    </div><!--attachfiles-selectgroup-->		
+  </div><!--group-botton-links-->
+  <%end%>
+<%end%>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+function check_value(event)
+{
+if (document.getElementById('status').value=="")
+{
+alert("Please enter the Status");
+ Event.stop(event)
+ }
+else
+{
+$("status_update").href="/group_activities/display_groups?"
+  new Control.Modal($("status_update"), {className:'modal_container'});
+}
+}
+function check_value_all(event)
+{
+if (document.getElementById('status').value=="")
+{
+alert("Please enter the Status");
+ Event.stop(event)
+ }
+else
+{
+$("status_update_1").href="/group_activities/create?"
+  new Control.Modal($("status_update_1"), {className:'modal_container'});
+}
+}
+function check_group_updates(id)
+{
+if (document.getElementById('status').value=="")
+{
+alert("Please enter the Status");
+ Event.stop(event)
+ }
+else
+{
+$("status_update_1").href="/group_activities/create?&grp_id="+id
+  new Control.Modal($("status_update_1"), {className:'modal_container'});
+}
+}
+</script>

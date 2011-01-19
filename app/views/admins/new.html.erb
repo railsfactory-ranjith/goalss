@@ -1,0 +1,40 @@
+<%=stylesheet_link_tag 'pagination' %>
+<div class="signup1" >Admin<span class="successful_msg"> <%= flash[:notice]%></span></div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div class="clear"><!-- --></div>
+<div class="admin_header">Site Statistic</div>
+<div class="clear"><!-- --></div>
+
+
+<div class="export_stat"><%= link_to 'Export Statistics', admins_path	%></div>
+<div class="clear"><!-- --></div>
+<%#= link_to "Export Statistics" %><br><div class="clear"><!-- --></div>
+<div class="admin_menu_container">
+<div class="admin_menu">
+<ul><li><a href="#" >
+Group Name
+<%= sort_link_helper("img", "name", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]})%> 
+<%= des_sort_link_helper("img3", "name", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]}) %></li>
+<li>
+<a href="#">Owner
+<%= sort_link_helper("img1", "first_name", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]})%> 
+<%= des_sort_link_helper("img4", "first_name", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]}) %></li>
+<li>
+<a href="#">Group Leader
+<%= sort_link_helper("img2", "group_leader_id", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]})%> 
+<%= des_sort_link_helper("img5", "group_leader_id", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]}) %></li>
+<li>
+<a href="#">Created At
+<%= sort_link_helper("img_creat1", "created_at", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]})%> 
+<%= des_sort_link_helper("img_creat2", "created_at", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]}) %></li>
+</li><li>
+<a href="#">Status
+<%= sort_link_helper("img_active1", "is_active", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]})%> 
+<%= des_sort_link_helper("img_active2", "is_active", {:controller=>'admins', :action => "manager_dashboard",:page=>params[:page]}) %></li>
+</li></ul>
+</div>
+<div id="group">
+<%=render :partial=>"manager_dashboard"%>
+</div></div> <div  class="digg_pagination" >
+<%= will_paginate @groups, :container => false %>
+</div>

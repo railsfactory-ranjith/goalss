@@ -1,0 +1,11 @@
+<font color="green"><%= flash[:notice]%></font>
+<table>
+<th>Page</th>
+<th></th>
+<%for page in @pages%>
+<tr>
+<td><%= page.name%></td>
+<td><%= link_to 'edit', edit_staticpages_path(:id=>page.id)%></td>
+</tr>
+<%end%>
+</table>

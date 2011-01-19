@@ -1,0 +1,2 @@
+module Admin::BillingInformationsHelper
+end

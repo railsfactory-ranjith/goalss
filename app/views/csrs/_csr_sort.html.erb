@@ -1,0 +1,24 @@
+
+
+
+
+
+
+<% i = 0%>
+<% for  csr in @csrs%>
+<div class="csr_menu_con" style="<%= (i%2) == 0 ? '' : 'background-color:#fafdfe' %>">
+<ul><li>
+<%= link_to "edit", :controller=>"csrs", :action=>"edit", :id=>csr.id ,:name => "#{csr.lastname}"%></li>
+<li><%= csr.created_at.strftime("%m/%d/%Y") %></li>
+<li><%= csr.state=="suspend" ? 'Suspend' : 'Active'%></li>
+</ul></div><% i = i+1%>
+<% end %>
+
+
+
+
+
+
+
+
+

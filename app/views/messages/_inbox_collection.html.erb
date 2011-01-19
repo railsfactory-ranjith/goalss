@@ -1,0 +1,91 @@
+
+<div class="nav-messages">
+    	<ul>
+        	<li><a href="javascript:check_all()">Select All</a></li>
+            <li><a href="javascript:uncheck_all()">Deselect All</a></li>
+            <li><a href="javascript:mar()">Mark As Read</a></li>
+            <li><a href="javascript:unmar()">Mark as Unread </a></li>
+            <li><a href="javascript:tra()">Move to Storage</a></li>
+        </ul>
+    </div><!--nav-messages-->
+<%i=0%>
+<%for collection in @collections%>
+<%find_last_reply(collection.id)%>
+<%#puts collection.inspect%>
+<%#puts collection.message.parent_id %>
+<%#puts collection.message.user_id%>
+<%#puts " _________________________________________"%>
+<%#if collection.message.parent_id == nil || collection.message.user_id==current_user.id %>
+<%#puts @collections.inspect%>
+<%unless collection.nil? || collection.message.nil?%>
+<%i+=1%>
+<% back_ground_color(collection.group_id)%>
+<!-- my activity left inner container div start here-->
+<%if @read == true%>
+<div  style="border: 1px solid #<%= @group_color%>; margin-top: 2px; background-color" class="my_acticity_inner_container">
+<%else%>
+<div  style="border: 1px solid #<%= @group_color%>; margin-top: 2px; background-color: rgb(254, 180, 114);" class="my_acticity_inner_container">
+<%end%>
+
+
+<!-- my activity div start here-->
+
+
+<div class="my_activity_left_icon">  <input type="checkbox" name="check" id="<%= i %>" value="<%=collection.id%>"/>
+		<% k=i+1000 %>
+		<input type="hidden" name="pag" id="page" value="<%= @page %>"/>
+		<input type="hidden" name="hello" id="key<%= k %>" value="<%=collection.id%>" /></div>
+<div style="background: none repeat scroll 0% 0% #<%= @group_color%>; border-left: 1px solid rgb(213, 225, 234);" class="my_activity_right">
+<%m=Message.find_last_by_parent_id(collection.id)%>
+<%if m.nil?%>
+<%user=collection.user%>
+<%else%>
+<%user=m.user%>
+<%end%>
+<div class="left_squaer_img1"><%=user_image(user)%></div>
+<div class="sub_content1"><img alt="icon" src="/images/icon.png"/><a id="group_updates" href="<%=group_updates_path(:id=>collection.group.id)%>"><%=h truncate(collection.group.name, 20)%>:</a>
+
+<% collection.message_users.each do |msg_user|%>
+<% if msg_user.user.nil? %>
+<% else %>
+<a id="thrid_party<%=msg_user.user.id%>" href="<%=user_activity_link(msg_user.user_id) %>"><%=h truncate(full_name(msg_user.user),20)%>,</a>
+<% end%>
+<%end%>
+<%#@msg=Message.find(:all,:conditions=>['parent_id =?',collection.message.id])%>
+<%#@msg.each do |msg|%>
+<%#u=User.find_by_id(msg.user_id)%>
+<!--<a href="<%#=profile_thirdparty_user_path(:id=>u.id)%>">><%#=h truncate(full_name(u),15)%>:</a>-->
+<%#end%>
+<div class="clear"><!-- --></div>
+
+Subject: <%=h truncate(collection.subject,70)%><br/>
+<%#find_last_reply(collection.id)%>
+<pre><%=h wrap_text(truncate(@body,150),60)%></pre>
+<%= link_to "Read",message_thread_messages_path(:id=>collection.id),:style=>"float:right;" %> 
+
+</div>
+<div class="hours1"><%=user_time_format(collection.updated_at)%></div>
+
+
+<%unless collection.attachments.empty?%>
+<%if collection.attachments.count>1%>
+<div class="attachment"><a href="/messages/attachment?id=<%=collection.id%>" id="att<%=i%>">Attachment(s)</a><a class="arrow_bg" href="#"><img alt="arrow" src="/images/arrow.png"/></a><script>new Control.Modal($("att<%=i%>"), {className:'modal_container'})</script></div>
+<%else%>
+<div class="attachment">
+<%#=link_to collection.attachments[0].filename,collection.attachments[0].public_filename%>
+<%=link_to collection.attachments[0].filename, download_file_activities_path(:id=>collection.attachments[0].id) %>
+</a></div><%end%>
+<%end%>
+
+
+</div>
+
+<!-- my activity div ends here-->
+</div>
+
+<!-- my activity left inner container div ends here-->
+<%end%>
+<%end%>    
+<%#end%>   
+<input type="hidden" name="hello1" id="hello" value="<%= @collections.count %>"/>
+<input type="hidden" name="groupname" id="groupvalue" value="<%= @groupid %>"/>

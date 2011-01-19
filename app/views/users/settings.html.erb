@@ -1,0 +1,294 @@
+<script type="text/javascript" src="/javascripts/jscolor/jscolor.js"></script>
+
+<font color="green"><%=flash[:notice]%></font>
+<div class="error_msg"><%= flash["file"] %></div>
+<div class="signup1">Settings</div>
+<div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"/></div>
+<div class="setting_bg">
+<% form_for :user, :url => settings_update_users_path, :html => { :multipart => true } do  -%>
+
+
+ <div class="group_img">
+  <%=user_image(current_user)%>
+</div>
+
+  <div class="change-picture" id="uploaded" ><p>Change Picture</p>
+  <%#= form.file_field :attachment,:uploaded_data, :size=>"20"%>
+  <%= file_field :attachment,:uploaded_data, :size=>"27", :class=>"inner_field_browse" %>
+   </div>
+  <div class="display-main-wrap">
+    <div class="display-wrap">Display?</div>
+    <div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"/></div>
+  </div>
+  <div class="regional-sitting-main-wrap">
+    <div class="regional-sitting-wrap">Regional settings</div>
+    <div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"/></div>
+  </div>
+  <div class="clear"></div>
+  <div class="clear"></div>
+  <div class="setting-left-right">
+    <div class="left_setting">
+      <div class="inne_label_account"><span class="star">*</span>First Name:</div>
+      <%=text_field "user_profile","first_name",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","first_name" %></div>
+      <div class="clear"></div>
+      <div class="inne_label_account">
+        <span class="star">*</span>Last Name:</div>
+        <%=text_field "user_profile","last_name",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","last_name" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">Organization:</div>
+        <%=text_field "user_profile","organization",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","organization" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">Occupation/Title:</div>
+        <%=text_field "user_profile","occupation",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","occupation" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">Office E-mail Address:</div>
+        <%=text_field "user_profile","office_email_address",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","office_email_address" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">Personal E-mail </div>
+        <%=text_field "user_profile","personal_email_address",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","personal_email_address" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">Mobile Phone: </div>
+        <%=text_field "user_profile","mobile_phone",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","mobile_phone" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">Office Phone: </div>
+        <%=text_field "user_profile","office_phone",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","office_phone" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">Yahoo ID </div>
+        <%=text_field "user_profile","yahoo_id",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","yahoo_id" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">Window Live ID</div>
+        <%=text_field "user_profile","windows_live_id",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","windows_live_id" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">AIM ID</div>
+        <%=text_field "user_profile","aim_id",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","aim_id" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">Skype ID:</div>
+        <%=text_field "user_profile","skype_id",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","skype_id" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">Mail Address 1:</div>
+        <%=text_field "user_profile","mailing_address1",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","mailing_address1" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">Mail Address 2:</div>
+        <%=text_field "user_profile","mailing_address2",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","mailing_address2" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">Country: </div>
+        <% list_country%>
+        <%= select :user_profile, :country, @country,{:prompt=>"-select-"},:class=>"inner_field" %><div class="error_msg_settings"><%= error_message_on "user_profile","country" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">City: </div>
+        <%=text_field "user_profile","city",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","city" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">State: </div>
+        <%=text_field "user_profile","state",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","state" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account"><span class="star">*</span>PostalCode: </div>
+        <%=text_field "user_profile","zipcode",:class=>"inner_field"%><div class="error_msg_settings"><%= error_message_on "user_profile","zipcode" %></div>
+        <div class="clear"></div>
+        <div class="inne_label_account">Other Info: </div>
+        <%=text_area "user_profile","other_info",:class=>"inner_area"%><div class="error_msg_settings"><%= error_message_on "user_profile","other_info" %></div>
+        <div class="clear"></div>
+        <div class="update-cancel-button">
+          <%=image_submit_tag "update.jpg",:class=>"update" ,:id=>"update_settings"%>
+          <%= link_to image_tag("cancel.jpg",:class=>"cancel_new",:id=>"cancel_settings" ),settings_users_path%>
+          <%#=image_submit_tag "cancel.jpg",:class=>"cancel_new"%>
+        </div>
+      </div>
+      
+      
+      
+      <div class="right_setting">
+        <div class="display-checkbox">
+          <div class="inne_label_account"></div>
+          <div class="inne_label_account"> </div>
+          <div class="inne_label_account"><%=check_box("user_setting", "organization", { :class => 'display_check' })%></div>
+          <div class="inne_label_account"><%=check_box("user_setting", "occupation", { :class => 'display_check' })%></div>
+          <div class="inne_label_account"><%=check_box("user_setting", "office_email_address", { :class => 'display_check' })%></div>
+          <div class="inne_label_account"><%=check_box("user_setting", "personal_email_address", { :class => 'display_check' })%></div>
+          <div class="inne_label_account"><%=check_box("user_setting", "mobile_phone", { :class => 'display_check' })%></div>
+          <div class="inne_label_account"><%=check_box("user_setting", "ofice_phone", { :class => 'display_check' })%></div>
+          <div class="inne_label_account"><%=check_box("user_setting", "yahoo_id", { :class => 'display_check' })%></div>
+          <div class="inne_label_account"><%=check_box("user_setting", "windows_live_id", { :class => 'display_check' })%></div>
+          <div class="inne_label_account"><%=check_box("user_setting", "AIM_id", { :class => 'display_check' })%></div>
+          <div class="inne_label_account"><%=check_box("user_setting", "skype_id", { :class => 'display_check' })%></div>
+          <div class="inne_label_account"><%=check_box("user_setting", "mailing_address1", { :class => 'display_check' })%></div>
+          <div class="inne_label_account"><%=check_box("user_setting", "mailing_address2", { :class => 'display_check' })%></div>
+          <div class="inne_label_account"><%=check_box("user_setting", "country", { :class => 'display_check' })%></div>
+          <div class="inne_label_account"><%=check_box("user_setting", "city", { :class => 'display_check' })%></div>
+          <div class="inne_label_account"><%=check_box("user_setting", "state", { :class => 'display_check' })%></div>
+          <div class="inne_label_account"><%=check_box("user_setting", "zip", { :class => 'display_check' })%></div>
+          <!--<div class="inne_label_account"><%#=check_box("user_setting", "organisation", { :class => 'display_check' })%></div>-->
+        </div>
+        <div class="regional-settingbox">
+          <div class="month-time-main-wrap">
+            <div class="month-day">
+              <span class="month-time-text">Month & Day format:</span>
+              <%list_date_format%>
+              <span class="month-time-option"><%= select "user_profile", "date_format", @date_format,{:selected=>@user_profile.date_format}%></span>
+            </div>
+            <div class="time-zone">
+              <span class="month-time-text">Time Zone:</span>
+              <%list_time_zones%>
+              <% c="UTC#{(@user_profile.time_zone.to_s.split('.')).join(':')}" %>
+              <span class="month-time-option"> <%= select "user_profile", "time_zone", @time_zones.map {|u| "UTC"+u},{:selected=> c}%></span>
+            </div>
+          </div>
+          <div class="group-membership">
+            <div class="regional-sitting-main-wrap">
+              <div class="regional-sitting-wrap">Group Membership</div>
+              <div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow"/></div>
+            </div>
+            <%for group in @groups%>
+            <div class="group-membership-color-box">
+						  <%  each_g = group.color_code
+							if each_g 
+							   co = "#"+each_g
+							else
+                 co = 'rgb(252, 255, 210)'							
+							end
+							
+							%>
+              <div class="right_content_container" id ="group_<%=group.group_id%>"  style="border:1px solid #CDD3D8; background-color:  none repeat scroll 0% 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; color: rgb(2, 96, 184);">
+                <a href="<%=group_updates_path(:id=>group.group_id)%>"  title="<%=h group.group.name%>"><span class="gm-yel-user"><%=h truncate(group.group.name,13)%></span></a>
+                <%if group.group.due_date%>
+                <span class="right-date"><%=user_date_format(group.group.due_date) %></span>
+                <%else%>
+                 <span class="right-date"><%="No due date"%></span>
+                 <%end%>
+                 <input type="hidden" name="color1_<%=group.group_id%>" id="color_<%=group.group_id%>" value='<%=co%>'  />
+              <span class="right-color">	
+          <input class="color {valueElement:'color_<%=group.group_id%>', styleElement:'group_<%=group.group_id%>'} settings_color" value="Color" onchange="document.getElementById('color_<%=group.group_id%>').value = '#'+this.color;document.getElementById('group_<%=group.group_id%>%>').style.backgroundColor = '#'+this.color;" name="hjhj_<%=group.group_id%>" readonly="readonly"></span>
+    
+                
+                <!--  <span class="right-color"><div class="color"><a href="#" class="color">Color</a></div></span>-->
+                <span class="right-discontinue">
+                <a href="javascript:;" id="dis_<%=group.group_id%>" onclick="discontinue(<%=is_leader?(group.group)%>,<%=group.group_id%>);">Discontinue</a></span>
+              </div>
+          </div>
+         <%end%><div class="clear"></div>
+          <div class="group-favorites" id="fav_group">
+            <div class="regional-sitting-main-wrap">
+              <div class="regional-sitting-wrap">Group Favorties</div>
+              <div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow"/></div>
+            </div>
+            <div class="groupfav-select">
+
+            <%for i in 1..5
+						   group_list = @groups1
+						 if  @str[i].nil?
+						          val =[]
+						      else 									
+									   gr = Group.find_by_id(@str[i])
+										 group_list = group_list +[gr]
+										if gr
+										  val =[gr.name,gr.id]
+										else
+										val=[]
+										end
+						      end								
+						%>
+
+              <%= select "favorites", i, options_for_select(group_list.map {|u| [truncate(u.name,50),u.id]},val),{:prompt=>"-select-"},:onchange=>"change_select('#{@fav_str}','#{i}')"%>
+							
+            
+
+			<%end%>
+
+              <%#= select "favorites", "2", @groups.map {|u| [u.name,u.id]},{:prompt=>"-select-"}%>
+              <%#= select "favorites", "3", @groups.map {|u| [u.name,u.id]},{:prompt=>"-select-"}%>
+              <%#= select "favorites", "4", @groups.map {|u| [u.name,u.id]},{:prompt=>"-select-"}%>
+              <%#= select "favorites", "5", @groups.map {|u| [u.name,u.id]},{:prompt=>"-select-"}%>
+            </div>
+          </div>
+					
+          <div class="settingpage-password">  <%=flash[:password_notice]%>
+            <div class="regional-sitting-main-wrap">
+              <div class="regional-sitting-wrap">Password</div>
+              <div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow"/></div>
+            </div>
+            <div class="settingpassword-details">
+              <div class="changepassword-text">change password:</div>
+              <div class="chagepassword-options">
+                <div class="oldpassword">
+                  <span class="passwordname">Old Password:</span>
+                  <span class="password-output"><%=password_field_tag "old_password"%></span><div class="error_msg"><%=flash.now[:old_password_error]%></div>
+                </div>
+                <div class="newpassword">
+                  <span class="passwordname">New Password:</span>
+                  <span class="password-output"><%=password_field "user","password"%></span><div class="error_msg"><%=flash.now[:password_error]%></div><div class="error_msg"><%=flash.now[:error]%></div>
+                </div>
+                <div class="confirmpassword">
+                  <span class="passwordname">Confirm Password:</span>
+                  <span class="password-output"><%=password_field "user","password_confirmation"%></span><div class="error_msg"><%= flash.now[:password_confirm_error]%></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="email-notifi">
+            <div class="regional-sitting-main-wrap">
+              <div class="regional-sitting-wrap">Email Notifications</div>
+              <div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow"/></div>
+              <div class="email-notifi-details">
+                <div class="check-text">
+                  <span class="email-checkbox"><%=check_box("user_notification", "status_update")%></span>
+                  <span class="email-text">Other Users' Status Updates</span>
+                </div>
+                <div class="check-text">
+                  <span class="email-checkbox"><%=check_box("user_notification", "objective_update")%></span>
+                  <span class="email-text">New and Updated Objectives</span>
+                </div>
+                <div class="check-text">
+                  <span class="email-checkbox"><%=check_box("user_notification", "new_message")%></span>
+                  <span class="email-text">New Messages</span>
+                </div>
+                <div class="check-text">
+                  <span class="email-checkbox"><%=check_box("user_notification", "new_activity_message_thread")%></span>
+                  <span class="email-text">New Activity in Message Threads</span>
+                </div>
+                  <div class="check-text">
+                  <span class="email-checkbox"><%=check_box("user_notification", "members_info_change")%></span>
+                  <span class="email-text">Member Contact Information Changes</span>
+                </div>
+                <div class="check-text">
+                  <span class="email-checkbox"><%=check_box("user_notification", "new_group_member")%></span>
+                  <span class="email-text">New Group Members</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%end%>
+  </div>
+</div>
+</div>
+</div>
+</div>
+ <div class="copy-wrap">	
+	     <div class="copy">
+			 &copy; GroupHopper 2010  <a href="<%= support_path%>">Support</a><a href="<%= privacy_path%>">Privacy</a>
+	     </div>   
+     </div>
+															
+<script>
+function discontinue(leader,id)
+{
+  if(leader==true)
+  {
+    alert('You cannot discontinue your membership. You must first select a different group leader.');
+  }
+  else
+  {
+    var discontinue= confirm('Are you sure you want to discontinue this membership?');
+    if(discontinue==true)
+    {$("dis_"+id).href="/users/"+id+"/discontinue"}
+    else
+    {return false;}
+  }
+}
+function change_select(fav_string,i)
+{
+  var selected=$('favorites_'+i).value;
+  new Ajax.Request('/users/favorite_user_group', { asynchronous:true, evalScripts:true, method: 'get', parameters:'fav_str='+fav_string+'&favorites_'+i+'='+selected});
+}
+</script>

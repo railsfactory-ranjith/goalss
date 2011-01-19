@@ -1,0 +1,38 @@
+          <div class="group-favorites" id="fav_group">
+            <div class="regional-sitting-main-wrap">
+              <div class="regional-sitting-wrap">Group Favorties</div>
+              <div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow"/></div>
+            </div>
+            <div class="groupfav-select">						
+            <%for i in 1..5
+						   group_list = @groups1
+						 if  @str[i].nil?
+						          val =[]
+						      else 									
+									   gr = Group.find_by_id(@str[i])
+										 group_list = group_list +[gr]
+										if gr
+										  val =[gr.name,gr.id]
+										else
+										val=[]
+										end
+						      end								
+						%>
+              <%= select "favorites", i, options_for_select(group_list.map {|u| [u.name,u.id]},val),{:prompt=>"-select-"},:onchange=>"change_select('#{@fav_str}','#{i}')"%>
+            
+						
+<%#= observe_field "favorites_#{i}", :url => { :action => :favorite_user_group ,:fav_str=>@fav_str},
+      :frequency => 1,
+      :update => "group-favorites",
+      :with =>"favorites_#{i}"
+      %>
+			
+			<%end%>
+
+              <%#= select "favorites", "2", @groups.map {|u| [u.name,u.id]},{:prompt=>"-select-"}%>
+              <%#= select "favorites", "3", @groups.map {|u| [u.name,u.id]},{:prompt=>"-select-"}%>
+              <%#= select "favorites", "4", @groups.map {|u| [u.name,u.id]},{:prompt=>"-select-"}%>
+              <%#= select "favorites", "5", @groups.map {|u| [u.name,u.id]},{:prompt=>"-select-"}%>
+            </div>
+          </div>
+          

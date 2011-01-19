@@ -1,0 +1,60 @@
+<%@group_id=params[:id]%>
+  <div class="signup1">Create Group</div>
+  <div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+  <div class="clear"><!-- --></div>
+  <!-- thumbnail image container div start here-->
+  <div class="group_bg">
+   <%=render :partial=>"group_activities/status_update"%>
+    <br />
+  </div>
+  <!-- thumbnail image container div ends here-->
+  <!-- create group container div staryt here-->
+   <%=render :partial=>"group_header"%>
+  <div class="invite_people_left">
+    <div class="invite_header">Please invite people to join your group
+    <span class="successful_msg1" style=""><%=flash[:notice]%></span> </div>
+    <div id="contacts">
+    <%@id=@group_id%>
+      <%=render :partial=>"from_anywhere",:object=>@id%>
+    </div>
+  </div>
+    <div class="invite_people_right">
+      <div class="invite_header">Invited members</div>
+      <div class="recipient_form">
+       <%form_for :invitation,  :url=>final_contacts_group_path(:id=>@id),:html=>{:method=>:post} do%>
+      <div class="inne_label">
+            <span class="star">*</span>
+            <a class="tooltip" >Invitation Message:<span>Your personal message to the recipient's Email</span></a>
+      </div>
+      <%=text_area_tag "personal_message",@message,:class=>"recipient_text_area2",:id=>"message"%>
+      <div class="inne_label">
+        <span class="star">*</span>
+        <a class="tooltip" >Invited Members:<span>Your contact list to join your group (you can review your invitations before you're done.)</span></a>
+      </div>
+      <div id="inv_mem">
+      <%= render :partial=>"invitees_list"%>
+      </div>
+    </div>
+    <div class="button_container" style="margin-top: 30px;">
+      <%= link_to image_tag("previous.jpg", :class=>"previous",:id=>"Previous"),edit_objectives_group_path(:id =>@id),{:id=>'Previous'} %>
+          <%=image_submit_tag "next.jpg",:class=>"previous",:id=>"Next" %>
+        <%= link_to image_tag("skip1.jpg", :class=>"previous",:id=>"Skip"), :action => 'review_group', :id =>@id%>
+    <%end%> 
+        </div>
+  </div>
+  <div class="new">
+
+</div>
+<script>
+    function findcontacts(){
+    $("findgmail").href="/groups/display_contacts?width=500&height=500&username="+$("username").value+"&pwd="+$("gpassword").value+"&id=<%=@id%>";
+    new Control.Modal($("findgmail"), {className:'modal_container'});
+    window.status='';
+    }
+ function searchcontacts(){
+    
+    $("goalcontacts").href="/groups/display_contacts?width=500&height=500&goal_flo_email="+$("goal_flo_email").value+"&user_name="+$("user_name").value+"&id=<%=@id%>";
+    new Control.Modal($("goalcontacts"), {className:'modal_container'});
+    window.status='';
+    }
+    </script>

@@ -1,0 +1,128 @@
+<%= javascript_include_tag :defaults %>
+<%=calendar_date_select_includes "red" %>
+<%=stylesheet_link_tag "invite_mem"%>
+<%=stylesheet_link_tag "default.css"%>
+<%= javascript_include_tag "prototype.js" %>
+<div id="container">
+  <div class="signup1">Create Group </div>
+  <div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+  <div class="clear"><!-- --></div>
+  <!-- thumbnail image container div start here-->
+  <%@id=params[:id]%>
+  <div class="group_bg">
+    <%=render :partial=>"group_activities/status_update"%>
+    <br />
+  </div>
+  <!-- thumbnail image container div ends here-->
+  <!-- create group container div staryt here-->
+ <%=render :partial=>"group_header"%>
+  <div class="invite_people_left">
+    <div class="invite_header">Congratulations! You've set up your group! Please review below.</div>
+<%if flash[:notice] %>
+      <div style= "color:green;font-weight:bold;font-size:12px"><%= flash[:notice] %></div>
+    <%end%>
+    
+    
+    <div class="recipient_form">
+      <div class="inne_label">Goal:</div>
+      <div class="new_group"><%=h wrap_text(@group.description,44)%></div>
+      <div class="clear"><!-- --></div>
+      <div class="inne_label">Due:</div>
+      <div class="new_group">
+        <% if @group.due_date %>
+          <%=@group.due_date.strftime("%m/%d/%Y")%>
+        <%else%>
+          No 
+        <%end%>
+      </div>
+      <div class="new_group">
+        <%=link_to "Edit", review_edit_group_group_path(:id=>@id),:html=>{:method=>:get}%>
+      </div>
+      <div class="clear"></div>
+      <%count=1%>
+      <% unless @objectives.nil? || @objectives.empty?%>
+        <% for objective in @objectives %>
+        <div class="clear"><!-- --></div>
+          <div class="inne_label" style="margin-top: 30px;">Objective<%=count%>:</div>
+          <div class="new_group" style="margin-top: 30px;"><%=h wrap_text(objective.title,44)%></div>
+          <div class="clear"></div>
+          <div class="inne_label">Description:</div>
+          <div class="new_group"><%=h wrap_text(objective.description,44)%></div>
+          <div class="clear"><!-- --></div>
+          <div class="inne_label">Due Date:</div>
+          <div class="new_group">
+             <% if objective.due_date %>
+                <%=objective.due_date.strftime("%m/%d/%Y")%>
+              <%else%>
+                No 
+              <%end%>
+              <%count+=1%>
+          </div>
+        <%end%>
+      <%else%>
+      <div class="inne_label">Objective:</div>
+      <div class="clear"></div>
+      <div class="inne_label" style="border: medium none ; visibility: hidden;">Invited:</div>
+      <%end%>
+      
+
+      <div class="new_group">
+        <%=link_to "Edit", review_edit_objectives_group_path(:id=>@id),:html=>{:method=>:get}%>
+      </div>
+    </div>
+    </div>
+    <div class="invite_people_right">
+      <div class="invite_header">Invited members</div>
+        <div class="recipient_form">
+          <div class="inne_label">Invitation Message:</div>
+          <div class="new_group_right"><%=h wrap_text(@message,44)%></div>
+          <div class="clear"><!-- --></div>
+          <div class="inne_label">Invited:</div>
+          <div class="new_group_right">
+            <% if !@invitations.nil? %>
+              <%for invitation in @invitations %>
+                <div class="new_group_right"><%=invitation.email%></div>
+              <%end%>
+            <%end%>
+             <div class="inne_label" style="border: medium none ; visibility: hidden;">Invited:</div>
+          <div class="new_group_right">
+            <%= link_to "Edit", invite_members_path(:id=>@id) %>
+          </div>
+          </div>
+        </div>
+         <%form_for :invitation, :url=>finish_group_path(:id=>@id), :html=>{:method=>:get}  do |f| %> 
+         <div class="button_container" style="margin-top: 250px;">
+            <%=image_submit_tag "skip1.jpg" ,:class=>"skip1"%>
+        </div>
+        <%end%>
+        <%form_for :invitation, :url=>finish_group_path(:id=>@id), :html=>{:method=>:get}  do |f| %> 
+         <div class="button_container" style="margin-top: 250px;">
+            <%=image_submit_tag "next.jpg" ,:class=>"next"%>
+          </div>
+          <%end%>
+          <div class="button_container" style="margin-top: 250px;">
+          <%=link_to image_tag("previous.jpg", :class=>"previous"), :action=>'invite_members', :id=>@id%>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  

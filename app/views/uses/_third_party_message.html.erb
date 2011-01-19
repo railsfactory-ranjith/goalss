@@ -1,0 +1,49 @@
+<!-- my asctivity left container div start here-->
+<div class="my_activity_left_container">
+
+
+
+<% for post1 in @posts			
+	color= 'ffffcf';
+	if post1.group
+	ug = GroupUser.find_by_group_id_and_user_id(post1.group.id,params[:id]) 
+
+	if !ug.nil?
+				color = ug.color_code if !ug.color_code.nil?
+	end
+	
+	end
+
+
+%>
+
+<!-- my activity left inner container div start here-->
+<div class="my_acticity_inner_container" style="border:1px solid #<%=color%>; margin-top:2px;">
+<div class="my_activity_left_icon" ><img src="/images/comment_icon.jpg" alt="alert" /></div>
+
+<!-- my activity div start here-->
+<div class="my_activity_right" style="background:#<%=color%>; border-left:1px solid #e9d4c3; ">
+<div class="left_squaer_img"><img src="/images/img_left.jpg" alt="img" /></div>
+<div class="sub_content"><img src="/images/icon.png" alt="icon" />
+<a href="#"><%=post1.group.name if post1.group%></a><a href="#" style="text-decoration:none;"> ></a><a href="#"> <%=@user.user_name%>:</a> <%=post1.content%><a href="#" style="color:#ff7800">More</a>
+</div>
+<div class="hours1" >5 Hours</div>
+<div class="comment"><a href="#">Comment</a></div>
+
+</div>
+<!-- my activity div ends here-->
+</div>
+<!-- my activity left inner container div ends here-->
+
+<%end%>
+<%if @group.nil?%>
+
+ <%=link_to_remote image_tag("/images/older_post.jpg", :alt=>"older") ,:url => thirdparty_activity_user_path(:limit =>@limit),:method=>'get',:update => "my_activity_left_container"%>
+ <%else%>
+
+ <%=link_to_remote image_tag("/images/older_post.jpg", :alt=>"older") ,:url => thirdparty_activity_user_path(:limit =>@limit,:group_id=>@group.id),:method=>'get',:update => "my_activity_left_container"%>
+ 
+ <%end%>
+
+</div>
+<!-- my asctivity left container div ends here-->

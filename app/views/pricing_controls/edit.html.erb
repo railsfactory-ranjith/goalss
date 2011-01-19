@@ -1,0 +1,177 @@
+<%= javascript_include_tag "prototype" %> 
+
+<%=calendar_date_select_includes "gfblue" %>
+<div class="signup1">Admin<span style="color:green; font:12px; margin-left:250px;"><%= flash[:notice]%></span></div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div class="clear"><!-- --></div>
+
+<%if flash.now[:error]%> <div class="login_error"><%=flash[:error] %></div><%end%>
+<div class="clear"><!-- --></div>
+<% form_tag pricing_control_path(current_admin), :method => :put do %> 
+<%# form_for  @plans, :url =>pricing_control_path(current_admin),:html => {:method => :put}do |f|%>
+    <div class="invite_people_left">
+      <div class="invite_header">Limits on Free version</div><br>
+      <div class="recipient_form">
+        <div class="inne_label_account">Maximum number of group members: </div>
+        <%= text_field_tag "tier[max_users_in_group]",@plans[0].max_users_in_group,:maxlength=>4, :onkeyup=>"return ismaxlength(this)",:class=>"inner_field"%>
+         <div class="clear"><!-- --></div>
+        <div class="inne_label_account">Number of Groups: </div>
+        <%= text_field_tag "tier[max_group]",@plans[0].max_group, :class=>"inner_field"%>
+        <div class="clear"><!-- --></div>
+        <div class="inne_label_account">Days of free use: </div>
+        <%= text_field_tag "tier[day]",@plans[0].day, :class=>"inner_field"%>
+        <div class="clear"><!-- --></div>
+        <div class="invite_header">Price Tiers</div>
+        <div class="in_label_account" style="width:463px">Denotes the various parameters for price tiers.This describes what the tier can do</div>
+        <div class="clear"><!-- --></div>
+        <div class="pricing_label">Tier 1 </div>
+         <div class="clear"><!-- --></div>
+        <div class="error_msg"><%=flash.now["number#{1}"]%></div><div class="error_msg" style="color:green;"><%=flash.now["valid#{1}"]%></div>
+        <div class="clear"><!-- --></div>
+        <div class="in_label_account"><%= check_box_tag 'tier1[is_active]',value="1",@plans[1].is_active%>Active</div>
+        <div class="clear"><!-- --></div>
+        <div class="inne_label_account">Cost per Month: </div>
+        <%= text_field_tag "tier1[amount]",@plans[1].amount, :class=>"inner_field"%>
+        <div class="error_msg"><%=flash.now["amount#{1}"]%></div>
+        <div class="clear"><!-- --></div>
+        <div class="inne_label_account">Number of users in a group: </div>
+        <%= text_field_tag "tier1[max_users_in_group]",@plans[1].max_users_in_group, :class=>"inner_field"%>
+         <div class="error_msg"><%=flash.now["max_users_in_group#{1}"]%></div>
+        <div class="clear"><!-- --></div>
+        <div class="inne_label_account">Number of Groups: </div>
+        <%= text_field_tag "tier1[max_group]",@plans[1].max_group, :class=>"inner_field"%>
+         <div class="error_msg"><%=flash.now["max_group#{1}"]%></div>
+        <div class="clear"><!-- --></div>
+        <div class="pricing_label">Tier 2 </div>
+        <div class="clear"><!-- --></div>
+        <div class="error_msg"><%=flash.now["number#{2}"]%></div>
+        <div class="clear"><!-- --></div>
+        <div class="in_label_account"><%= check_box_tag 'tier2[is_active]',value="1",@plans[2].is_active%>Active</div>
+        <div class="clear"><!-- --></div>
+        <div class="inne_label_account">Cost per Month: </div>
+        <%= text_field_tag "tier2[amount]",@plans[2].amount, :class=>"inner_field"%>
+         <div class="error_msg"><%=flash.now["amount#{2}"]%></div>
+        <div class="clear"><!-- --></div>
+        <div class="inne_label_account">Number of users in a group: </div>
+        <%= text_field_tag "tier2[max_users_in_group]",@plans[2].max_users_in_group, :class=>"inner_field"%>
+        <div class="error_msg"><%=flash.now["max_users_in_group#{2}"]%></div>
+        <div class="clear"><!-- --></div>
+        <div class="inne_label_account">Number of Groups</div>
+        <%= text_field_tag "tier2[max_group]",@plans[2].max_group , :class=>"inner_field" %>
+        <div class="error_msg"><%=flash.now["max_group#{2}"]%></div>
+         <br>
+        <div class="clear"><!-- --></div>
+        <div class="pricing_label">Tier 3  </div>
+          <div class="clear"><!-- --></div>
+          <div class="error_msg"><%=flash.now["number#{3}"]%></div>
+          <div class="error_msg" style="color:green;"><%=flash.now["valid#{1}"]%></div>
+            <div class="clear"><!-- --></div>
+        <div class="in_label_account"><%= check_box_tag 'tier3[is_active]',value="1",@plans[3].is_active%>Active</div>
+        <div class="clear"><!-- --></div>
+        <div class="inne_label_account">Cost per Month</div>
+        <%= text_field_tag "tier3[amount]",@plans[3].amount, :class=>"inner_field" %>
+         <div class="error_msg"><%=flash.now["amount#{3}"]%></div>
+        <br>
+        <div class="clear"><!-- --></div>
+        <div class="inne_label_account">Number of users in a group</div>
+        <%= text_field_tag "tier3[max_users_in_group]",@plans[3].max_users_in_group, :class=>"inner_field" %>
+        <div class="error_msg"><%=flash.now["max_users_in_group#{3}"]%></div><br>
+        <div class="clear"><!-- --></div>
+        <div class="inne_label_account">Number of Groups</div>
+        <%= text_field_tag "tier3[max_group]",@plans[3].max_group, :class=>"inner_field" %>
+        <div class="error_msg"><%=flash.now["max_group#{3}"]%></div>
+        <br>
+        <div class="clear"><!-- --></div>
+        <div style="float:right;margin:10px 135px 0 0;" name="update"  onclick="return check_pricing();">
+ <%= image_submit_tag "update.jpg", :id=>"update"%>
+       </div>
+        </div></div>
+  <div class="invite_people_right">
+     <div class="invite_header">Number of hours before group is suspended after credit card is declined</div>
+     <div class="clear"><!-- --></div> <br>
+      <%= text_field_tag "tier[hours]",@plans[0].hours,:class=>"inner_field"%>
+      <div class="error_msg"><%=flash.now[:hours]%></div>
+      <div class="clear"><!-- --></div>
+  </div>
+
+<div class="clear"><!-- --></div>
+<% end %>
+
+<div class="invite_people_left">
+
+  <%# form_for :promotion do |f|  %>
+  <font color="red"><%#= f.error_messages %></font>
+  <font color="red">  </font>
+  <%if !@coupons.nil? && !@coupons.empty?%>
+     <div id="new_promotion">
+      <% for @count in 1..@coupons.size %>
+        <%=render :partial=>"promotion"%>    
+      <%end%>
+    </div>
+  <%else%>
+    <div id="new_promotion">
+      <div class="pricing_label">Promotion-<%= @count%></div>
+      <% form_for :promotion, :url => {:controller=>'pricing_controls', :action => 'coupon_update'} do |f| %>
+              <div class="in_label_account"><%= check_box_tag 'promotion[is_active]',1 %>Active</div>
+            <div class="clear"><!-- --></div>
+     <%#= check_box_tag "promotion[is_active]",value="",""%>
+     <div class="inne_label_account">Code: </div>
+      <%=text_field_tag "promotion[code]","",:class=>"inner_field" %>
+      <div class="clear"><!-- -->
+      </div>
+      <div class="inne_label_account">Coupon_type:</div>
+      <select name="promotion[coupon_type]" class="inner_field" >
+<option value ="">-select-</option>
+<option value="1">%</option>
+<option value="2">$</option>
+</select>
+      <%#=text_field_tag "promotion[coupon_type]","",:class=>"inner_field" %>
+      <div class="clear"><!-- -->
+      </div>
+      <div class="inne_label_account">Parameters: </div>
+      <%=text_field_tag "promotion[value]","",:class=>"inner_field" %>
+      <div class="clear"><!-- -->
+      </div>
+      <div class="inne_label_account">Active Form: </div>
+       <%= f.calendar_date_select "active_from",:value=>"",:class=>"inner_field",:popup => :force, :valid_date_check => "date >= (new Date()).stripTime()"%> 
+      <%#= f.calendar_date_select "active_to",:time=>false,:value=>"",:class=>"inner_field",:popup => :force %>
+      <%#=text_field_tag "promotion[active_from]","",:class=>"inner_field"%>
+      <div class="clear"><!-- -->
+      </div>
+      <div class="inne_label_account">Active To: </div>
+      <%= f.calendar_date_select "active_to",:value=>"",:class=>"inner_field",:popup => :force, :valid_date_check => "date >= (new Date()).stripTime()"%> 
+     <%#= f.calendar_date_select "active_to",:time=>false,:value=>"",:popup => :force ,:class=>"inner_field"%>
+      <%#=text_field_tag "promotion[active_to]" ,"",:class=>"inner_field"%>
+      <div class="clear"><!-- -->
+      </div>
+      <input type="hidden" name="id" value="1">
+      <%#=f.submit "pdate_promo"%><div style="float:right;margin:10px 135px 0 0;" id="update_promo">
+       <%= image_submit_tag "update.jpg",:id=>"update_promo"%>
+     </div><br><br>
+      <div class="clear"><!-- -->
+      </div>
+      <%end%>
+    </div>
+  <%end%>
+<div id="promotion_link">
+  <%=render :partial=>"promotion_link"%>
+</div>
+
+
+ <br><br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

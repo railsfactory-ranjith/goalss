@@ -1,0 +1,32 @@
+<html>
+  <body>
+
+    <SCRIPT TYPE="text/javascript">
+
+function popup(mylink, windowname)
+{
+if (! window.focus)return true;
+var href;
+if (typeof(mylink) == 'string')
+   href=mylink;
+else
+   href=mylink.href;
+my_window = window.open(href, windowname, 'width=600,height=350,scrollbars=yes,titlebar=no');
+return false;
+}
+    </SCRIPT>
+    <h1 align="center">Welcome to Facebook Wall Post Demo !!!</h1>
+    <table width="80%">
+      <td width="40%">
+        <%if @session%>
+          <%=@session%>
+        <%end%>
+      </td>
+      <td width="40%">
+        <div>
+          <p>To post messages on your facebook wall <A HREF="<%=getstart_path%>" onClick="return popup(this, 'notes')">click here</A></p>
+        </div>
+      </td>
+    </table>
+  </body>
+</html>

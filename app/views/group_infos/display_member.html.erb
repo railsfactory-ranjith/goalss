@@ -1,0 +1,31 @@
+
+<div style="background-color:#FFFFFF; border:1px solid #CDD3D8; float:left; width:604px;">
+<div class="lightbox_header">Add responsible persons</div>
+<div class="light_box_close"><a onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="clear"><!-- --></div>
+<%form_for "#", :url=>"#",  :html=>{:method=>:post,:id=>"info_member"}  do |f|%>
+<div class="light_box_check_container">
+<%@members.each do |member|%>
+<%#unless member.nil?%>
+
+<div class="checkbox-info-wrap" style="width: 266px;">
+<input type="checkbox" class="light_box_check" value="<%=member.id%>" name="<%=full_name(member)%>" id="<%=member.id%>" >
+<div class="check_letter" style="width:240px;"><%=truncate(full_name(member),30)%></div>
+</div>
+
+<%#end%>
+<%end%>
+<input type="hidden" value="" id="status_update1" name="status" />
+</div>
+<div class="clear"><!-- --></div>
+<div class="button_share_container">
+<!--<button class="cancel_share"><img alt="cancel" src="/images/share_cancel.jpg"></button>
+<button><img alt="share" src="/images/share.jpg"></button>-->
+<img src="/images/share_cancel.jpg" onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" />
+<%#= image_submit_tag "/images/share.jpg",:id=>"share", :onclick=>"return addOwner('#{params[:count]}');" %>
+<img src="/images/select1.png" onclick="return addOwner('<%=params[:count]%>');" />
+<a href="#"  onclick="select_all_in_form('info_member');" style="color:#0260B8;font-size:11px;">Select All</a><div id="check_boxx_error"></div>
+ </div>
+
+<%end%>
+</div>

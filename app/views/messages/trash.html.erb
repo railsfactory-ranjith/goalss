@@ -1,0 +1,84 @@
+<div class="signup1"><div id="trash_count">Messages in Storage (<%=@trash.count%>)<%unless @trash.count.zero?%><%=link_to_remote "Delete All",:url=>delete_all_trash_messages_path,:confirm=>"Are you Sure?"%><%end%></div></div>
+<div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"/></div>
+<div class="group_bg">
+<%=render :partial=>"group_activities/status_update"%>
+</div>
+<div class="create_group_form">
+  <div class="my_activity_left_container">
+    <div class="nav-messages">
+      <ul>
+        <li><a href="javascript:;" onclick="select_all_in_form('trashed_msgs');" >Select All</a></li>
+        <li><a href="javascript:;" onclick="deselect_all_in_form('trashed_msgs');">Deselect All</a></li>
+        <li><a href="javascript:;" onclick="undelete_messages('trashed_msgs');">Move to original folder</a></li>
+      </ul>
+      <div id="unchecked_error" class="error_msg" style="margin-left:220px;"></div>
+    </div>
+    <%form_tag "#",{:id=>"trashed_msgs"} do%>
+      <div id="trashed_messages123"><%=render :partial=>"trashed_messages",:object=>@trash%></div>
+    <%end%>
+      <div class="digg_pagination" id="pagin"><%= will_paginate @trash%></div>
+  </div>
+  <div class="my_activity_right_container"> 
+    <div id="up_obj">
+      <%=render :partial=>"upcoming_objectives"%>
+      </div>
+      <div class="gol_flow_container">
+      <ul>
+        <li>&copy; GroupHopper 2010</li>
+        <li><a href="/support">Support </a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </div>
+    </div>
+    
+  </div>
+</div>
+  </div>
+    
+  </div>
+</div>
+<div class="clear"></div>
+<div class="f-b-m-wrap">
+		<div  id="trash_footer" class="footer-bottom-menu">
+
+  <%=render :partial=>"message_footer"%>
+		 </div>  
+	</div><!--f-b-m-wrap-->
+	<div class="copy-wrap">	
+		  <div class="copy">
+		 &copy; GroupHopper 2010  <a href="<%= support_path%>">Support</a><a href="<%= privacy_path%>">Privacy</a>
+		  </div>    
+	</div><!--copy-wrap-->	  
+</div>
+
+
+<script>
+function undelete_messages(t)
+{
+  var n=$(t).elements.length;
+  var i;
+  var k=false;
+  var message_id="";
+  for(i=0;i<n;i++)
+  {
+    if ($(t).elements[i].type=="checkbox")
+    {
+      if ($(t).elements[i].checked==true)
+      { 
+        k=true;
+        message_id=message_id+$(t).elements[i].value+",";
+      }
+    }
+  }
+  if(k==true)
+    {
+      $("unchecked_error").innerHTML="";
+      new Ajax.Request('<%=undelete_messages_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'message_id=' + message_id});
+    }
+  else
+    {$("unchecked_error").innerHTML="Please select atleast a message";}
+}
+
+
+
+</script>

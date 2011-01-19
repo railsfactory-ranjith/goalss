@@ -1,0 +1,40 @@
+<%= javascript_include_tag "prototype.js" %>
+
+
+
+<div class="lightbox">
+<div class="lightbox_header">Attachment(s) </div>
+<div class="light_box_close"><a href="#" onclick='Control.Modal.close();return false;'><img src="/images/close_light_box.jpg" alt="close" /></a></div>
+<div class="clear"><!-- --></div>
+<% @count=1%>
+ <% gid=params[:gid]? params[:gid] :0%>
+ <% form_tag upload_file_activities_path(:gid=>gid,:control=>params[:control]),{:multipart=>:true,:name=>'room_logo', :target=>"upload_frame", :id=>"upload_form", :method=>'post'} do %>
+ <%#remote_form_for(:attachment, :url => { :action => "upload_file" ,:controller => :users,:gid=>params[:gid]}, :html => { :multipart => true }) do |form| %>
+<%# form_for(:attachment, :url => { :action => "upload_file" ,:controller => :users,:gid=>params[:gid]}, :html => { :multipart => true }) do |form| %>
+<!--<div class="attach-form-wrap">
+    	<input type="file"  size="45" />
+        <a href="#">Remove</a>
+
+  </div>-->
+<div id="new_upload">  
+<%=render :partial=>"group_activities/upload_new"%>    
+</div> 
+<div id="attachment">
+<%=render :partial=>"group_activities/attachment"%>
+</div>
+
+
+<div class="clear"><!-- --></div>
+<div class="button_share_container">
+<img src="/images/share_cancel.jpg" onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" />
+<%= image_submit_tag("ok.png",:class=>"cancel_share") %>
+
+</div>
+<%end%>
+</div>
+
+
+
+<script>
+$("status_value").value=$("status").value;
+</script>

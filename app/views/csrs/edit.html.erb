@@ -1,0 +1,56 @@
+<%= javascript_include_tag "prototype.js" %>
+<div class="form_left">
+  <div class="signup1">Admin<span style="color:green; font:12px; margin-left:250px;">
+  <%= flash[:notice]%></span> </div>
+   <div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"></div>
+  <%if flash[:error]%><div class="login_error"><%= flash[:error]%></div><%end%>
+ 
+  <div class="clear"><!-- --></div>
+  <div class="clear"><!-- --></div>
+  <div class="clear"><!-- --></div>
+<div class="inne_right_account">   
+  <%# form_for :csr, :url => {:controller=>'csrs', :action => 'update'} do |f| %>
+  <%form_for "csr", :url=>csr_path,  :html=>{:method=>:put}  do |f|%>
+  <div class="inne_label_account"><span class="star">*</span>First Name:</div>
+    <%= f.text_field :firstname , :class=>"inner_field",:maxlength=>40, :onkeyup=>"return ismaxlength(this)"%></p> 		
+    <div class="error_msg"><%= error_message_on "csr", "firstname" %></div>
+    <div class="clear"><!-- --></div>		
+    <div class="inne_label_account"><span class="star">*</span>Last Name:</div>
+    <%= f.text_field :lastname , :class=>"inner_field",:maxlength=>40, :onkeyup=>"return ismaxlength(this)"%></p>
+    <div class="error_msg"><%= error_message_on "csr", "lastname" %></div>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label_account"><span class="star">*</span>Email Address</div> 
+    <%= f.text_field :email, :class=>"inner_field", :maxlength=>100, :onkeyup=>"return ismaxlength(this)" %>
+    <div class="error_msg"><%= error_message_on "csr", "email" %></div>
+    <input type="hidden" name="id" value="<%= @csr.id%>">
+    <button class="log_btn" name="update" ><img alt="log" src="/images/update1.jpg" id="update" /></button><br>
+    <div class="clear"><!-- --></div>
+  <% end %>
+  <br>
+  <div class="clear"><!-- --></div>	
+  <% form_for :csr, :url => {:controller=>'admins', :action => 'change_password'} do |f| %>
+   <div class="inne_label_account"><span class="star" style="visibility: hidden;">*</span>Password</div>  
+   <%= password_field_tag 'password','password' ,:class=>"inner_field", :maxlength=>0, :onkeyup=>"return ismaxlength(this)" %>
+  <div class="error"></div><div class="clear"><!-- --></div>
+  <input type="hidden" name="id" value="<%= @csr.id%>">
+  <div class="login_btn"><a id="caller" href="/change_password/<%= @csr.id %>">
+  <img alt="log" src="/images/change-pwd.jpg"/></a>
+  <script>new Control.Modal($('caller'), {className:'modal_container',width: 0,height: 0});</script></div>
+  <div class="error"></div><div class="clear"><!-- --></div><br/>
+<% end %> 
+<div class="clear"><!-- --></div>
+<% form_for :csr, :url => {:controller=>'csrs', :action => 'change_status',:id=>@csr.id} do |f| %>
+  <div class="inne_label_account">
+  <div class="clear"><!-- --></div><span class="star" style="visibility: hidden;">*</span>Current Status</div>
+  <%= f.text_field :state ,:class=>:inner_field%></p> <br>		
+  <div class="error"></div><div class="clear"><!-- --></div><br>
+  <div class="clear"><!-- --></div>
+  <div class="clear"><!-- --></div>
+  <button class="log_btn" name="Re-Activate" onclick="return confirm('Are you sure to active this?')">
+  <img alt="log" src="/images/reactivate_acr.jpg"/></button>
+  <button class="cancel_new" name="suspend" onclick="return confirm('Are you sure to suspend this?')">
+  <img alt="log" src="/images/suspend.jpg"/></button>
+  <!--<div class="inne_label attach_file_object"><%#= link_to "CSR Activity Log"%></div>-->
+<% end %> 
+</div>
+</div>

@@ -1,0 +1,35 @@
+<%=javascript_include_tag "prototype"%>
+
+
+<div class="invite_menu">
+  <ul>
+    <li><%=link_to_remote "From Anywhere",:update => "contacts",:url => { :action => "invite_from_anywhere",:id=>params[:id]} %></li>
+    <li><%=link_to_remote "FaceBook",:update => "contacts",:url => { :action => "fbook",:id=>params[:id]} %></li>
+    <li><%=link_to_remote "Gmail",:update => "contacts",:url => { :action => "gmail",:id=>params[:id]} %></li>
+    <li class="current7"><%#=link_to_remote "GroupHopper",:update => "contacts",:url => { :action => "invite_from_grouphopper",:id=>params[:id]} %></li>
+  </ul>
+</div>
+
+<div class="recipient_form">
+  <form onsubmit="this.href='/groups/display_contacts?width=500&height=500&username='+escape(document.forms[0].username.value)+'&pwd='+document.forms[0].password.value+'&id=<%=params[:id]%>';return false" >
+      <div class="inne_label">
+      Email:
+    </div>
+    <%=text_field_tag :goal_flo_email ,nil,:class=>"recipient_text_field"%>
+    <div class="inne_label">
+      Name:
+    </div>
+    <%=text_field_tag :user_name, nil,:class=>"recipient_text_field"%>
+    <div class="inne_label" style="border: medium none ;">
+      <span class="star" style="visibility: hidden;">*</span>
+    </div>
+    <div class="inne_label" style="border: medium none ;">
+        <span class="star" style="visibility: hidden;">*</span>
+      </div>
+      
+      <a href="#" id="goalcontacts"><img  alt="find" style="margin:9px 3px 8px 59px;" src="/images/find_people.jpg" onclick="searchcontacts();" /></div>
+ 
+    <div class="clear"></div>
+
+
+

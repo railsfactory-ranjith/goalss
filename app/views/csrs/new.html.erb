@@ -1,0 +1,39 @@
+<div class="signup1">CSR Information</div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div class="clear"><!-- --></div>
+
+<!--<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>-->
+<% form_for :csr, :url => {:controller=>'csrs', :action => 'create'} do |f| %>
+<div style="float:left;
+margin-top:18px;
+width:690px;">
+<div class="clear"><!-- --></div>
+<span class="star">*</span><div class="inne_label">First Name </div>
+<%= text_field :csr,:firstname, :maxlength=>40 ,:class=>"inner_field",:onkeyup=>"return ismaxlength(this)" %>
+<div class="error_msg"><%= error_message_on "csr", "firstname" %></div>
+<div class="clear"><!-- --></div>
+<div class="clear"><!-- --></div>
+<span class="star">*</span><div class="inne_label">Last Name </div>
+<%= text_field :csr,:lastname, :class=>"inner_field",:maxlength=>40, :onkeyup=>"return ismaxlength(this)"%>
+<div class="error_msg"><%= error_message_on "csr", "lastname" %></div>
+<div class="clear"><!-- --></div>
+<div class="clear"><!-- --></div>
+<span class="star">*</span><div class="inne_label">Email Address </div>
+<%= text_field :csr,:email, :class=>"inner_field", :maxlength=>100, :onkeyup=>"return ismaxlength(this)"%>
+<div class="error_msg"><%= error_message_on "csr", "email" %></div>
+<div class="clear"><!-- --></div>
+<div class="clear"><!-- --></div>
+<span class="star">*</span><div class="inne_label">Password </div>
+<%= password_field :csr,:password, :class=>"inner_field",:maxlength=>40, :onkeyup=>"return ismaxlength(this)"%>
+<div class="error_msg"><%= error_message_on "csr", "password" %></div>
+<div class="clear"><!-- --></div>
+<div class="clear"><!-- --></div>
+<span class="star">*</span><div class="inne_label">Password Confirmation </div>
+<%= password_field :csr,:password_confirmation, :class=>"inner_field",:maxlength=>40, :onkeyup=>"return ismaxlength(this)"%>
+<div class="error_msg"><%= error_message_on "csr", "password_confirmation" %></div>
+<div class="clear"><!-- --></div>
+<div class="clear"><!-- --></div>
+<%#= submit_tag 'ADD CSR' %>
+<div style="float:right;margin:10px 335px 0 0;" name="Add csr" id="ADD CSR"><%= image_submit_tag "add_csr.jpg",:id=>"ADD CSR"%></div>
+<% end %> 
+<div class="clear"><!-- --></div></div>

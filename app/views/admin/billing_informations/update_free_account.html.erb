@@ -1,0 +1,74 @@
+<%= javascript_include_tag 'prototype.js', 'lightbox.js'%>
+<%= stylesheet_link_tag 'lightbox'%>
+<%=stylesheet_link_tag 'pagination' %>
+<!--<div class="orange_color">GroupHopper Development going well. Site will be down on 23rd Feb 10AM-11AM PST</div>-->
+<div class="signup1">My Account<span style="color:green; font:12px; margin-left:250px;">
+<%= flash[:notice]%></span> <span style="color:red; font:12px; margin-left:250px;">
+<%= flash[:error]%></span> </div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div class="clear"><!-- --></div>
+<!-- left sign div start here-->
+<div class="left_sign">
+<div class="clear"><!-- --></div>
+<div class="inform_account"> Information</div>
+<div class="clear"><!-- --></div>
+<div class="inne_right_myaccount">
+ <% form_for :g, :url => {:controller=>'admin/billing_informations', :action => 'update_free_account',:id=>@group.id} do |f| %>
+<div class="<%= @g.user_profile.errors["first_name"] ? 'inne_label_account_red' : 'inne_label_account'  %>">
+<span class="star">*</span>First Name:</div>
+<%= text_field :user_profile,:first_name,:value=>"#{@g.user_profile.first_name}",:class=>"inner_field"%>
+<div class="clear"><!-- --></div>
+<div class="<%= @g.user_profile.errors["last_name"] ? 'inne_label_account_red' : 'inne_label_account'  %>">
+<span class="star">*</span>Last Name:  </div>
+<%= text_field :user_profile,:last_name,:value=>"#{@g.user_profile.last_name}",:class=>"inner_field"%>
+<div class="clear"><!-- --></div>
+<div class="inne_label_account">
+<span class="star">*</span>Country: </div>
+<% list_country%>
+<%= select :user_profile,:country,@country, {:selected=>@g.user_profile.country}, :class=>"inner_field" %>
+<%#= select :user_profile, :country, @country,{:prompt=>"-select-"},:class=>"inner_field" %>
+<div class="clear"><!-- --></div>
+<div class="<%= @g.user_profile.errors["state"] ? 'inne_label_account_red' : 'inne_label_account'  %>">
+<span class="star" style="visibility: hidden ! important;"> *</span>State: </div>
+<%= text_field :user_profile,:state,:value=>"#{@g.user_profile.state}",:class=>"inner_field"%>
+<div class="clear"><!-- --></div>
+<div class="clear"><!-- --></div>
+<div class="<%= @g.user_profile.errors["zipcode"] ? 'inne_label_account_red' : 'inne_label_account'  %>">
+<span class="star">*</span>PostalCode: </div>
+<%= text_field :user_profile,:zipcode,:value=>"#{@g.user_profile.zipcode}",:class=>"inner_field"%>
+<div class="clear"><!-- --></div>
+ <button class="update" name="update" type="submit"><img alt="login" src="/images/update.jpg"/></button>
+    <button class="cancel_new" name="cancel" style="margin-right:10px;" type="submit"><img alt="login" src="/images/cancel.jpg"/></button>
+<% end %> 
+</div>
+<div class="clear"><!-- --></div>
+</div>
+<!-- left sign div ends heree-->
+
+<!-- right sign div strat here-->
+<div class="right_sign_account">
+
+<div class="invite_header">CSR Activity Log</div>
+    
+        <div class="new_group_right"><%= link_to "View Log",view_log_group_admin_billing_informations_path(:id=>@group.user_id)%></div>
+<div class="inform_right_account">Current Group</div>
+<div class="inne_right_rightaccount">
+<div class="group_table">
+<div class="clear"><!-- --></div>
+
+<div id="group_lists">
+<%=render :partial=>"group_list"%>
+</div></div>
+<div  class="digg_pagination" >
+<%= will_paginate @grous, :container => false %>
+</div>
+</div>
+</div>
+<div class="clear"><!-- --></div>
+<!-- right sign div ends here-->
+
+
+
+
+
+

@@ -1,0 +1,21 @@
+<div class="table_header">
+<div class="groupname">
+<%= groups_link_helper("sort", "name", {:controller=>'admin/billing_informations', :action => "group_list",:id=>@group.id,:page=>params[:page]}) %>
+Group name</div>
+<div class="leader">
+<%= groups_link_helper("afirstname", "first_name", {:controller=>'admin/billing_informations', :action => "group_list",:id=>@group.id})  %>
+Leader</div>
+<div class="started"><%= groups_link_helper("acreated_at", "created_at", {:controller=>'admin/billing_informations', :action => "group_list",:id=>@group.id})  %>Started</div>
+<div class="status"><%= groups_link_helper("ais_active", "is_active", {:controller=>'admin/billing_informations', :action => "group_list",:id=>@group.id})  %>Status</div>
+<div class="edit"></div></div>
+<div id="group_lists">
+<% for  grou in @grous%>
+<div class="groupname_con"><%=link_to truncate(grou.name), :controller => 'admin/groups', :action => 'group_details',:id=>"#{grou.id}" %>
+<%#= grou.name%></div>
+<div class="leader_con"><a ><%= truncate(grou.user.user_profile.first_name+" "+grou.user.user_profile.last_name)%></a></div>
+<div class="started_con"><%= grou.created_at.strftime("%m/%d/%Y") %></div>
+<div class="status_con"><%= grou.is_active ? 'Active' : 'Suspend' %></div>
+<div class="edit"><%= link_to "Edit",:controller=>'admin/groups',:action=>'group_update',:id=>grou.id%></div>
+<div class="clear"><!-- --></div>
+<% end %>
+</div>

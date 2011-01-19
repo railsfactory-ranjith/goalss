@@ -1,0 +1,69 @@
+<div class="signup1">My Account > Change Plan  </div>
+<div class="change_plan_container">
+<div class="change_plan_header">Please select a plan. You can change your plan at anytime.</div>
+<% form_tag :action=>"add_plan" do%>
+<%if @plan[1].is_active%>
+<div class="radio_change_container">
+  <div class="left_radio">
+    <%= radio_button "user","plan","2",:class=>"radio_btn",:checked=>true,:onClick=>"valid(#{@groups.count.to_s},#{@plan[1].max_group.to_s},#{2},#{@groups.count})"%>Plan 1 
+  </div>
+  <div class="radio_right_container">
+  <div class="radio_right"><p><span class="number">$<%=h @plan[1].amount%></span> per month</p>
+  <p>Include <span class="number"><%=h @plan[1].max_users_in_group%></span> users per group</p>
+  <p>Include <span class="number"><%=h @plan[1].max_group%></span> groups</p></div>
+  </div>
+</div>
+<%end%>
+<%if @plan[2].is_active%>
+<div class="radio_change_container">
+  <div class="left_radio">
+  <%= radio_button "user","plan","3",:class=>"radio_btn",:onClick=>"valid(#{@groups.count.to_s},#{@plan[2].max_group.to_s},#{3},#{@groups.count})"%>Plan 2
+  </div>
+   <div class="radio_right_container">
+    <div class="radio_right">
+    <p><span class="number">$<%=h @plan[2].amount%></span> per month</p>
+    <p>Includes <span class="number"><%=h @plan[2].max_users_in_group%></span> users per group</p>
+    <p>Includes <span class="number"><%=h @plan[2].max_group%></span> groups</p></div>
+  </div>
+</div>
+<%end%>
+<%if @plan[3].is_active%>
+<div class="radio_change_container">
+  <div class="left_radio">
+  <%= radio_button "user","plan","4",:class=>"radio_btn",:onClick=>"valid(#{@groups.count.to_s},#{@plan[3].max_group.to_s},#{4},#{@groups.count})"%>Plan 3
+  </div>
+   <div class="radio_right_container">
+    <div class="radio_right">
+      <p><span class="number">$<%=h @plan[3].amount%></span> per month</p>
+      <p>Includes <span class="number"><%=h @plan[3].max_users_in_group%></span> users per group</p>
+      <p>Includes <span class="number"><%=h @plan[3].max_group%></span> groups</p>
+    </div>
+  </div>
+</div>
+<%end%>
+<%if @plan[1].is_active || @plan[2].is_active || @plan[3].is_active%>
+<div class="radio_change_container">
+  <div class="left_radio_container">
+    <div class="left_radio">
+      <input class="radio_btn" type="radio" style="visibility: hidden;" value="" name=""/>
+      Enter Coupon: 
+    </div>
+  </div>
+  <div class="radio_right_container">
+    <div class="radio_right">
+      <%=text_field "user","coupon_code",:class=>"line_txt_box"%><div class="error_msg"><% error_message_on "pricing_plans","coupon_code"%></div>
+    </div><div class="error_msg"><%=flash.now[:error]%></div>
+  </div>
+</div>
+<div class="clear"></div>
+<div class="clear"></div>
+<div class="clear"></div>
+<div class="next_button_container">
+  <%= link_to image_tag("cancel.jpg", :class=>"cancel_ora"),edit_user_path(:id=>current_user.id) %>
+  <%= image_submit_tag "next.jpg" ,:class=>"next_ora"%>
+</div>
+<%else%>
+<p style="font-size:13px;color:red;font-weight:bold;">Sorry,Currently no plans are available</p>
+<%end%>
+<%end%>
+</div>

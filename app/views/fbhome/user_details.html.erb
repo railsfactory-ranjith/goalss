@@ -1,0 +1,12 @@
+<p><font color='green'><%=session[:uname]%>, 
+  Your message posted successfully on the facebook wall. <a href='http://www.facebook.com/home.php' target='_blank'>Check here</a></font></p>
+<br/>
+
+<p>Send another message to<a href="<%=create_test_session_path(:id=>@user_detail.id)%>" > <%=@user_detail.fb_user_name%></a></p>
+<%if @user_detail%>
+  <p>Your Facebook account details:</p>
+  <p>Account name: <font color='red'><%=@user_detail.fb_user_name%></font></p>
+  <p>UID: <font color='red'><%=@user_detail.uid%></font></p>  
+<%end%>
+<br/>
+

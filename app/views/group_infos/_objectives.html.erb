@@ -1,0 +1,16 @@
+<%= javascript_include_tag "prototype" %> 
+ <div class="left_title_label">Objective:</div>
+  <%=text_field_tag "group[objective#{@count}][title]",nil,:class =>"left_taxt_box"%><div class="error_msg"><div id="errors<%=@count%>"></div></div>
+  <div class="clear"></div>
+  <div class="left_title_label">Description:</div>
+  <%=text_area_tag "group[objective#{@count}][description]",nil, :class=>"text_area",:style=>"width:572px;"%>
+  <div class="clear"></div>
+  <div class="left_title_label" style="margin-top:8px;">Due Date:</div>
+   <div class="calender" style="color:#333333;float:left;font-size:12px;"><%= calendar_date_select_tag "group[objective#{@count}][due_date]",nil,:class=>"calendar_field",:popup => :force, :valid_date_check => "date >= (new Date()).stripTime()",:onchange=>"clear_ckbox('group[objective#{@count}][due_date]','accept#{@count}');",:style=>"margin-top:8px;"%>   
+    No Due Date<%= check_box_tag "accept#{@count}",nil,false,:onclick=>"clear_date('group[objective#{@count}][due_date]','accept#{@count}');",:style=>"margin-left:5px;margin-top:7px;"%> </div>
+    <div class="error_msg"><div id="due_date_err<%=@count%>"></div></div>
+  <div class="owners_name"><%=link_to "Responsible:",display_member_group_infos_path(:id=>params[:id],:count=>@count),:id=>"members#{@count}"%> <script>new Control.Modal($("members<%=@count%>"), {className:'modal_container'});</script></div>
+  <div class="owner_list"><div id="owners<%=@count%>"></div><div id="hide<%=@count%>"></div></div>       
+    <div class="clear"></div>
+    <div class="clear"></div>
+</div>

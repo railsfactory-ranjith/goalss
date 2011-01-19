@@ -1,0 +1,21 @@
+<div>
+  <p>
+    <h1>Step 2:</h1>
+    <table>
+      <tr><td><%if flash.now[:error_post_notice]%><font color="red" size="2"><%=flash.now[:error_post_notice]%></font><br/><br/><br/><%end%></td></tr>
+      <tr>
+        <td>a) Welcome <font color='green'><%=session[:uname]%></font>, Your account is not added with our system. <a href="<%=@allow_system%>" target="_blank">click here</a> to allow.</td>
+      </tr>
+      <tr><td>&nbsp;</td></tr>      
+      <tr>
+        <td>
+          <%form_tag create_test_session_path do -%>
+            <INPUT type="submit" name="Next" value="Next"><br/><br/>
+          <%end-%>
+        </td>
+      </tr>
+    </table>
+
+  </p>
+
+</div>

@@ -1,0 +1,48 @@
+
+<%= javascript_include_tag "prototype.js" %>
+<script>
+
+
+</script>
+<div style="background-color:#FFFFFF; border:1px solid #CDD3D8; float:left; width:604px;">
+<div class="lightbox_header">Change Primary/Login email address</div>
+<div class="light_box_close"><a onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="clear"><!-- --></div>
+
+<div class="light_box_check_container">
+<div class="inne_right_account">
+<% form_for "group" ,:url => {:controller=>'paid_users', :action => 'change_email'},
+    :html =>{:multipart=>:true,:method =>:get} do |f| %>
+<div id="mismatch" class="error_msg"></div>
+<div class="clear"><!-- --></div>
+<div id="blank" class="error_msg"></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label"> Enter email address</div>
+<%= text_field :users,:primary_email, :class=>"inner_field" , :maxlength=>50%>
+<div id="email_error" class="error_msg"><div id="blank" class="error_msg"></div></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">Re-enter email address</div>
+<%= text_field :users,:primary_email1, :class=>"inner_field" , :maxlength=>50%>
+<div id="msg_validate" style="color : red " > </div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">Enter current password</div>
+<%= password_field :users,:password,:class=>"inner_field" %>
+<div id="password_error" class="error_msg"></div>
+<div id="msg_validate" style="color : red " > </div>
+<input type="hidden" name="id" value="">
+<div class="clear"><!-- --></div><br><br>
+<button class="login_btn">
+<img src="/images/chenage-email.png"alt="reset" id="Reset My Password"/></button>
+<div class="login_btn" ><a href="#" onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'"><img src="/images/cancel.jpg" style="margin-left: 43px; margin-right: -107px;" alt="reset" id="Cancel"/></a></div>		
+<br>
+<br>
+<br>
+<br>
+<br>
+</div>
+
+<% end %> 
+<div class="clear"><!-- --></div><div class="clear"><!-- --></div><div class="clear"><!-- --></div>
+</div>
+</div>
+</div>

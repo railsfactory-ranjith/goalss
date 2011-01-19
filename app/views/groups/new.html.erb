@@ -1,0 +1,60 @@
+<%if flash[:error] %>
+<%=flash[:error] %>
+<% end %>
+
+<%=calendar_date_select_includes "gfblue" %>
+<%=stylesheet_link_tag "default.css"%>
+
+<div id="container">
+  <div class="signup1">Create Group<font style="color:green;margin-left:150px;"><%=flash[:paid_user]%><%=flash[:file_notice]%></font></div>
+  <div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+  <div class="clear"><!-- --></div>
+  <!-- thumbnail image container div start here-->
+  <div class="group_bg">
+      <%=render :partial=>"group_activities/status_update"%>
+    <br />
+  </div>
+  <!-- thumbnail image container div ends here-->
+  <!-- create group container div staryt here-->
+  <%=render :partial=>"group_header"%>
+  <div class="create_header">Create Group</div>
+     <%form_for :new_group, :url=>groups_path do |f|%>
+    <div class="create_group_form" >
+    <div class="error_msg" style="font-weight:bold;"><%=flash[:plan_warning]%></div>
+    <div class="create_group_container">
+ 
+    <div class="inne_label" style="margin-top: 10px;">
+      <span class="star">*</span>
+      Group Name:
+    </div>
+    <%= text_field_tag "new_group[name]" ,@new_group.name,:class=>:inner_field_create, :maxlength=>"100"%><div class="error_msg"><%= error_message_on "new_group", "name" %></div>
+    <div class="clear"></div>
+    <div class="inne_label">
+      <span class="star">*</span>
+      Goal: 
+    </div>
+  <%=text_area_tag "new_group[description]",@new_group.description, :class=>:text_area, :maxlength=>"4000",:onkeyup=>"return ismaxlength(this)"%><div class="inne_label" style="visibility: hidden;">Due Date:</div><div class="error_msg"><%= error_message_on "new_group", "description" %></div>
+ <div class="clear"></div>
+  <div class="inne_label">
+    <span class="star">*</span>
+    Due Date: 
+  </div>
+     <div class="calender">
+      <%= calendar_date_select_tag "new_group[due_date]",@new_group.due_date,:time=>false,:class=>:calendar_field,:popup => :force, :valid_date_check => "date >= (new Date()).stripTime()",:onchange=>"clear_ckbox('new_group[due_date]','no_due_date');"%> 
+   
+    <%= check_box_tag 'no_due_date',nil,checked=!params[:no_due_date].nil?,:onclick=>"clear_date('new_group[due_date]','no_due_date');"%>
+   
+     <font color="#333333" size="2">No Due Date</font>
+<div class="clear"></div> <div class="inne_label" style="border: medium none ; visibility: hidden;">Due Date:</div>    <div class="error_msg"><%=flash.now[:due_Date_error]%></div>
+   </div>
+  
+  </div>
+  <div class="button_container" style="margin-top:179px;">
+      <%= image_submit_tag "next.jpg",:class=>:next, :id=>"Next"%>
+  </div>
+<%end%>
+ <div class="clear"></div>
+</div>
+ <div class="clear"></div>
+</div>
+

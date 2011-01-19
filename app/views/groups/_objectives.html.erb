@@ -1,0 +1,28 @@
+
+  <div class="inne_label" style="margin-top: 10px;">
+     Objective-<%= @count%>
+  </div>
+  <div class="clear"></div>
+  <div class="inne_label" style="margin-top: 10px;">
+    <span class="star">*</span>
+    Label:
+  </div>
+    <%=text_field_tag "objective[label#{@count}]", params[:objective]? params[:objective]["label#{@count}".to_sym]: "" , :class =>"inner_field_create", :maxlength=>"100",:onkeyup=>"return ismaxlength(this)"%><div class="error_msg"><%=flash.now["objective_error#{@count}"]%></div>
+    <div class="clear"></div>
+  <div class="inne_label" style="margin-top: 10px;">
+    Description:
+  </div>
+
+  <%=text_area_tag "objective[description#{@count}]", params[:objective]? params[:objective]["description#{@count}".to_sym]: "", :class=>"text_area", :maxlength=>"500",:onkeyup=>"return ismaxlength(this)"%><div class="error_msg"><%=flash.now["description_error#{@count}"]%></div>
+  <div class="inne_label">
+    <span class="star">*</span>
+    Due Date:
+  </div>
+  <div class="calender">
+  <%= calendar_date_select_tag "objective[due_date#{@count}]" ,params[:objective]? params[:objective]["due_date#{@count}".to_sym]: "",:class=>"calendar_field",:popup => :force, :valid_date_check => "date >= (new Date()).stripTime()",:onchange=>"clear_ckbox('objective[due_date#{@count}]','no_due_date#{@count}');"%> 
+  <%= check_box_tag "no_due_date#{@count}",nil,checked=!params["no_due_date#{@count}"].nil? ,:onclick=>"clear_date('objective[due_date#{@count}]','no_due_date#{@count}');"%>
+  <font color="#333333" size="2">No Due Date</font>
+<div class="clear"></div>
+<div class="inne_label" style="border: medium none ; visibility: hidden;">Due Date:</div>  <div class="error_msg"><%=flash.now["due_date_error#{@count}"]%></div>
+ </div>
+  <div class="clear"></div> 

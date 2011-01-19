@@ -1,0 +1,54 @@
+<script>
+document.getElementById('searchs1').value = document.getElementById('searchs').value;
+</script>
+<div style="background-color:#FFFFFF; border:1px solid #CDD3D8; float:left; width:604px;">
+<div class="lightbox_header">Select which groups you want to search</div>
+<div class="light_box_close"><a onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="clear"><!-- --></div>
+	<%form_for "group", :url=> search_results_searchs_path ,  :html=>{:method=>:post,:id=>"search_form"}  do |f|%>
+		<div class="l-b-c-c-wrap">
+			<div class="light_box_check_container">
+      <%=(@groups.count>8) ? "<div class='new_group_wrap_search'>" : ""%>
+			<% c=[]%><% c=@groups.delete(nil)%>
+			<%if  @groups.count>0  %>
+			<div class="checkbox-info-wrap" >
+			<input type="checkbox" class="light_box_check" value="all" name="all" id="All Groups" onclick=  "check_groups(<%= @groups.count%>)">
+			<div class="check_letter allgroups">All Groups</div></div><%end%>
+			<%i=0%>
+   		<%for group in @groups%>
+			<%unless group.nil?%>
+			<% i=i+1%>
+			<div class="checkbox-info-wrap">
+			<input type="checkbox" class="light_box_check" value="<%=group.id%>" name="groups[<%= i%>]" id="group[<%= i%>]" onclick="single_groups()">
+			<div class="check_letter" style="width:230px;"><%=wrap_text(group.name,25)%></div></div>
+			<%end%><%end%>
+     	<div class="clear"><!-- --></div>
+      <%=(@groups.count>8) ? "</div>" : ""%>
+			</div>
+			<div class="light_box_check_container">
+			<div class="checkbox-info-wrap">
+			<input type="checkbox" class="light_box_check" value="all_loc" name="all_loc" id="All Locations" onclick="check_location()">
+			<div class="check_letter alllocations">All Locations</div></div>
+			<div class="checkbox-info-wrap">
+			<input type="checkbox" class="light_box_check" value="status_update" name="location[status_update]" id="status_update_search" onclick="uncheck_locations()">
+			<div class="check_letter">Status Updates</div></div>
+			<div class="checkbox-info-wrap">
+			<input type="checkbox" class="light_box_check" value="message" name="location[message]" id="message"  onclick="uncheck_locations()">
+			<div class="check_letter">Messages</div></div>
+			<div class="checkbox-info-wrap">
+			<input type="checkbox" class="light_box_check" value="goal_obj" name="location[goal_obj]" id="goal_obj" onclick="uncheck_locations()" >
+			<div class="check_letter">Goal/Objectives</div></div>
+			<input type="hidden" value="" id="searchs1" name="search" />
+			</div>
+			<div class="clear"><!-- --></div>
+			<div class="button_share_container">
+			<!--<button class="cancel_share"><img alt="cancel" src="/images/share_cancel.jpg"></button>
+			<button><img alt="share" src="/images/share.jpg"></button>-->
+			<img src="/images/share_cancel.jpg" onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" />
+			<%= image_submit_tag "search-butt-change.jpg",:id=>"share", :onclick=>"return check_search_checked('search_form');" %>
+			<div id="check_error" style="color:red;"></div>
+			</div>
+
+		</div><!--l-b-c-c-wrap-->
+	<%end%>
+</div>

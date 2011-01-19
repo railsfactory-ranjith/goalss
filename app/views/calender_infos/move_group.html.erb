@@ -1,0 +1,51 @@
+
+
+<div class="number_date"><%=params[:date]%></div>
+						
+        <% if !@groups.empty?
+              for obj in @groups.reverse
+
+									color= 'ffffff';
+									ug = GroupUser.find_by_group_id_and_user_id(obj.id,current_user.id)
+									if !ug.nil?
+									color = ug.color_code if !ug.color_code.nil?
+									end
+
+									%>
+
+									<div class="color_area">
+									<div class="color_box"><%= link_to_remote '' ,:url => {:action => "move_group",:year=> params[:year],:month =>params[:month],:group_id =>obj.id,:date =>params[:date]} ,:update => "day_#{params[:date]}",:html => {:style => "background-color: ##{color};"}%>
+									<%if params[:group_id].to_i==obj.id%><div class="color_box_arrow"><img alt="arrow" src="/images/arrow_color.jpg"/></div><%end%></div>
+									</div>
+
+							<%end
+		    end %>
+
+        <div class="clear"><!-- --></div>
+
+				<% if !@objectives.empty?
+										obj = @objective %>
+
+									<div class="side_image"><img alt="icon" src="/images/icon.png"/></div>
+                                    <%truncate_group_name(obj.group.name)%>
+									<div class="abip"><a href="<%= group_updates_path(:id=>obj.group.id)%>" style="color:#085FA3;"><%=@group_name%></a></div>
+									<div class="abip"><%=truncate_text_val(obj.title)%></div>
+                  
+									<div class="abip">
+                  <% if !obj.responsible_members.empty?%>
+                  <a href="<%= user_activity_link(obj.responsible_members[0].user_id)%>" style="color:#085FA3;"><%=h truncate(full_name(obj.responsible_members[0].user),20)%></a>
+                  <%end%>
+                  </div>
+									<div class="abip"><span id="modal"><%=link_to "More" ,{:action => "more_info" ,:year =>params[:year],:month =>params[:month],:date => params[:date]},:id => "cal_day_#{params[:date]}",:style =>"font-size: 11px;"%></span>
+
+									<script>
+											new Control.Modal($('cal_day_<%=params[:date]%>'), {className:'modal_container',width: 0,height: 0})
+									</script></div>
+
+        <%else%>
+							<div class="side_image"></div>
+							<div class="abip"></div>
+							<div class="abip"></div>
+							<div class="abip"></div>
+							<div class="abip"></div>
+				<%end%>

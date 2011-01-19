@@ -1,0 +1,170 @@
+<%= stylesheet_link_tag 'pagination'%>
+<%=calendar_date_select_includes "gfblue" %>
+<div class="signup1">
+ Group Info:  <%=h truncate(@group.name,70)%>
+</div>
+<div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"/></div>
+<div class="group_bg">
+    <%=render :partial=>"group_activities/status_update"%>
+</div>
+<div class="create_group_form">
+  <div class="my_activity_left_container">
+    <span class="successful_msg1" style="align:center;"><%=flash[:invite_notice]%></span>
+    <div class="goal_container">Goal<span class="error_msg" style="margin-left:25px;"><%=flash[:group_sus_err]%></span><span class="successful_msg1"><%=flash[:group_sus]%></span></div>
+    <div class="goal_description_container">
+      <div class="goal"><pre><%=h wrap_text(@group.description,47)%></pre></div>
+        <div class="icon_containr">
+          <% if @group_leader%>
+          <%if @group.is_active%>
+          <div class="byes"><a href="#"><img alt="byes" src="/images/byes.jpg"/></a></div>
+          <div class="byes_content"><a class="tooltip" href="<%=suspend_group_group_infos_path(:id=>@group.id)%>" style="text-decoration:none;" ><p style="text-decoration:underline;">Suspend Group</p><span >Suspend your group Activities</span></a></div>
+          <%else%>
+          <div class="byes"><a href="#"><img alt="byes" src="/images/byes.jpg"/></a></div>
+          <div class="byes_content"><a class="tooltip" href="<%=suspend_group_group_infos_path(:id=>@group.id)%>" style="text-decoration:none;"><p style="text-decoration:underline;">Activate Group</p><span>Activate your group Activities</span></a></div>
+          <%end%>
+          <%end%>
+          <%if @allow_edit_group%>
+          <div class="byes"><a id="call" style="text-decoration:none;" class="tooltip" href="<%=edit_group_group_infos_path(:id=>@group.id)%>"><img alt="pencil" src="/images/pencil.jpg"/><span>Edit Your Group Informations</span></a><script>new Control.Modal($("call"), {className:'modal_container'});</script></div>
+          <%end%>
+        </div>
+      <div class="due_date">Due: <%if @group.due_date%><a style="color:#0260B8;" href="<%=move_month_calender_infos_path(:month=>@group.due_date.month,:year=>@group.due_date.year)%>"><%= user_date_format(@group.due_date.to_date)%></a><%end%></div>
+    </div>
+    <div class="goal_container">
+      <div class="objective">Objectives</div>
+      <%if @allow_edit_group%>
+      <div class="add_btn"><a href="#"><img alt="add" src="/images/add.jpg"/></a></div>
+      <% @count=0%>
+      <div class="add_con"><div id="obj_link"><%=render :partial=>"obj_link"%></div></div>
+      <%end%>
+    </div>
+      <div class="title_form_container">
+      <%remote_form_for :objective, :url=>{:action=>"create",:id=>params[:id]},:html=>{:id=>"add_new_objs"} do  %>
+      <div id="add_obj"></div>
+      <div id="submit_button"></div>
+      <%end%>
+      </div>
+      <div id="group_objectives">
+        <%= render :partial=>"group_objectives"%>
+      </div>
+  </div>
+
+  <div class="my_activity_right_container">
+    <div class="right_header">Group members</div>
+    <div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"/></div>
+    <div id="members_list">
+    <%= render :partial=>"members_list"%>
+    </div>
+    <%if @allow_edit_group%>
+      <div class="right_list"><div class="add_people_icon"><a class="tooltip" href="<%=invite_members_group_infos_path(:id=>@group.id)%>" style="text-decoration:none;"><p style="text-decoration:underline;">Invite users</p><span>Invite new members to <%=h @group.name%></span></a></div>
+    <%end%>
+</div>
+  <div class="clear"></div>
+  <div class="clear"></div>
+</div>
+</div>
+</div>
+</div></div>
+
+<div class="f-b-m-wrap">
+		<div class="footer-bottom-menu">
+		  <ul><%params[:gid]=session[:filter_group] if session[:filter_group] && !session[:filter_group].blank?%>
+        <% if @favorites && !@favorites.empty? %>
+            <% @favorites.each do |favourite|%>
+              <%gcolor=favourite_group_color(favourite.group.id)%>
+                  <%if current_user.is_active_member?(favourite.group_id)%>   <li> <a href="<%=group_info_group_infos_path(:id=>favourite.group.id,:filter=>"yes")%>" 
+                   <% if params[:gid].to_i==favourite.group.id%>style="background:#<%=gcolor%>;border:1px solid black" 
+                         <%else%>  style="background:#<%=gcolor%>;border:1px solid white" <%end%> ><span title="<%= favourite.group.name unless favourite.nil?%>" ><%= h truncate(favourite.group.name,10) unless favourite.nil?%>(<%=new_activities(favourite.group.id)%>)</span></a></li>
+              <%end%>
+              <%end%>
+        <%end%>
+        <li class=""><a id="more222" href="/activities/more_footer?1=4"><span id="lightbox">MORE <script>new lightbox($('more222'), {className:'light_box_container_admin'});</script></span></a></li>
+  </ul></div>
+        	</div><!--f-b-m-wrap-->
+	<div class="copy-wrap">	
+		  <div class="copy">
+		 &copy; GroupHopper 2010  <a href="<%= support_path%>">Support</a><a href="<%= privacy_path%>">Privacy</a>
+		  </div>    
+	</div><!--copy-wrap-->	  
+
+
+<script>
+function clear_date(cal_id,ck_id)
+{
+  if ($(ck_id).checked == true)
+    $(cal_id).value="";
+}
+
+function clear_ckbox(cal_id,ck_id)
+{
+if ($(cal_id).value=="")
+$(ck_id).checked=true;
+else
+$(ck_id).checked=false;
+}
+function validate_group()
+{
+  if(($('group_due_date').value=="") && ($('accept').checked==false))
+  {
+  $('errors').innerHTML="Please enter the due date or set as No due date"
+  return false;
+  }
+  else
+  {
+  return true;
+  }
+
+}
+function check_date_in_form(form_id)
+{
+var n=$(form_id).elements.length;
+var k=0;
+var r=true;
+for(var i=0;i<n;i++)
+{ 
+  if ($(form_id).elements[i].type=="checkbox")
+  k++;
+}
+for(i=1;i<=k;i++)
+{
+if($('accept'+i).checked==false && $('group[objective'+i+'][due_date]').value=="")
+  {
+    r=false;
+    $('objetive_error'+i).innerHTML="Please enter due date or set as no due date"
+  }
+else
+  {
+    $('objetive_error'+i).innerHTML=""
+  }
+}
+return r;
+}
+
+
+function act_dis_member(active,member_id,group_id)
+{
+  if(active==true)
+  {
+    var activate= confirm("Are you sure you want to disable this group member?");
+  }
+  else
+  {
+    var activate= confirm("Are you sure you want to activate this group member?");
+  }
+  if(activate==true && active==true)
+  {
+    new Ajax.Request('<%=disable_member_group_infos_path%>',{asynchronous: true, evalScripts: true,  method: 'post', parameters:'member_id='+member_id+'&group_id='+group_id});
+  }
+  else if(activate==true && active==false)
+  {
+    new Ajax.Request('<%=activate_member_group_infos_path%>',{asynchronous: true, evalScripts: true,  method: 'post', parameters:'member_id='+member_id+'&group_id='+group_id});
+  }
+  else
+  {
+    return false;
+  }
+
+}
+
+
+
+</script>

@@ -1,0 +1,2 @@
+
+<%= link_to("New Acess Code", {:before=>"this.style.display='none'" ,:url =>{:action=>"generate_code",:count => "#{@count.to_i+1}"}} ,{:class=>"new-access-code"},:remote=>true) %>

@@ -1,0 +1,25 @@
+<div style="background-color:#FFFFFF; border:1px solid #CDD3D8; float:left; width:790px;height:170px;padding:2px;">
+<div class="light_box_close"><a onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="lightbox_header" style="width:743px;">Create a Group</div>
+<div class="clear"></div>
+<div class="clear"></div>
+<div  style="font-size:12px;padding-left:4px;">
+<div style="color:#406481;float:left;font-family:Arial,Helvetica,sans-serif;font-size:13px;margin-left:16px;line-height: 20px;">We're about to get you started on creating a group. With a free account, 
+you can have up to <span class="number"><%=h @free_plan.max_users_in_group%></span> users in a group. Your group will be accessible for <span class="number"><%=h @free_plan.day%></span> days after you start it. 
+If you need more users or groups, you can opt for the paid version later.</div>
+
+<div style="float:right;height:50px;margin-top:40px;">
+<a onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)"><img src="/images/cancel.jpg" style="margin-right:225px;"/></a>
+<%unless @k%>
+<a href="/groups/new" style="color:#0260B8;margin-right:45px;" onclick="return chek_create_group(<%=@free_plan.max_group%>,<%=@groups.count%>)">Let's create a group for free</a>
+<%end%>
+<a href="/paid_users/select_plan" style="color:#0260B8;font-size:12px;margin-right:20px;">Set up a paid account immediately</a>
+</div>
+</div>
+</div>
+
+
+<script>
+$('modal_container').style.width="795px";
+$('modal_container').style.left="111px";
+</script>

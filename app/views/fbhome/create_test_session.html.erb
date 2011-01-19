@@ -1,0 +1,23 @@
+<div>
+  <p>
+    <h1>Step 3:</h1>
+    <table>
+      <tr>
+        <td>Hi <font color='green'><%=session[:uname]%></font>, Please add your inviation message here.</td>
+      </tr>
+      <tr><td>&nbsp;</td></tr>      
+      <tr>
+        <td>
+          <%form_tag post_message_path do -%>
+           
+            <textarea cols="40" rows="5" name="msg" id="msg"></textarea><br/><br/>
+            <INPUT type="submit" name="Post message on wall" value="Invite"><br/><br/>
+            
+          <%end-%>
+        </td>
+      </tr>
+    </table>
+
+  </p>
+
+</div>

@@ -1,0 +1,30 @@
+
+
+
+<div style="background-color:#FFFFFF; border:1px solid #CDD3D8; float:left; width:604px;">
+<div class="lightbox_header">Enter Comment and attach files</div>
+<div class="light_box_close"><a onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="clear"><!-- --></div>
+
+<%form_for "group", :url=>post_comment_group_activities_path(:id=>params[:id]),  :html=>{:multipart=>:true, :method=>'post'}  do |f|%>
+<div class="light_box_check_container">
+<%=text_area_tag "comment",nil,{:class=>"text_area"}%>
+<!--<textarea rows="2" cols="20" name="status" id="comment">
+</textarea>-->
+<input type="hidden" value="" id="status_update1" name="status" />
+<input type="hidden" value="<%= params[:receiver_id] if params[:receiver_id] %>" id="receiver_id" name="receiver_id" />
+
+</div>
+<div class="comments_error"><div id="comment_error"></div></div>
+<div class="clear"><!-- --></div>
+<div id="attachment" style="margin-left:46px;"><%=link_to_remote "Attach Files",:url => {:action => "attachment_file", :count =>1}%></div>
+<div id="new_upload" style="margin-left:28px;"> </div>
+<div class="button_share_container">
+<!--<button class="cancel_share"><img alt="cancel" src="/images/share_cancel.jpg"></button>
+<button><img alt="share" src="/images/share.jpg"></button>-->
+<img src="/images/share_cancel.jpg" onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" />
+<%= image_submit_tag "/images/share.jpg",:id=>"share" ,:onclick=>"return is_comment_empty();"%>
+</div>
+
+<%end%>
+</div>

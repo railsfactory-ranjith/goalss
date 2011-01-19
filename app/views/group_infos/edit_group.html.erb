@@ -1,0 +1,25 @@
+
+
+<div style="border: 1px solid rgb(205, 211, 216); background-color: rgb(255, 255, 255); float: left; width: 690px;height:250px;">
+<div class="light_box_close"><a onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"/></a></div>
+<div class="lightbox_header" style="width:643px;">Edit Group</div>
+<div class="clear"></div>
+<div class="obj_edit">
+<%remote_form_for :group, :url=>update_group_group_infos_path(:id=>@group.id),:html=>{:method=>:put}, :before => "if (!validate_group()) { return false }" do |f|%>
+  <div class="left_title_label">Group:</div>
+  <%=f.text_field :name,:class =>"left_taxt_box", :maxlength=>"100",:onkeyup=>"return ismaxlength(this)"%><div class="error_msg"><div id="errorpop"></div></div>
+  <div class="clear"></div>
+  <div class="left_title_label">Goal:</div>
+  <%=f.text_area :description, :class=>"text_area", :maxlength=>"4000",:onkeyup=>"return ismaxlength(this)",:style=>"width:572px;"%><div class="error_msg"><div id="errorpop1"></div></div>
+  <div class="clear"></div>
+  <div class="left_title_label">Due Date:</div>
+  <%= f.calendar_date_select :due_date ,:class=>"calendar_field",:popup => :force,:time=>false, :valid_date_check => "date >= (new Date()).stripTime()",:onchange=>"clear_ckbox('group_due_date','accept');"%> 
+  No Due Date <%= check_box_tag 'accept',nil,false,:onclick=>"clear_date('group_due_date','accept');"%><div class="error_msg"><div style="margin-left:126px; margin-top:-20px;" id="errors"> </div></div>
+   <div style="margin:9px 2px 4px 564px;"><%=image_submit_tag "update.jpg"%>  <img style="margin: 2px 2px 0px -179px;" alt="cancel" src="/images/cancel.jpg" onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'"></img></div>
+
+    <div class="clear"></div>
+    <div class="clear"></div>
+</div>
+<%end%>
+</div> 
+</div> 

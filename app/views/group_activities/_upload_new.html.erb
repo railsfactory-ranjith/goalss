@@ -1,0 +1,11 @@
+
+
+
+<%= javascript_include_tag "prototype.js" %>
+
+<div class="attach-form-wrap">
+    	<iframe id="upload_frame" name="upload_frame" style="display: none"></iframe>
+    <%= file_field :attachment,"uploaded_data#{@count}",:size=>"45"%>
+       <a href="#"onclick = 'Delete(<%= @count%>)' id="image_<%=@count%>">Remove</a>
+             <input type="hidden" id="@count"  size="44" ></input>
+    </div>

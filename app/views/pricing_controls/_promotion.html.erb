@@ -1,0 +1,41 @@
+<div class="pricing_label">Promotion-<%= @count%></div>
+<%form_for :promotion, :url => {:controller=>'pricing_controls', :action => 'coupon_update'} do |f| %>
+<%c = (@coupons) ? (@coupons[@count.to_i-1].is_active)  : nil %>
+
+<div class="in_label_account"><%= check_box_tag 'promotion[is_active]',1,c%> Active</div>
+<div class="clear"><!-- --></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label_account">Code: </div>
+<%  c = (@coupons) ? (@coupons[@count.to_i-1].code)  : " " %>
+<%=text_field_tag "promotion[code]", (params[:promotion])? (params[:promotion]["code".to_sym]): "", :value=> c ,:class=>"inner_field" %>
+<div class="clear"><!-- --></div>
+<div class="inne_label_account">Coupon_type:</div>
+<%  c = (@coupons) ? (@coupons[@count.to_i-1].coupon_type)  : " " %>
+<select name="promotion[coupon_type]" class="inner_field" >
+  <option value ="">-select-</option>
+    <% if c=="1"%>
+    <option value="1" selected="yes">%</option>
+    <%else%>
+    <option value="1" >%</option>
+    <%end%>
+    <% if c=="2"%>
+    <option value="2" selected="yes">$</option>
+    <%else%>
+    <option value="2" >$</option>
+    <%end%>
+</select>
+<div class="clear"><!-- --></div>
+<div class="inne_label_account">Parameters: </div>
+<%c = (@coupons) ? (@coupons[@count.to_i-1].value)  : " " %>
+<%=text_field_tag "promotion[value]",  params[:promotion]? params[:promotion]["value".to_sym]: "",:value=> c,:class=>"inner_field" %>
+<div class="clear"><!-- --></div>
+<div class="inne_label_account">Active Form: </div>
+ <%= f.calendar_date_select "active_from",:time=>false ,:value=>(@coupons)?(@coupons[@count.to_i-1].active_from): "",:class=>"inner_field",:popup => :force, :valid_date_check => "date >= (new Date()).stripTime()"%> 
+<div class="clear"><!-- --></div>
+<div class="inne_label_account">Active To: </div>
+<%= f.calendar_date_select "active_to",:time=>false,:value=>(@coupons)?(@coupons[@count.to_i-1].active_to): "",:class=>"inner_field",:popup => :force ,:valid_date_check => "date >= (new Date()).stripTime()"%> 
+<input type="hidden" name="id" value="<%=(@coupons) ? (@coupons[@count.to_i-1].id)  : " "%>">
+<div style="float:right;margin:10px 135px 0 0;" id="update_promo">
+  <%= image_submit_tag "update.jpg" ,:id=>"update_promo"%>
+ </div><br><br>
+<%end%>

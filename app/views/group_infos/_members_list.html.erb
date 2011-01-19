@@ -1,0 +1,20 @@
+<%if flash.now[:member]%><div class="disable_member_success"><%=flash.now[:member]%></div><%end%>
+<%if flash.now[:member_error]%><div class="disable_member_error"><%=flash.now[:member_error]%></div><%end%>
+     <%unless @leader_name.nil? || !@leader_name.state.nil?%>
+      <div class="right_list">
+        <div class="arrow_list" style="background: transparent url(/images/green_arrow.jpg) no-repeat scroll left 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">Leader:<a href="<%=user_activity_link(@leader_name.id)%>"><%=truncate(full_name(@leader_name),40)%></a></div>
+      </div>
+    <%end%>
+      <div class="clear"></div>
+      <%for member in @members%>
+      <%unless member.nil?%>
+      <%unless(member==@leader_name)%>
+      <div class="right_list">
+        <div class="arrow_list"><a id="group_member" href="<%=user_activity_link(member.id)%>"><%=truncate(full_name(member),35)%></a></div>
+      <%if @allow_edit_group && !(member==@group.user || member==@leader_name)%>
+           <div class="list_icon"><a style="margin-top: 5px;text-decoration:none;" class="tooltip" onclick="act_dis_member(<%=is_member_active(member,@group)%>,'<%=member.id%>','<%=@group.id%>');" href="javascript:;" ><%if is_member_active(member,@group)%><img alt="Active" src="/images/link.jpg" /><span>Disable <%= full_name(member)%></span><%else%><img alt="Disabled" src="/images/link-img.gif"><span>Activate <%= full_name(member)%></span><%end%></a></div>
+    <%end%>
+      </div>
+  <%end%>
+  <%end%>
+  <%end%>

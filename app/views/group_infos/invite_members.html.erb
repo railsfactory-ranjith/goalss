@@ -1,0 +1,81 @@
+
+<script src="/javascripts/prototype.js" type="text/javascript"></script>
+
+  <div class="signup1">Invite Members</div>
+  <div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+  <div class="clear"><!-- --></div>
+  <!-- thumbnail image container div start here-->
+  <div class="group_bg">
+     <%=render :partial=>"group_activities/status_update"%>
+    <br />
+  </div>
+  <!-- thumbnail image container div ends here-->
+  <!-- create group container div staryt here-->
+  <div class="invite_people_left">
+    <div class="invite_header">Please invite people to join your group </div>
+    <font color="green"><%=flash[:notice]%></font>
+    <div id="contacts">
+    <%@id=params[:id]%>
+      <%=render :partial=>"from_anywhere",:object=>@id%>
+    </div>
+  </div>
+    <div class="invite_people_right">
+      <div class="invite_header">Invited members</div>
+      <div class="recipient_form">
+       <%form_for :invitation,  :url=>final_contacts_group_infos_path(:id=>params[:id]),:html=>{:method=>:post} do%>
+      <div class="inne_label">
+            <span class="star">*</span>
+            <a class="tooltip" >Invitation Message:<span>Your personal message to the recipient's Email</span></a>
+      </div>
+      <%=text_area_tag "personal_message",@message,:class=>"recipient_text_area2",:id=>"message"%>
+      <div class="inne_label">
+        <span class="star">*</span>
+        <a class="tooltip" >Invited Members:<span>Your contact list to join your group (you can review your invitations before you're done.)</span></a>
+      </div>
+      <div id="inv_mem">
+      <div class="recipient_text_scroll">
+          <% if @contacts %>
+            <% @contacts.each do |contact|  %>
+            <% unless contact.nil? %>
+              <%if contact[0].nil? || contact[0].empty? || (contact[0]==contact[1])%>
+                <%contact[0]=contact[1]%>
+                <%c=""%>
+              <%else%>
+                <%c=contact[0]%>
+              <%end%>
+              <div class="scroll_con">
+                <%= check_box "contact" , contact[0].to_s,{:class=>"scroll_chk",:checked=>true},contact[1].to_s,0%>
+                
+                <div class="scroll_square"></div>
+                <div class="scroll_content"><%=h c %></div>
+                <div class="scroll_content"> <%=h contact[1] %></div>  
+              </div>
+            <div class="clear"></div>   
+              <%end%>
+            <%end%>
+          <%end%>
+        </div>
+      </div>  
+    </div>
+    <div class="button_container" style="margin-top: 30px;">
+        <%=image_submit_tag "draft1-invite.jpg",:class=>"previous",:id=>"Next" %>
+        <%= link_to image_tag("cancel.jpg", :class=>"previous",:id=>"Skip"), :action => 'group_info', :id =>params[:id] %>
+    <%end%> 
+        </div>
+  </div>
+  <div class="new">
+
+</div>
+ <script>
+    function find_contacts(){
+    $("find_gmail").href="/group_infos/display_contacts?width=500&height=500&username="+$("username").value+"&pwd="+$("gpassword").value+"&id=<%=params[:id]%>";
+    new Control.Modal($("find_gmail"), {className:'modal_container'});
+    window.status='';
+    }
+ function search_contacts(){
+    
+    $("goal_contacts").href="/group_infos/display_contacts?width=500&height=500&goal_flo_email="+$("goal_flo_email").value+"&user_name="+$("user_name").value+"&id=<%=params[:id]%>";
+    new Control.Modal($("goal_contacts"), {className:'modal_container'});
+    window.status='';
+    }
+  </script>

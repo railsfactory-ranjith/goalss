@@ -1,0 +1,82 @@
+<%= javascript_include_tag :defaults %>
+<%=calendar_date_select_includes "gfblue" %>
+<%=stylesheet_link_tag "default.css"%>
+<div id="container">
+  <div class="signup1">Create Group</div>
+  <div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+  <div class="clear"><!-- --></div>
+  <!-- thumbnail image container div start here-->
+  <div class="group_bg">
+     <%=render :partial=>"group_activities/status_update"%>
+    <br />
+  </div>
+  <!-- thumbnail image container div ends here-->
+  <!-- create group container div staryt here-->
+<%=render :partial=>"group_header"%>
+<% form_for :objectives, :url=>{:action=>'review_update_objectives',:id=>params[:id]} do |f|  %>
+  <div class="create_group_form">
+    <div class="create_group_container">
+       <div class="create_header">Create Objectives for your Group <span style="color: green; "><%=flash[:notice]%></span></div>
+       <span style="color: red; "><%=flash[:error]%></span>
+        <div class="error_msg"><%= error_message_on "objective", "title" %></div>
+        <div id="new_obj">
+          <%@count=1%>
+          <%if @objectives.nil? ||  @objectives.empty? %>
+            <%if params[:count].nil?%>
+              <%=render :partial=>"objectives"%>
+              <%@count+=1%>
+            <%else %>
+              <%for i in 1..params[:count].to_i %>
+                <%=render :partial=>"objectives"%>
+                <%@count+=1%>
+              <%end%>
+            <%end%>
+          <%else%>
+            <%for objective in @objectives %> 
+             <div class="clear"></div> 
+              <div class="inne_label" style="margin-top: 10px;">
+                Objective-<%= @count%>
+              </div>
+              <div class="clear"></div>
+              <div class="inne_label" style="margin-top: 10px;">
+                <span class="star">*</span>
+                Label:
+              </div>
+              <%=text_field_tag "objective[label#{@count}]", objective.title ,:class =>"inner_field_create",:maxlength=>"100",:onkeyup=>"return ismaxlength(this)"%><div class="error_msg"><%=flash.now["objective_error#{@count}"]%></div>
+              <div class="clear"></div>
+              <div class="inne_label" style="margin-top: 10px;">
+                Description:
+              </div>
+              <%=text_area_tag "objective[description#{@count}]", objective.description, :class=>"text_area",:maxlength=>"500",:onkeyup=>"return ismaxlength(this)"%> <div class="error_msg"><%=flash.now["due_date_error#{@count}"]%></div>
+              <div class="inne_label">
+                <span class="star">*</span>
+                Due Date:
+              </div>
+               <div class="calender" style="float:left">
+              <%= calendar_date_select_tag "objective[due_date#{@count}]" ,objective.due_date, :class=>"calendar_field",:popup => :force,:valid_date_check => "date >= (new Date()).stripTime()"%>
+              <%= check_box_tag "no_due_date#{@count}",value="0",checked=objective.due_date.nil?%>
+              <font color="#333333" size="2">No Due Date</font>
+              <div class="clear"></div>
+              <div class="inne_label" style="border: medium none ; visibility: hidden;">Due Date:</div><div class="error_msg"><%=flash.now["due_date_error#{@count}"]%></div>
+              </div>
+              <div class="clear"></div>
+              <%@count+=1%>
+            <%end%>
+          <%end%>
+          <div class="clear"></div>
+        </div>
+        <%@count-=1%>
+        <div id="obj_link">
+          <%=render :partial=>"obj_link"%>
+        </div>
+        
+      </div>
+      <div class="clear"></div>
+      <div class="button_container">
+        <%= image_submit_tag "update.jpg",:class=>"previous",:id=>"Update"%>
+      </div>
+      <div class="button_container">
+         <%= link_to image_tag("cancel.jpg", :class=>"previous",:id=>"Skip"), :action => 'review_group', :id =>params[:id] %>
+      </div>
+    <%end %>
+</div>

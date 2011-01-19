@@ -1,0 +1,192 @@
+
+<div class="signup1">
+<%if current_user==@user%>
+<span class="profile-harry">My Profile: <%= truncate(full_name(@user),40)%><a href="<%=my_activities_activities_path%>"><span class="my-active">My Activities</span></a>
+  <span class="successful_msg1" style="align:center;"><%=flash[:post_comment]%></span></span>
+<%else%>
+<span class="profile-harry">Profile: <%= truncate(full_name(@user),40)%>  <%=link_to "View "+truncate(full_name(@user),40)+"'s Activity",thirdparty_activity_user_path(:id=>@user.id)%><span class="successful_msg1" style="align:center;"><%=flash[:post_comment]%></span></span>
+<%end%>
+</div>
+
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div style="*margin-top:-20px;" id="attach_notify" class="attach_not"></div>
+<div class="clear"><!-- --></div>
+
+<!-- thumbnail image container div start here-->
+<div class="group_bg">
+<%if current_user==@user%>
+<%=render :partial=>"group_activities/status_update"%>
+<%else%>
+
+<div class="group_img"><%=user_image(@user)%></div>
+<%form_tag :controller=>"users",:action=>"post_user_comment",:id=>params[:id] do%>
+<%=text_area_tag "status",nil,:class=>"group_mid_white"%>
+<a href="#" id="status_update"><input style="font-weight:bold;font-size:10px;" class="dynamic-button" onclick="return check_value(<%=@user.id%>);" type="submit"  title="<%= full_name(@user)%>" value="SHARE WITH <%=h truncate(full_name(@user),22)%>"></input></a><br />
+<div class="attachfiles-selectgroup">
+		  <div   class="attach_file">
+		    <a  href="/users/upload_file?id=<%=current_user.id%>&control=group"   id="attach_f">Attach File</a><span id ="count_file">()</span>
+        <script>new Control.Modal($('attach_f'), {className:'modal_container',width: 0,height: 0});</script>
+			</div>
+			<div class="select_group_link">
+			</div>
+      </div>
+<%end%>
+<%end%>
+<br />
+
+</div>
+<!-- thumbnail image container div ends here-->
+<!-- create group container div staryt here-->
+<!-- create group container div ends here-->
+<div class="create_group_form" >
+
+<!-- my asctivity left container div start here-->
+<div class="my_activity_left_container">
+
+	<div class="profile-info">
+  <%if current_user==@user%>
+  <div class="edit-button"><%=link_to image_tag("edit-button.jpg"),settings_users_path%></div>
+  <%end%>
+        <ul>
+       
+        	<li><span class="first-name">First Name:</span><span class="first-name-info"><%=h @user.user_profile.first_name%></span></li>
+            <li><span class="first-name">Last Name:</span><span class="first-name-info"><%=h @user.user_profile.last_name%></span></li>
+          <%unless @user_settings.nil?%>
+           <%if  @user_settings.organization%>
+            <li><span class="first-name">Organization:</span><span class="first-name-info"><%=h @user.user_profile.organization%></span></li>
+            <%end%>
+            <%if  @user_settings.occupation%>
+            <li><span class="first-name">Occupation/Title:</span><span class="first-name-info"><%=h @user.user_profile.occupation%></span></li>
+            <%end%>
+            <%if @user_settings.office_email_address%>
+            <li><span class="first-name">Office Email Address:</span><span class="first-name-info"><%=h @user.user_profile.office_email_address%></span></li>
+            <%end%>
+            <%if @user_settings.personal_email_address%>
+            <li><span class="first-name">Personal Email Address:</span><span class="first-name-info"><%=h @user.user_profile.personal_email_address%></span></li>
+            <%end%>
+            <%if @user_settings.mobile_phone %>
+            <li><span class="first-name">Mobile Phone:</span><span class="first-name-info"><%=h @user.user_profile.mobile_phone%></span></li>
+            <%end%>
+            <%if @user_settings.ofice_phone %>
+            <li><span class="first-name">Office Phone:</span><span class="first-name-info"><%=h @user.user_profile.office_phone%></span></li>
+            <%end%>
+            <%if @user_settings.yahoo_id  %>
+            <li><span class="first-name">Yahoo ID:</span><span class="first-name-info"><%=h @user.user_profile.yahoo_id%></span></li>
+            <%end%>
+            <%if @user_settings.windows_live_id  %>
+            <li><span class="first-name">Windows Live ID:</span><span class="first-name-info"><%=h @user.user_profile.windows_live_id%></span></li>
+            <%end%>
+            <%if @user_settings.AIM_id  %>
+            <li><span class="first-name">AIM ID:</span><span class="first-name-info"><%=h @user.user_profile.aim_id%></span></li>
+            <%end%>
+            <%if @user_settings.skype_id  %>
+            <li><span class="first-name">Skype ID:</span><span class="first-name-info"><%=h @user.user_profile.skype_id%></span></li>
+            <%end%>
+            <%if @user_settings.mailing_address1%>
+            <li><span class="first-name">Mailing Address 1:</span><span class="first-name-info"><%=h @user.user_profile.mailing_address1%></span></li>
+            <%end%>
+            <%if @user_settings.mailing_address2 %>
+            <li><span class="first-name">Mailing Address 2:</span><span class="first-name-info"><%=h @user.user_profile.mailing_address2%></span></li>
+            <%end%>
+            <%if @user_settings.city %>
+            <li><span class="first-name">City:</span><span class="first-name-info"><%=h @user.user_profile.city%></span></li>
+            <%end%>
+            <%if@user_settings.state %>
+            <li><span class="first-name">State:</span><span class="first-name-info"><%=h @user.user_profile.state%></span></li>
+            <%end%>
+            <%if @user_settings.zip %>
+            <li><span class="first-name">Postal Code:</span><span class="first-name-info"><%=h @user.user_profile.zipcode%></span></li>
+            <%end%>
+            <%if @user_settings.country %>
+            <li><span class="first-name">Country:</span><span class="first-name-info"><%=h @user.user_profile.country%></span></li>
+            <%end%>
+            <li><span class="first-name">Other Info:</span><span class="first-name-info"><pre><%=h wrap_text(@user.user_profile.other_info,40)%></pre></span></li>
+            <%end%>
+        </ul>
+    </div><!--profile-info-->
+</div>
+<!-- my asctivity left container div ends here-->
+
+<!-- my_activity_right_container div start here-->
+<div class="my_activity_right_container">
+<% if @groups.length > 0%>
+<div class="right_header">Group Membership</div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+
+<%  for group in @groups
+											color= 'ffffff';
+                    	ug = GroupUser.find_by_group_id_and_user_id(group.id,current_user.id)
+                   		if !ug.nil?
+                      color = ug.color_code if !ug.color_code.nil?
+											end %>
+                      
+<div class="right_content_container" style="background-color:#<%=color%>; border:1px solid #eff4b4; color:#0260b8">
+<span class="gm-yel-user"><a href="<%=group_updates_path(:id=>group.id)%>" style="color:#085FA3;"><%=h truncate(group.name,15)%>(<%=group.group_users.length%>)</a></span>
+</div>
+<%end%>
+<%end%>
+
+<%if !@objectives.empty?%>
+<div class="right_header">Objective Responsibility</div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+
+<% for obj in @objectives
+											color= 'ffffff';
+											ug = GroupUser.find_by_group_id_and_user_id(obj.group_id,current_user.id)
+											if !ug.nil?
+											color = ug.color_code if !ug.color_code.nil?
+											end
+%>
+<div class="right_content_container" style="background-color:#<%=color%>; border:1px solid #CDD3D8; color:#0260b8">
+<div class="due">Due: <%if obj.due_date%><a href="<%=move_month_calender_infos_path(:month=>obj.due_date.month,:year=>obj.due_date.year)%>"><%=obj.due_date.strftime("%d/%m/%Y")%></a><%end%>	<span style="margin-left:20px;">Responsible:</span>
+													<%for owner in obj.users%>
+                            <%unless owner.nil?%>
+                              <a href="<%=profile_thirdparty_user_path(:id=>owner.id)%>"><%=truncate(owner.user_profile.first_name+" "+owner.user_profile.last_name,40)%></a>
+                            <%end%>
+                          <%end%>
+                          </div>
+<div class="finder"><%=link_to obj.title ,:controller => "group_infos",:action => "group_info",:id=> obj.group_id%></div>
+</div>
+<%end%>
+
+<%end%>
+<div class="gol_flow_container">
+<ul>
+<li>© GroupHopper 2010</li>
+<li><a href="<%= support_path%>">Support </a></li>
+<li><a href="<%= privacy_path%>">Privacy</a></li>
+</ul>
+</div>
+
+</div>
+<!-- my_activity_right_container div ends here-->
+
+
+</div>
+<!-- left sign div start here--><!-- left sign div ends here-->
+</div>
+</div></div>
+ <div class="copy-wrap">	
+	     <div class="copy">
+			 &copy; GroupHopper 2010  <a href="<%= support_path%>">Support</a><a href="<%= privacy_path%>">Privacy</a>
+	     </div>   
+     </div>
+
+<script>
+
+function check_value(user_id)
+{
+if (document.getElementById('status').value=="")
+{
+alert("Please enter the Status");
+return false;
+}
+else
+{
+$("status_update").href="/users/post_user_comment?third_party="+user_id;
+  new Control.Modal($("status_update"), {className:'modal_container'});
+}
+}
+
+</script>
+

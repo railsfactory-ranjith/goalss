@@ -1,0 +1,64 @@
+
+
+<div class="create_group_form">
+  <%= render :partial=>"/group_updates/warning_page"%>
+</div>
+<div class="clear"></div>
+<div class="clear"></div>
+<div class="footer-bottom-menu" style="margin-top:50px;">
+   
+</div>
+
+<script>
+function clear_date(cal_id,ck_id)
+{
+  if ($(ck_id).checked == true)
+    $(cal_id).value="";
+}
+
+function clear_ckbox(cal_id,ck_id)
+{
+if ($(cal_id).value=="")
+$(ck_id).checked=true;
+else
+$(ck_id).checked=false;
+}
+function validate_group()
+{
+  if(($('group_due_date').value=="") && ($('accept').checked==false))
+  {
+  $('errors').innerHTML="Please enter the due date or set as No due date"
+  return false;
+  }
+  else
+  {
+  return true;
+  }
+
+}
+function check_date_in_form(form_id)
+{
+var n=$(form_id).elements.length;
+var k=0;
+var r=true;
+for(var i=0;i<n;i++)
+{ 
+  if ($(form_id).elements[i].type=="checkbox")
+  k++;
+}
+for(i=1;i<=k;i++)
+{
+if($('accept'+i).checked==false && $('group[objective'+i+'][due_date]').value=="")
+  {
+    r=false;
+    $('objetive_error'+i).innerHTML="Please enter due date or set as no due date"
+  }
+else
+  {
+    $('objetive_error'+i).innerHTML=""
+  }
+}
+return r;
+}
+
+</script>

@@ -1,0 +1,68 @@
+
+
+
+<div class="admin_lightbox_activity">
+<div class="admin_light_box">
+<div class="signup_lightbox">My Account > Change plan<div class="pops"></div></div>
+  <div class="light_box_close"><a onclick="document.getElementById('lightbox_container').style.display='none';document.getElementById('lightbox_overlay').style.display='none'" href="javascript:void(0)"><img src="/images/close_light_box.jpg" /></a></div>
+  <div class="clear"><!-- --></div>
+  <div class="down_arrow_lightbox"><img alt="down_arrow" src="/images/down_arrow.jpg"/></div>
+  <div class="clear"><!-- --></div>
+  <% form_tag ({:controller=>'paid_users',:action=>"update_plan",:id=>current_user.id}) do%>
+  <%if @active_plans.zero?%>
+  <div class="inform_lightbox">Sorry currently no plan available</div>
+  <%else%>
+  <div class="inform_lightbox">Please select a plan. You can change your plan at anytime.</div>
+  <div class="clear"><!-- --></div>
+  <div class="group_leader">
+  
+ <% for  i in 1..3%>
+ <%if @plan[i].is_active%>
+  <div class="radio_pop_change_container">
+    <div class="left_radio">
+    <%  c = (current_user.pricing_plan_id==(i+1)) ? true  : false %>
+      <%= radio_button "user","plan",i+1,:class=>"radio_btn",:checked => c, :onClick=>"valid(#{@groups.count.to_s},#{@plan[i].max_group.to_s},#{i+1},#{@groups.count})" %>
+      <%#= radio_button "user","plans","2",:class=>"radio_btn",:checked=>true%>
+      plan <%= i%> 
+    </div>
+    <div class="radio_right_container">
+    <div class="radio_right"><p><span class="number">$<%=h @plan[i].amount%></span> per month</p>
+    <p>Include <span class="number"><%=h @plan[i].max_users_in_group%></span> users per group</p>
+    <p>Include <span class="number"><%=h @plan[i].max_group%></span> groups</p></div>
+    </div>
+  </div>
+  <%end%>
+  <%end%>
+  <div class="clear"></div>
+  <div class="clear"></div>
+  <div class="clear"></div>
+  <%end%>
+  
+
+
+  <div class="radio_pop_change_container">
+    <div class="left_radio">
+    <%  c = (current_user.pricing_plan_id==(1)) ? true  : false %>
+      <%= radio_button "user","plan",1,:class=>"radio_btn",:checked => c, :onClick=>"valid(#{@groups.count.to_s},#{@plan[0].max_group.to_s},#{1},#{@groups.count})" %>
+      Free Plan 
+    </div>
+    <div class="radio_right_container">
+    <div class="radio_right">
+    <p>Include <span class="number"><%=h @plan[0].max_users_in_group%></span> users per group</p>
+    <p>Include <span class="number"><%=h @plan[0].max_group%></span> groups</p></div>
+    </div>
+  </div>
+
+  <div class="clear"></div>
+  <div class="clear"></div>
+  <div class="clear"></div>
+  
+  <div class="next_button_container">
+    <a  onclick="document.getElementById('lightbox_container').style.display='none';document.getElementById('lightbox_overlay').style.display='none'" href="javascript:void(0)"><img src="/images/cancel.jpg", class="cancel_ora" /></a>
+  <%= image_submit_tag "update.jpg" ,:class=>"next_ora"%>
+  </div>
+<%end%>
+</div>
+</div></div></div>
+
+

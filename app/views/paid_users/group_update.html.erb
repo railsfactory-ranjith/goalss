@@ -1,0 +1,43 @@
+<%= javascript_include_tag 'prototype.js', 'lightbox.js'%>
+<%= stylesheet_link_tag 'lightbox'%>
+<% if flash[:notice] %><span class="successful_msg1" style="align:center;"><%=flash[:notice] %> </span><% end %>
+<%if current_user.is_free_user%>
+<div class="signup1"><%=link_to "<< back" ,:controller=>'users',:action=>'edit',:id=>current_user.id%></div>
+<%else%>
+<div class="signup1"><%=link_to "<< back" ,:controller=>'paid_users',:action=>'edit',:id=>current_user.id%></div>
+<%end%>
+<div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"/></div>
+<div class="right_sign" style="margin-left: 0px;">
+  <div class="inform">Edit Group</div>
+  <div class="clear"><!-- --></div>
+  <div class="error_msg"><%=flash[:group_sus_err]%></div>
+  <div class="inne_right_account">
+    <div class="inne_label"> Group Name:</div>
+    <div class="inner_field" style="font-color:#33333A;font-size:13px;"><%=h truncate(@group.name,22)%></div>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label">Group Leader:</div>
+    <div class="inner_field" style="font-color:#33333A;font-size:13px;"><%=h truncate(@leader_name,26)%></div>
+    <div class="edit-suspend-buttons">
+    <div class="edit-butt" style="margin-left:370px;margin-bottom:2px;"><span id="lightbox"><a id="caller" href="/paid_users/group_edit/<%= @group.id %>"><button><img alt="sign up" src="/images/edit-butt.jpg"/></button></a></span></div>
+    <script>new lightbox($('caller'), {className:'light_box_container_admin'});</script>
+    <% form_for :group,:url => {:controller=>'paid_users', :action => 'change_status',:id=>@group.id} do |f| %>
+     <div class="inne_label"> Current Status:</div>
+    <div class="new_group" style="width:186px;"><%=  @group.is_active ? "Active":"Suspended"%></div>
+     <div class="suspend-butt" style="margin-left:370px;">
+    <%if @group.is_active!=true %>
+    <button name="activegroup"  onclick="return confirm('Are you sure to activate the group?')"><img alt="sign up" src="/images/active-butt.jpg"/></button>
+    <% else%>
+     <button name="suspendgroup" onclick="return confirm('Are you sure to suspend the group?')"><img alt="sign up" src="/images/suspend-butt.jpg"/></button>
+    <%end%>
+    </div>
+    <%end%>
+    </div>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label"> Date Created:</div>
+    <div class="new_group"><%= @group.created_at.strftime("%m/%d/%Y")%></div>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label"> Date of last activity:</div>
+    <div class="new_group"><%= @group.updated_at.strftime("%m/%d/%Y")%></div>
+    <div class="clear"><!-- --></div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+  <!-- wrapper div ends here-->
+	<div class="f-b-m-wrap">
+		<div class="footer-bottom-menu">
+		  <ul>
+		  <li> <a href="<%= activities_path(:filter=>"no")%>"><span style="<%=(params[:gid] || session[:filter_group]) ? "":"background:#D5E1EA"%>">All</span></a> </li>
+		   <% if @favorites && !@favorites.empty? %>
+			<% @favorites.each do |favourite|%>
+		      <%group_color=current_user.group_users.find_by_group_id(favourite.group.id)%>
+		       <%if !group_color.nil?%>
+			   <%gcolor=group_color.color_code%>
+			  <%else%>
+			    <%gcolor="000000"%>
+			  <%end%>
+			 <%if current_user.is_active_member?(favourite.group_id)%><li> <a href="#" onclick="footer(<%=favourite.group_id%>)" <% if favourite.group.id == session[:filter_group].to_i %> style="background:#<%=gcolor%>;border:1px solid black" <%else%>  style="background:#<%=gcolor%>;border:1px solid white" <%end%>><span title="<%= favourite.group.name unless favourite.nil?%>"><%= h truncate(favourite.group.name,10) unless favourite.nil?%>(<%=new_activities(favourite.group.id)%>)</span></a></li><%end%>
+		  <%end%>
+		  <%end%>
+		   <li class=""><a id="more" href="/activities/more_footer?1=1"><span id="lightbox">MORE <script>new lightbox($('more'), {className:'light_box_container_admin'});</script></span></a></li>
+		    </ul>
+		 </div>  
+	</div><!--f-b-m-wrap-->
+	<div class="copy-wrap">	
+		  <div class="copy">
+		 &copy; GroupHopper 2010  <a href="<%= support_path%>">Support</a><a href="<%= privacy_path%>">Privacy</a>
+		  </div>    
+	</div><!--copy-wrap-->	  
+</div>

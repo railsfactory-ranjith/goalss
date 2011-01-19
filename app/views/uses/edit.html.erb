@@ -1,0 +1,118 @@
+
+<div class="signup1">My Account <span style="color:green;font-size:12px;margin-left:250px;"><%= flash[:notice]%></span> <span style="color:red; font:12px; margin-left:250px;"><%= flash[:error]%></span></div>
+<div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"></div>
+<div class="clear"><!-- --></div>
+<div id="success_email"  style="color: green; font-size: 12px; text-align: center; position: absolute; margin-left: 251px; margin-top: -24px;"></div>
+<!-- left sign div start here-->
+<div class="left_sign">
+<div class="clear"><!-- --></div>
+  <div class="inform_account">My Information</div>
+  <div class="clear"><!-- --></div>
+  <div class="inne_right_myaccount">
+  <%# form_for (@user,  :url => user_path(:id=>@user.id), :html => { :method => :put})do  -%>
+  <% form_for current_user, :url =>user_path(:id=>@user.id),:html => {:method => :put}do |f|%>
+     <div class="inne_label_account"><span class="star">*</span>First Name</div>
+    <%= text_field :user_profile, :first_name, :value=>"#{@user.user_profile.first_name}", :class=>"inner_field" , :maxlength=>40%>
+    <div class="error_msg"><font color="red"><%= error_message_on :user_profile, :first_name %></font></div>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label_account"><span class="star">*</span> Last Name </div>
+    <%= text_field :user_profile, :last_name, :value=>"#{@user.user_profile.last_name}", :class=>"inner_field"  , :maxlength=>40%>
+    <div class="error_msg"><font color="red"><%= error_message_on :user_profile, :last_name %></font></div>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label_account"><span class="star" style="visibility:hidden !important;">*</span>State </div>
+    <%= text_field :user_profile, :state, :value=>"#{@user.user_profile.state}", :class=>"inner_field" , :maxlength=>50%>
+    <div class="error_msg"><%= error_message_on :user_profile, :state %></div>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label_account"><span style="star" class="star">*</span>Postal Code</div>
+    <%= text_field :user_profile, :zipcode, :value=>"#{@user.user_profile.zipcode}", :class=>"inner_field"  , :maxlength=>10%>
+    <div class="error_msg"><font color="red"><%= error_message_on :user_profile, :zipcode %></font></div>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label_account"><span class="star">*</span>Country </div>
+    <% list_country %>
+    <%#= select :user_profile, :country, ([@country], @user.user_profile.country), :class=>"inner_field" %>
+    <%= select :user_profile, :country, @country, {:selected=>@user.user_profile.country}, :class=>"inner_field" %>
+    <div class="clear"><!-- --></div>
+    <input type="hidden", name="id", value="<%= @user.id%>"/>
+    <button class="update" name="update" type="submit"><img alt="login" src="/images/update.jpg"/></button>
+    <button class="cancel_new" name="cancel" style="margin-right:10px;" type="submit"><img alt="login" src="/images/cancel.jpg"/></button>
+    <%end%>
+  </div>
+  <div class="clear"><!-- --></div>
+</div>
+<!-- left sign div ends here-->
+
+<!-- right sign div strat here-->
+<div class="right_sign_account">
+<div class="inform_right_account" >Primary/Login email address</div>
+<div class="clear"><!-- --></div>
+
+<div class="inne_label_account"><span class="star" style="visibility:hidden;">*</span>Primary/Login email:</div>
+<input name="primary_email" type="text"  class="inner_field" value="<%= current_user.email%>"  READONLY />
+<div class="clear"><!-- --></div>
+
+<div class="login_btn"><a id="change_email" href="/paid_users/change_email?">
+<img src="/images/chenage-email.png" alt="update" /></a>
+
+<script>new Control.Modal($('change_email'), {className:'modal_container',width: 0,height: 0});</script></div>
+<div class="clear"><!-- --></div>
+   <div class="inform_right_account">Current Plan</div>
+  <div class="clear"><!-- --></div>
+  <div class="inne_right_rightaccount">
+    <div class="change_plan">Group Plan : <a id="change_plan" href="/paid_users/select_plan"> Change Plan</a></div>
+    <div class="clear"><!-- --></div>
+
+    <div class="inner_plan" style="margin-top:10px;">$0.00 per month</div>
+    <div class="clear"><!-- --></div>
+    <div class="inner_plan">Includes<span class="orange_col"> <%= @user_plan.max_users_in_group%></span> users per group</div>
+    <div class="clear"><!-- --></div>
+    <div class="inner_plan">Includes<span class="orange_col"> <%= @user_plan.max_group%></span> groups</div>
+    <div class="clear"><!-- --></div>
+    <div class="inner_plan"><div class="inner_plan_inside">Groups allowed in current plan:</div> 	<span class="orange_col"><%= @user_plan.max_group%></span></div>
+    <div class="clear"><!-- --></div>
+    <div class="inner_plan"><div class="inner_plan_inside">Groups used:</div><span class="orange_col"><%=@active_groups.count%></span></div>
+    <div class="clear"><!-- --></div>
+    <div class="inner_plan"><div class="inner_plan_inside">Groups avaliable:</div><span class="orange_col"><%=@user_plan.max_group-@active_groups.count%> </span></div>
+    <div class="clear"><!-- --></div>
+    <div class="inner_plan"><div class="inner_plan_inside">Days of free use:</div><span class="orange_col"><%=@user_plan.day%> </span></div>
+    <div class="clear"><!-- --></div>
+    <div class="inner_plan">
+      <div class="inner_plan_inside">
+      <a href="#" id="create_free_group"> <span onClick="return chek_free_create_group(<%=@user_plan.max_group%>,<%=@active_groups.count%>)">Create Group</span></a>
+      </div>
+      <a style="margin-left:175px;color:#085FA3;" href="<%=close_code_path(:id=>current_user.id)%>" >Close Account</a>
+    </div>
+    <div class="clear"><!-- --></div>
+  <div class="group_table">
+      <div class="clear"><!-- --></div>
+      <div id="group_lists"><%=render :partial=>"paid_users/group_list"%></div>
+    </div>
+    <div  class="digg_pagination" ><%= will_paginate @groups, :container => false %></div>
+  <!--<div style="margin-top: 10px;" class="change_plan">-->
+    <div class="clear"><!-- --></div>
+  <!--</div>-->
+  </div>
+</div>
+</div>
+</div></div>
+ <div class="copy-wrap">	
+	     <div class="copy">
+			 &copy; GroupHopper 2010  <a href="<%= support_path%>">Support</a><a href="<%= privacy_path%>">Privacy</a>
+	     </div>   
+     </div>
+
+<script>
+function chek_free_create_group(max_group,used_group)
+{
+  if (max_group > used_group)
+  {
+    $('create_free_group').href="/users/check_user_account";
+    new Control.Modal($("create_free_group"), {className:'modal_container'});
+  } 	
+  else
+  {
+    alert("Please upgrade your plan or suspend a group. You are allowed to have " + max_group +  " active group(s)" );
+    return false;
+  }
+}
+
+</script>

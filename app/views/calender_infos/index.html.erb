@@ -1,0 +1,230 @@
+
+<%=javascript_include_tag "calendar_date_select/calendar_date_select.js"%>
+<%= stylesheet_link_tag "calendar_date_select/gfblue" %>
+<!-- container div start here-->
+<% days = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"]%>
+<div class="signup1">Month View</div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div class="clear"><!-- --></div>
+<!-- thumbnail image container div start here-->
+<div class="group_bg">
+<%=render :partial=>"group_activities/status_update"%>
+<br />
+</div>
+<!-- thumbnail image container div ends here-->
+
+<!-- date calnder container div start here-->
+<div class="date_calender_container">
+  <div class="left_cal"><%= link_to image_tag("/images/cal_left_arrow.jpg") ,:action =>"move_month",:left => true,:month => @month,:year=>@year%></div>
+  <div class="cal_head"><strong><%=Date::MONTHNAMES[@month]%> - <%=@year%></strong></div>
+  <div class="left_cal"><%= link_to image_tag("/images/date_right_arrow.jpg") ,:action =>"move_month",:right => true,:month => @month,:year=>@year%></div>
+  <form id="cal_fun" name="cal_fun">
+  <input type="hidden" id ="calender_value" value="" name="calender_value">
+  <div class="cal"><a href="#"><%= calendar_date_select_tag "hidden_date_selector", " ", :hidden => "true",:clear_button => false,:onchange => "javascript:document.forms.cal_fun.submit();"%></a></div>
+  </form>
+  <div class="calender_table">
+    <ul>
+      <li>Monday</li>
+      <li>Tuesday</li>
+      <li> Wednesday</li>
+      <li> Thursday	</li>
+      <li> Friday</li>
+      <li>Saturday</li>
+      <li>Sunday</li>
+    </ul>
+  </div>
+<!-- date container div strat here-->
+  <div class="date_container">
+    <%
+      i=0
+      for  d in 1..Time::days_in_month(@month,@year)
+      day = Date.new(@year,@month,d)
+      if d==1
+			  for da  in days
+          i=i+1
+			    if  day.strftime("%A") == da%>
+			      <% if i==7 %>
+              <div class="monday"  id ="day_<%=d%>"><%i=0%>									
+            <%else%>
+						  <div class="monday"  id ="day_<%=d%>">
+            <%end%>
+							<div class="number_date"><%=d%></div>
+            <% if !@groups[d].nil? && !@groups[d].empty?
+              for obj in @groups[d].reverse
+								color= 'ffffff';
+								ug = GroupUser.find_by_group_id_and_user_id(obj.id,current_user.id)
+								if !ug.nil?
+									color = ug.color_code if !ug.color_code.nil?
+                end
+            %>
+
+													<div class="color_area">
+															<div class="color_box"><%= link_to_remote '' ,:url => {:action => "move_group",:year=> @year,:month =>@month,:group_id =>obj.id,:date =>d},:update => "day_#{d}",:html => {:style => "background-color: ##{color};"}%>
+															<% if @groups[d].index(obj) ==0%><div class="color_box_arrow"><img alt="arrow" src="/images/arrow_color.jpg"/></div><%end%></div>
+													</div>
+                      <%end
+                end %>
+
+								<div class="clear"><!-- --></div>
+
+								<% if !@objectives[d].nil? && !@objectives[d].empty?
+
+												obj = Objective.find_by_group_id_and_due_date(@groups[d][0].id,Date.new(@year.to_i,@month.to_i,d.to_i))%>
+                        <%unless obj.nil?%>
+												<div class="side_image"><img alt="icon" src="/images/icon.png"/></div>
+                                                <%truncate_group_name(obj.group.name)%>
+												<div class="abip"><a href="<%=group_updates_path(:id=>obj.group.id)%>"><%=@group_name%></a></div>
+												<div class="abip"><%=truncate_text_val(obj.title)%></div>
+                        <% if !obj.responsible_members.empty?%>
+												<div class="abip"><a href="<%=user_activity_link(obj.responsible_members[0].user_id)%>">
+												<%=h truncate(full_name(obj.responsible_members[0].user),20)%>
+												<%end%></a></div>
+												<div class="abip">
+
+												<span id="modal"><%=link_to "More" ,{:action => "more_info" ,:year =>@year,:month =>@month,:date => d},:id => "cal_day_#{d}",:style =>"font-size: 11px;"%></span>
+
+												<script>
+															new Control.Modal($('cal_day_<%=d%>'), {className:'modal_container',width: 0,height: 0})
+														</script>
+												</div><%end%>
+                <%else%>
+												<div class="side_image"></div>
+												<div class="abip"></div>
+												<div class="abip"></div>
+												<div class="abip"></div>
+												<div class="abip"></div>
+								<%end%>
+         </div>
+			
+			   <%break
+			    else%>
+			
+								<div class="monday">
+								<div class="number_date"></div>
+								<div class="color_area">
+								<div class="color_box"></div>
+								</div>
+								<div class="color_area">
+								<div class="color_box"></div>
+								</div>
+								<div class="clear"><!-- --></div>
+								<div class="side_image"></div>
+								<div class="abip"></div>
+								<div class="abip"></div>
+								<div class="abip"></div>
+								<div class="abip"></div>
+								</div>
+			
+					<%end			
+			   end
+			 
+			 
+			else %>
+			<%i=i+1%>
+			
+			
+			
+						<% if i==7 %>
+		
+						<div class="monday" id ="day_<%=d%>"><%i=0%>
+						<%else%>
+						<div class="monday"  id ="day_<%=d%>">
+						<%end%>
+						<div class="number_date"><%=d%></div>
+					
+						<% if !@groups[d].nil? && !@groups[d].empty? 
+
+									for obj in @groups[d].reverse
+
+											color= 'ffffff';
+											ug = GroupUser.find_by_group_id_and_user_id(obj.id,current_user.id)
+											if !ug.nil?
+											color = ug.color_code if !ug.color_code.nil?
+											end
+%>
+										<div class="color_area">
+										<div class="color_box"><%= link_to_remote '' ,:url => {:action => "move_group",:year=> @year,:month =>@month,:group_id =>obj.id,:date =>d},:update => "day_#{d}",:html => {:style => "background-color: ##{color};"}%>
+											<% if @groups[d].index(obj) ==0%><div class="color_box_arrow"><img alt="arrow" src="/images/arrow_color.jpg"/></div><%end%></div>
+</div>
+
+										<%end
+									end %>
+									<div class="clear"><!-- --></div>
+								<% if !@objectives[d].nil? && !@objectives[d].empty?
+													obj = Objective.find_by_group_id_and_due_date(@groups[d][0].id,Date.new(@year.to_i,@month.to_i,d.to_i)) %>
+                              <%unless obj.nil?%>
+													<div class="side_image"><img alt="icon" src="/images/icon.png"/></div>
+                                                    <%truncate_group_name(obj.group.name)%>
+													<div class="abip"><a href="<%=group_updates_path(:id=>obj.group.id)%>" title="<%=obj.group.name%>"><%=@group_name%></a></div>
+											<div class="abip"><%=truncate_text_val(obj.title)%></div>
+
+
+													<div class="abip"><a href="<%=user_activity_link(obj.responsible_members[0].user_id) unless obj.responsible_members.empty?%>">
+													<% if !obj.responsible_members.empty?%>
+													<%=h truncate(full_name(obj.responsible_members[0].user),20)%>
+													<%end%>
+													</a>
+													</div>
+													<div class="abip"><span id="modal"><%=link_to "More" ,{:action => "more_info" ,:year =>@year,:month =>@month,:date => d},:id => "cal_day_#{d}",:style =>"font-size: 11px;"%></span>
+
+													<script>
+																new Control.Modal($('cal_day_<%=d%>'), {className:'modal_container',width: 0,height: 0})
+															</script></div>
+                        <%end%>
+									<%else%>
+													<div class="side_image"></div>
+													<div class="abip"></div>
+													<div class="abip"></div>
+													<div class="abip"></div>
+													<div class="abip"></div>
+									<%end%>
+					</div>
+				<%		end
+				end %>
+
+   </div>
+<!-- date container div ends here-->
+</div>
+<!-- date calnder container div ends here-->
+</div>
+
+
+<div class="clear"><!-- --></div>
+
+ </div>
+<div class="clear"><!-- --></div>
+</div>
+   <!-- container div ends here-->
+   </div></div>
+    <!-- wrapper div ends here-->
+<div class="f-b-m-wrap">
+		<div class="footer-bottom-menu">
+		  <ul>
+        <li> <a href="/calender_infos?filter=no"><span style="<%=(params[:group_id] || session[:filter_group]) ? "":"background:#D5E1EA"%>">All</span></a> </li>
+        <% if @favorites && !@favorites.empty? %>
+                <% @favorites.each do |favourite|%>
+                        <%group_color=current_user.group_users.find_by_group_id(favourite.group.id)%>
+                        <%if !group_color.nil?%>
+                                <%gcolor=group_color.color_code%>
+                        <%else%>
+                                <%gcolor="000000"%>
+                        <%end%>
+                    <li> <%if current_user.is_active_member?(favourite.group_id)%><a href="/calender_infos/group_move?month=<%=@month%>&year=<%=@year%>&group_id=<%=favourite.group.id%>" 
+                   <% if favourite.group.id == session[:filter_group].to_i %> style="background:#<%=gcolor%>;border:1px solid black" 
+                         <%else%>  style="background:#<%=gcolor%>;border:1px solid white" <%end%> ><span title="<%= favourite.group.name unless favourite.nil?%>"><%= h truncate(favourite.group.name,10) unless favourite.nil?%>(<%=new_activities(favourite.group.id)%>)</span></a></li>
+                <%end%>
+                <%end%>
+        <%end%>
+        <li><a id="more" href="/calender_infos/calendar_foot"><span >MORE <script>new lightbox($('more'), {className:'light_box_container_admin'});</script></span></a></li>
+ 	    </ul>
+		 </div>  
+	</div><!--f-b-m-wrap-->
+	<div class="copy-wrap">	
+		  <div class="copy">
+		 &copy; GroupHopper 2010  <a href="<%= support_path%>">Support</a><a href="<%= privacy_path%>">Privacy</a>
+		  </div>    
+	</div><!--copy-wrap-->	  
+</div>
+
+
+<!-- container div ends here-->

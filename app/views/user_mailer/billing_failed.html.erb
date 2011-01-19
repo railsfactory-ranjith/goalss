@@ -1,0 +1,8 @@
+Dear <%=@user.user_profile.first_name+" "+@user.user_profile.last_name%>,
+
+  Your payment for the date <%=@sub.next_renewal_at%> has been failed.
+  
+  This is notification to you that your groups will be suspended in next <%=PricingPlan.first.hours%>
+  
+Thank you,
+GroupHopper team

@@ -1,0 +1,124 @@
+
+<div class="signupfour-wrap">
+   <%if flash[:error]%><div class="login_error" style= "margin-left:154px;"><%= flash[:error]%></div><%end%><br/><br/>         
+                    <div class="access-code-wrap">
+                        <p>We're currently in closed beta.</p>
+                        <p>If you have an access code, please enter your mail address and access code below.</p>
+                        <% form_for :user, :url => betasignups_path do  -%>
+        <div class="inne_label"><span class="star">*</span>Email address:</div>
+        <% a=params[:user]? params[:user][:email_check]:""%>
+        <%= text_field :user, :email_check,:value=>a, :class=>"inner_field", :maxlength=>100, :onkeyup=>"return ismaxlength(this)" %>
+        <div class="error_msg"><%= flash[:email_blank]%></div>
+        <div class="clear"><!-- --></div>
+        <div class="inne_label"><span class="star">*</span>Access code:</div>
+         <% b=params[:user]? params[:user][:access_code]:""%>
+        <%= text_field :user, :access_code, :value=>b,:class=>"inner_field", :maxlength=>100, :onkeyup=>"return ismaxlength(this)" %>
+        <div class="error_msg"><%= flash[:access]%></div>
+        <div class="clear"><!-- --></div>
+          <div class="viewinvitation-enter-wrap"> 
+            <a href="#" onclick="showhide('view_invit');">New Invitation</a>
+            <input type="submit" value="" />
+          </div><!--viewinvitation-enter-wrap-->
+    <%end%>
+    </div>
+                    
+                    </div><!--access-code-wrap-->	
+            	<div id="view_invit" <% if !params[:beta_invit]%> style="display:none; visibility:none" <%end%>>
+                <% form_for :beta_invit, :url => invit_request_betasignups_path do  -%>
+                     <div class="invitation-wrap"  >
+  		<p>Please complete the form below if you're interested in receiving an invitation for public beta.</p>
+      <p>Not all requests for an invitation requests can be honored.</p>
+      <div class="inne_label"><span class="star">*</span>Email address:</div>
+      <%= text_field :beta_invit, :email, :class=>"inner_field", :maxlength=>100, :onkeyup=>"return ismaxlength(this)" %>
+      <div class="error_msg"><%= error_message_on "beta_invit", "email" %></div>
+      <div class="clear"><!-- --></div>
+      <div class="inne_label"><span class="star">*</span>First Name </div>
+      <%= text_field :beta_invit,:first_name, :class=>"inner_field", :maxlength=>40, :onkeyup=>"return ismaxlength(this)" %>
+      <div class="error_msg"><%= error_message_on "beta_invit", "first_name" %></div>
+      <div class="clear"><!-- --></div>
+      <div class="inne_label"><span class="star">*</span> Last Name: </div>
+      <%= text_field :beta_invit, :last_name, :class=>"inner_field", :maxlength=>40, :onkeyup=>"return ismaxlength(this)" %>
+      <div class="error_msg"><%= error_message_on "beta_invit", "last_name" %></div>
+      <div class="clear"><!-- --></div>
+      <div class="inne_label"><span class="star" >*</span>Organization: </div>
+      <%= text_field :beta_invit,:organization, :class=>"inner_field" , :maxlength=>50%>
+      <div class="error_msg"><%= error_message_on "beta_invit", "organization" %></div>
+      <div class="clear"><!-- --></div>
+      <div class="inne_label"><span class="star">*</span>Occupation/Title: </div>
+      <%= text_field :beta_invit,:occupation,:class=>"inner_field", :maxlength=>50%>
+      <div class="error_msg"><%= error_message_on "beta_invit", "occupation" %></div>
+      <div class="clear"><!-- --></div>
+      <div class="inne_label"><span class="star">*</span>Who you are/represent: </div>
+      <%= select :beta_invit, :demographic_id, Demographic.all.collect {|p| [ p.name, p.id ] }, {:prompt=>"-select-"}, :class=>"inner_field" %>
+      <div class="error_msg"><%= error_message_on "beta_invit", "demographic_id" %></div>
+      <div class="clear"><!-- --></div>
+      <div class="inne_label"><span class="star">*</span>Country: </div>
+      <% list_country%>
+      <%= select :beta_invit,:country,@country, {:prompt=>"-select-"}, :class=>"inner_field" %>
+         <div class="error_msg"><%= error_message_on "beta_invit", "country" %></div>
+      <div class="clear"><!-- --></div>                                
+      <div class="inne_label"><span class="star">*</span> PostalCode: </div>
+      <%= text_field :beta_invit,:zipcode, :class=>"inner_field", :maxlength=>10, :onkeyup=>"return ismaxlength(this)"%>
+      <div class="error_msg"><%= error_message_on "beta_invit", "zipcode" %></div>
+      <div class="clear"><!-- --></div>
+      <div class="inne_label"><span class="star">*</span> Date of Birth</div>
+      <%if params[:date] && params[:date][:month]!=""%>
+        <%= select :date, :month, Date::MONTHNAMES.compact, {:selected=> "#{params[:date][:month]}"}, :class=>"inner_birth" %>
+      <%else%>
+        <%=select :date,:month,Date::MONTHNAMES.compact, {:prompt=>"-month-"}, :class=>"inner_birth" %>
+      <%end%>
+      <%if params[:date] && params[:date][:day]!=""%>
+        <%= select :date, :day, (1..31).entries, {:selected=> params[:date][:day].to_i}, :class=>"inner_birth" %>
+      <%else%>
+        <%=select :date, :day, (1..31).entries, {:prompt=>"-day-"},:class=>"inner_birth" %>
+      <%end%>
+      <%if params[:date] && params[:date][:year]!="" %>
+        <%= select :date, :year, (1920..Time.now.year).entries, {:selected=> params[:date][:year].to_i}, :class=>"inner_birth" %>
+      <%else%>
+        <%=select :date,:year,(1920..Time.now.year).entries, {:prompt=>"-year-"}, :class=>"inner_birth" %>
+      <%end%>
+      <div class="error_msg"><%= error_message_on "beta_invit", "dob" %></div>
+      <div class="clear"><!-- --></div>
+      <div class="inne_label"><span class="star" style="visibility:hidden">*</span>Referred by (optional): </div>
+      <%= text_field :beta_invit, :referred_by, :class=>"inner_field", :maxlength=>40, :onkeyup=>"return ismaxlength(this)" %>
+      <div class="error_msg"><%= error_message_on "beta_invit", "referred_by" %></div>
+      <div class="clear"><!-- --></div>  
+      <div class="inne_label"><span class="star">*</span>Why would you like an invitation? </div>
+      <%#= text_area :beta_invit, :invitation_msg %>
+       <%= text_area :beta_invit, :invitation_msg,  :cols=>"80",:rows=>"5"%>
+        <div class="error_msg" style="margin-left:210px;"><%= error_message_on "beta_invit", "invitation_msg" %></div>
+      <div class="clear"><!-- --></div>                                                   
+                                
+                                <div class="sign_up"><a href="#"><%= image_submit_tag "sign_up_btn.jpg",:id=>"Signup"%></a></div>
+                    </div><%end%></div>
+            </div><!--signup4-wrap-->
+            <div class="clear"><!-- --></div>
+            <!-- right sign div ends here-->
+            <div class="clicking">By clicking Signup, I understand and agree to the <a href="<%= terms_cond_path%>">Terms and Conditions</a> and <a href="<%= privacy_path%>">Privacy Policy</a></div>
+            <div class="clear"><!-- --></div>
+            
+            
+            
+            <script>
+
+ var state = 'none';
+function showhide(layer_ref) {
+
+if (state == 'block') {
+state = 'none';
+}
+else {
+state = 'block';
+}
+if (document.all) { 
+eval( "document.all." + layer_ref + ".style.display = state");
+}
+if (document.layers) {
+document.layers[layer_ref].display = state;
+}
+if (document.getElementById &&!document.all) {
+hza = document.getElementById(layer_ref);
+hza.style.display = state;
+}
+} 
+</script>

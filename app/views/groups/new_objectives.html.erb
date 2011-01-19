@@ -1,0 +1,53 @@
+<%=stylesheet_link_tag "default.css"%>
+<%= javascript_include_tag :defaults %>
+<%=calendar_date_select_includes "gfblue" %>
+<%@id=params[:id]%>
+<div id="container">
+  <div class="signup1">Create Group</div>
+  <div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+  <div class="clear"><!-- --></div>
+  <!-- thumbnail image container div start here-->
+  <div class="group_bg">
+  <%=render :partial=>"group_activities/status_update"%>
+    <br />
+  </div>
+  <!-- thumbnail image container div ends here-->
+  <!-- create group container div staryt here-->
+ <%=render :partial=>"group_header"%>
+  <% form_for :objective , :url=>{:action=>'create_objectives',:id=>@id} do |f|  %>
+  <div class="create_group_form">
+    <div class="create_group_container" >
+      <div class="create_header">Create Objectives for your Group<span class="successful_msg1" style="align:center;"><%= flash[:notice] ? truncate(flash[:notice],40)+" created" :"" %><%=h truncate(flash[:file_notice],60)%> </span></div>
+        <div class="error_msg"><%=flash[:error]%></div>
+          <font color="red"><%= f.error_messages %></font>
+          <% if params[:count]%>
+          <div id="new_obj">
+            <% for @count in 1..params[:count].to_i %>
+              <%=render :partial=>"objectives"%>    
+            <%end%>
+          </div>
+          <%else%>
+            <div id="new_obj">
+              <%=render :partial=>"objectives"%>
+            </div>
+          <%end%>
+            <div id="obj_link">
+        <%=render :partial=>"obj_link"%>
+      </div>
+    </div>
+    <div class="clear"><!-- --></div>
+    <div class="button_container">
+       <%= link_to image_tag("skip1.jpg", :class=>"previous",:id=>"Skip"), :action => 'invite_members', :id =>@id %>
+    </div>
+    <div class="button_container">
+      <%= image_submit_tag "next.jpg",:class=>"previous",:id=>"Next"%>
+    </div>
+    <div class="button_container">
+     <%= link_to image_tag("previous.jpg", :class=>"previous", :id=>"Previous"), :action => 'edit', :id =>@id %>
+     </div>
+  </div>
+
+    <%end %>
+   
+
+  </div>

@@ -1,0 +1,85 @@
+<div class="signup1">Create Grouphopper Account</div>
+<div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"></div>
+<div class="clear"><!-- --></div>
+<%if flash[:notice]%><div class="login_sucess"><%= flash[:notice]%></div><%end%>
+<!-- left sign div start here-->
+<!-- left sign div ends here-->
+<!-- right sign div strat here-->
+<div style="margin-left: 0px;" class="right_sign">
+<div class="inform">The information below is optional and can entered later</div>
+<% form_for :user, :url => users_edit_path, :html => { :multipart => true } do  -%>
+<div class="clear"><!-- --></div>
+<div class="inne_right_account">
+<div class="inne_label">Picture:</div>
+<!--<input type="file" size="27" class="inner_field_browse" name="">-->
+<%= file_field :attachment,:uploaded_data, :size=>"27", :class=>"inner_field_browse" %>
+<div class="error_msg"><%= flash["file_sigup"]%></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">Organization: </div>
+<%= text_field :user_profile,:organization, :class=>"inner_field" , :maxlength=>50%>
+<div class="error_msg"><%= error_message_on "user_profile", "organization" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">Occupation/Title: </div>
+<%= text_field :user_profile,:occupation,:class=>"inner_field", :maxlength=>50%>
+<div class="error_msg"><%= error_message_on "user_profile", "occupation" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">Office Email Address: </div>
+<%= text_field :user_profile,:office_email_address, :class=>"inner_field", :maxlength=>100%>
+<div class="error_msg"><%= error_message_on "user_profile", "office_email_address" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">Personal Email Address: </div>
+<%= text_field :user_profile,:personal_email_address, :class=>"inner_field", :maxlength=>100%>
+<div class="error_msg"><%= error_message_on "user_profile", "personal_email_address" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">Mobile Phone: </div>
+<%= text_field :user_profile,:mobile_phone, :class=>"inner_field", :maxlength=>100%>
+<div class="error_msg"><%= error_message_on "user_profile", "mobile_phone" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">Office Phone:</div>
+<%= text_field :user_profile,:office_phone, :class=>"inner_field", :maxlength=>20%>
+<div class="error_msg"><%= error_message_on "user_profile", "office_phone" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">Yahoo ID:</div>
+<%= text_field :user_profile,:yahoo_id, :class=>"inner_field", :maxlength=>20%>
+<div class="error_msg"><%= error_message_on "user_profile", "yahoo_id" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">Windows Live ID:</div>
+<%= text_field :user_profile,:windows_live_id, :class=>"inner_field", :maxlength=>50%>
+<div class="error_msg"><%= error_message_on "user_profile", "windows_live_id" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">AIM ID:</div>
+<%= text_field :user_profile,:aim_id, :class=>"inner_field", :maxlength=>50%>
+<div class="error_msg"><%= error_message_on "user_profile", "aim_id" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">Skype ID:</div>
+<%= text_field :user_profile,:skype_id, :class=>"inner_field", :maxlength=>50%>
+<div class="error_msg"><%= error_message_on "user_profile", "skype_id" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">Mailing Address 1:</div>
+<%= text_field :user_profile,:mailing_address1,:class=>"inner_field", :maxlength=>50%>
+<div class="error_msg"><%= error_message_on "user_profile", "mailing_address1" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">Mailing Address 2:</div>
+<%= text_field :user_profile,:mailing_address2, :class=>"inner_field", :maxlength=>50%>
+<div class="error_msg"><%= error_message_on "user_profile", "mailing_address2" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">City:</div>
+<input type="text" class="inner_field" name="user_profile[city]" , maxlength="50">
+<div class="error_msg"><%= error_message_on "user_profile", "city" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">State:</div>
+<%= text_field :user_profile,:state, :class=>"inner_field" , :maxlength=>50%>
+<div class="error_msg"><%= error_message_on "user_profile", "state" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label">Other Info:</div>
+<%= text_field :user_profile,:other_info, :class=>"inner_field"%>
+<div class="clear"><!-- --></div>
+<div class="login_btn" name="signup" id="signup" >
+<%= image_submit_tag "sign_up_btn.jpg",:id=>"Signup"%>
+</div>
+<div style="float:right ;margin:10px 4px 0 0 ;" name="skip">
+<a href="<%= activities_path%>"><img alt="login" src="/images/skip.jpg"></a></div>
+
+</div>
+</div>
+<%end%>

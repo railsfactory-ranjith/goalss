@@ -1,0 +1,241 @@
+<%= javascript_include_tag "prototype.js" %>
+<%=stylesheet_link_tag 'pagination' %>
+<script type="text/javascript">
+
+function create_group(max_group,used_group)
+{
+if (max_group > used_group)
+{
+return true;
+}
+else
+{
+alert("Please upgrade your plan or suspend a group. You are allowed to have " + max_group +  " active group(s)" );
+return false;
+}
+}
+
+
+
+function  GetCheckBoxValue()
+{
+  var x = (document.getElementById("ctl00_contentMain_chkAddSame").checked);
+  if (x==true)
+  {   
+    document.getElementById("user_profile_organization").value = document.getElementById("user_billing_info_company_name").value;
+    document.getElementById("user_profile_first_name").value = document.getElementById("user_billing_info_first_name").value;
+    document.getElementById("user_profile_last_name").value = document.getElementById("user_billing_info_last_name").value;
+    document.getElementById("user_profile_mailing_address1").value = document.getElementById("user_billing_info_address_1").value;
+    document.getElementById("user_profile_mailing_address2").value = document.getElementById("user_billing_info_address_2").value;
+    document.getElementById("user_profile_city").value = document.getElementById("user_billing_info_city").value;
+    document.getElementById("user_profile_country").value = document.getElementById("user_billing_info_country").value;
+    document.getElementById("user_profile_state").value = document.getElementById("user_billing_info_state").value;
+    document.getElementById("user_profile_zipcode").value = document.getElementById("user_billing_info_zipcode").value;
+    document.getElementById("user_profile_mobile_phone").value = document.getElementById("user_billing_info_phonenumber").value;
+    document.getElementById("user_profile_office_email_address").value = document.getElementById("user_billing_info_email_address").value;
+  } 
+  else
+  { 
+    document.getElementById("user_profile_organization").value = '';
+    document.getElementById("user_profile_first_name").value = '';
+    document.getElementById("user_profile_last_name").value = '';
+    document.getElementById("user_profile_mailing_address1").value = '';
+    document.getElementById("user_profile_mailing_address2").value = '';
+    document.getElementById("user_profile_city").value = '';
+    document.getElementById("user_profile_state").value = '';
+    document.getElementById("user_profile_zipcode").value = '';
+    document.getElementById("user_profile_mobile_phone").value = '';
+    document.getElementById("user_profile_office_email_address").value = '';
+  }
+}
+</script>
+
+
+
+
+
+
+
+<div class="signup1">My Account  <font style="color:red;font-size:12px;margin-left:250px;"><%=flash[:error]%></font>
+<font style="color:green;font-size:12px;text-align:center;"><%=flash[:notice] %></font>	</div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div class="clear"><!-- --></div>
+<div id="success_email"  style="color: green; font-size: 12px; text-align: center; position: absolute; margin-left: 251px; margin-top: -24px;"></div>
+<!-- left sign div start here-->
+<div class="left_sign">
+  <div class="inform_account">Billing Information</div>
+  <%form_for :user_billing_info,:url => paid_users_path,:html=>{:method=>:put} do%>
+  <div class="clear"><!-- --></div>
+  <div class="inne_right_myaccount">
+    <div class="<%= @user_billing_info.errors["company_name"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star" style="visibility: hidden;">*</span>Organization:</div>
+    <%= text_field :user_billing_info,:company_name , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_billing_info.errors["first_name"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star">*</span>First Name:  </div>
+    <%= text_field :user_billing_info,:first_name , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_billing_info.errors["last_name"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star">*</span> Last Name: </div>
+    <%= text_field :user_billing_info,:last_name , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_billing_info.errors["address_1"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star" style="visibility:visible;">*</span>Address 1: </div>
+    <%= text_field :user_billing_info,:address_1 , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_billing_info.errors["address_2"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star" style="visibility:hidden;">*</span>Address 2: </div>
+    <%= text_field :user_billing_info,:address_2 , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_billing_info.errors["company_name"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star">*</span>Country: </div>
+    <% list_country%>
+    <%= select :user_billing_info,:country,@country, {:selected=>@user_billing_info.country}, :class=>"inner_field" %>
+    <%#= select :user_profile, :country, @country,{:prompt=>"-select-"},:class=>"inner_field" %>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_billing_info.errors["city"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star">*</span>City: </div>
+    <%= text_field :user_billing_info,:city , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_billing_info.errors["state"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star">*</span>State: </div>
+    <%= text_field :user_billing_info,:state , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_billing_info.errors["zipcode"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star">*</span>PostalCode: </div>
+    <%= text_field :user_billing_info,:zipcode , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_billing_info.errors["phonenumber"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star">*</span>Phone: </div>
+    <%= text_field :user_billing_info,:phonenumber , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_billing_info.errors["email_address"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star">*</span>Email: </div>
+    <%= text_field :user_billing_info,:email_address , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="checkbox-wrap">
+      <span class="checkbox"><input type="checkbox" onclick="return GetCheckBoxValue();" name="contact information" id="ctl00_contentMain_chkAddSame" /></span> 
+      <span class="checkbox-text" style="font-size:12px;padding-bottom:5px;color:#333333">Same as Billing Information:</span>
+    </div>
+   <div class="clear"><!-- --></div>
+   <div class="credit_card">Contact Information</div>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_profile.errors["first_name"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star">*</span>First Name:</div>
+    <%= text_field :user_profile,:first_name , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_profile.errors["last_name"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star">*</span>Last Name:  </div>
+    <%= text_field :user_profile,:last_name , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_profile.errors["organization"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star"  style="visibility:hidden;">*</span>Organization: </div>
+    <%= text_field :user_profile,:organization , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label_account"><span class="star" style="visibility:hidden;">*</span>Title:</div>
+    <%= text_field :user_profile,:title,:class=>"inner_field"%>
+    <!--<div class="<%#= @user_profile.errors["first_name"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star" style="visibility:hidden;">*</span>Title:</div>-->
+    <%#= text_field :user_profile,:first_name , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_profile.errors["mailing_address1"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star"  style="visibility:hidden;">*</span>Address 1: </div>
+    <%= text_field :user_profile,:mailing_address1 , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_profile.errors["mailing_address2"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star" style="visibility:hidden;">*</span>  Address 2: </div>
+    <%= text_field :user_profile,:mailing_address2 , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_profile.errors["company_name"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star">*</span>Country: </div>
+        <% list_country %>
+        <%#= select :user_profile, :country, ([@country], @user.user_profile.country), :class=>"inner_field" %>
+        <%= select :user_profile, :country, @country, {:selected=>@user_profile.country}, :class=>"inner_field" %>
+        <div class="clear"><!-- --></div>
+    <div class="<%= @user_profile.errors["state"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star" style="visibility:hidden;" >*</span>State: </div>
+    <%= text_field :user_profile,:state , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_profile.errors["city"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star" style="visibility:hidden;">*</span>City: </div>
+    <%= text_field :user_profile,:city , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_profile.errors["zipcode"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star">*</span>PostalCode: </div>
+    <%= text_field :user_profile,:zipcode , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_profile.errors["mobile_phone"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star" style="visibility:hidden;">*</span>Phone Number: </div>
+    <%= text_field :user_profile,:mobile_phone , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_profile.errors["office_phone"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star"  style="visibility:hidden;">*</span>2nd Phone Number: </div>
+    <%= text_field :user_profile,:office_phone , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <div class="<%= @user_profile.errors["office_email_address"] ? 'inne_label_account_red' : 'inne_label_account'  %>"><span class="star" style="visibility:hidden;">*</span>Email Address: </div>
+    <%= text_field :user_profile,:office_email_address , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+    <%=image_submit_tag "update.jpg",:class=>"cancel_new",:id=>"update_billings"%>
+    <div style ="margin-right:5px;"><%=link_to image_tag("cancel.jpg",:class=>"update", :style =>"margin-right:5px;",:id=>"cancel_bill"),edit_paid_users_path(:id=>current_user.id)%></div>
+    <div class="clear"><!-- --></div>
+  </div><%end%>
+</div>
+<!-- left sign div ends here-->
+
+<!-- left sign div ends here-->
+
+<!-- right sign div strat here-->
+
+<div class="right_sign_account">
+  <div class="inform_right_account" >Primary/Login email address</div>
+  <div class="clear"><!-- --></div>
+  <div class="inne_label_account"><span class="star" style="visibility:hidden;">*</span>Primary/Login email:</div>
+  <input name="primary_email" type="text"  class="inner_field" value="<%= current_user.email%>" READONLY />
+  <div class="clear"><!-- --></div>
+  <div class="login_btn"><a id="change_email" href="/paid_users/change_email?">
+  <img src="/images/chenage-email.png" alt="update" /></a>
+  <script>new Control.Modal($('change_email'), {className:'modal_container',width: 0,height: 0});</script></div>
+  <div class="clear"><!-- --></div>
+  <div class="inform_right_account">Current Plan</div>
+  <div class="clear"><!-- --></div>
+  <div class="inne_right_rightaccount">
+    <div class="change_plan">Group Plan <a id="change_plan" href="/paid_users/change_plan"> Change Plan</a><script>new lightbox($('change_plan'), {className:'lightbox_container'});</script></div>
+    <div class="clear"><!-- --></div>
+    <div class="inner_plan" style="margin-top:10px;">$<%=h @user_plan.amount%> per month</div>
+    <div class="clear"><!-- --></div>
+    <div class="inner_plan">Includes<span class="orange_col"> <%= @user_plan.max_users_in_group%></span> users per group</div>
+    <div class="clear"><!-- --></div>
+    <div class="inner_plan">Includes<span class="orange_col"> <%= @user_plan.max_group%></span> groups</div>
+    <div class="clear"><!-- --></div>
+    <div class="inner_plan"><div class="inner_plan_inside">Groups allowed in current plan:</div> 	<span class="orange_col"><%= @user_plan.max_group%></span></div>
+    <div class="clear"><!-- --></div>
+    <div class="inner_plan"><div class="inner_plan_inside">Groups used:</div><span class="orange_col"><%=@active_groups.count%></span></div>
+    <div class="clear"><!-- --></div>
+    <div class="inner_plan"><div class="inner_plan_inside">Groups avaliable:</div><span class="orange_col"><%=@user_plan.max_group-@active_groups.count%> </span></div>
+    <div class="clear"><!-- --></div>
+    <div class="inner_plan">
+      <div class="inner_plan_inside">
+      <a href="<%=new_group_path%>" id="create_group" onClick="return chek_create_group(<%=@user_plan.max_group%>,<%=@groups_count%>)" >Create Group</a>
+      </div>
+      <a style="margin-left:175px;color:#085FA3;" href="<%=close_code_path(:id=>current_user.id)%>" >Close Account</a>
+    </div>
+    <div class="clear"><!-- --></div>
+    <div class="group_table">
+      <div class="clear"><!-- --></div>
+      <div id="group_lists"><%=render :partial=>"group_list"%></div>
+    </div>
+    <div  class="digg_pagination" ><%= will_paginate @groups, :container => false %></div>
+    <div class="inform_right_account" style="margin-top:10px;">Billing History</div>
+    <div class="change_plan"  style="margin-top:10px;"><a href="<%=  billing_history_paid_users_path(:id=>current_user.id)%>"> View Billing History</a></div>
+    <div class="clear"><!-- --></div>
+    <%form_for :user_billing_informations, :url=>update_creditcard_paid_users_path,:html=>{:method=>:post} do %>
+    <div class="inform_right_account" style="margin-top:10px;">Credit Card Information</div>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label_account" style="border:none"><strong> Credit Card </strong></div>
+    <select name="" class="inner_field" style="visibility:hidden"><option>Select</option></select>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label_account"><span class="star">*</span>Card Type:</div>
+    <%#=select "user_creditcards","card_type", ["VISA", "Master card", "American Express"],{:prompt=>"-card-",:selected=>@cc_detail.card_type},{:class=>"inner_field"}%>
+    <%= select :user_creditcards, :card_type, ["VISA", "Master card", "American Express"], {:selected=>@cc_detail.card_type }, :class=>"inner_field" %>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label_account"><span class="star">*</span>Card Number:</div>
+    <input name="user_creditcards[last_digit]" type="text"  class="inner_field" value="<%=@cc_detail.last_digit%>"/>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label_account"><span class="star">*</span>CCV Number:</div>
+    <input name="user_creditcards[ccv_number]" type="password"  class="inner_field" value="<%=@cc_detail.ccv_number%>"/>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label_account"><span class="star">*</span>Expiration:</div>
+    <%=select("user_creditcards","exp_month",(1..12).entries, {:prompt=>"-month-",:selected=>@cc_detail.exp_month}, :class=>"inner_birth" )%><span class="star"><%=error_message_on :user_creditcards,:exp_month%></span>
+    <%=select("user_creditcards","exp_year",(Time.now.year..2030).entries, {:prompt=>"-year-",:selected=>@cc_detail.exp_year}, :class=>"inner_birth" )%><span class="star"><%=error_message_on :user_creditcards,:exp_year%></span>
+    <div class="clear"><!-- --></div>
+    <div class="update" style="margin-right:255px" ><%= image_submit_tag "/images/update.jpg",:id=>"login" %></div>
+   <%=link_to image_tag("cancel.jpg",:class=>"update",:style =>"margin-right:5px;",:id=>"cancel_bill"),edit_paid_users_path(:id=>current_user.id)%></div>
+  
+    <%end%>
+   </div>
+</div>
+
+</div>
+</div></div>
+ <div class="copy-wrap">	
+	     <div class="copy">
+			 &copy; GroupHopper 2010  <a href="<%= support_path%>">Support</a><a href="<%= privacy_path%>">Privacy</a>
+	     </div>   
+     </div>

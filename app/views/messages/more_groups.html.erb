@@ -1,0 +1,19 @@
+<div style="background-color:#FFFFFF; border:1px solid #CDD3D8; float:left; width:700px; margin:6px">
+<div class="light_box_close"><a onclick="$('lightbox_container').style.display='none';$('lightbox_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="lightbox_header"  style="width:660px;">Select a group</div>
+ <div class="clear"></div>
+ <div class="clear"></div>
+ <div class="light_box_check_container">
+<%=(@groups.count>8) ? "<div class='new_group_wrap'>" : ""%>
+<%@groups.each do |group|%>
+<div class="check_letter click-group-style" style="width:600px;" >
+<a href="javascript:;" style="color:#2673AF;" onclick="new Ajax.Request('<%=footer_messages_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'group_id=<%=group.id%>'});document.getElementById('lightbox_container').style.display='none';document.getElementById('lightbox_overlay').style.display='none'"><%=h wrap_text(group.name)%>(<%=new_activities(group.id)%>)</a>
+</div>
+<div class="clear"><!-- --></div>
+<%end%>
+<%=(@groups.count>8) ? "</div>" : ""%>
+</div>
+</div>
+
+
+

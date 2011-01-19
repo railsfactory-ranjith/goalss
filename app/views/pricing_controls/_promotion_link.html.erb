@@ -1,0 +1,4 @@
+<div class="inne_label attach_file_object">
+<%= link_to "new promotion", :before=>"this.style.display='none'" ,:url => pricing_controls_promotions_path(:count => "#{@count.to_i+1}") ,:remote=>true%>
+<input type="hidden" name="count" value="<%= "#{@count.to_i}" %>" id="count"/></div>
+<!--(:count => "#{@count.to_i+1}")-->

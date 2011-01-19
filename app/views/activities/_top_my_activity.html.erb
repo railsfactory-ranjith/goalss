@@ -1,0 +1,97 @@
+<script>
+ Element.hide('loader');
+  Element.hide('basic_search');
+  
+
+ function check_value_my(gid)
+{
+
+if (document.getElementById('status').value=="")
+{
+alert("Please enter the Status");
+
+ }
+else
+{
+$("status_update").href="display_groups?&control=myactivity&gid="+gid
+  new Control.Modal($("status_update"), {className:'modal_container'});
+}
+} 
+function check_value_my_advance()
+{
+
+if (document.getElementById('status').value=="")
+{
+alert("Please enter the Status");
+
+ }
+else
+{
+$("status_update_1").href="new_create?&control=myactivity"
+  new Control.Modal($("status_update_1"), {className:'modal_container'});
+}
+}
+ </script>
+<div class="signup1"><span id="activity_count"><%= render :partial=>"activity_count"%></span>
+<a href="#" onclick="mark_new_activity('<%= params[:gid] if !params[:gid].nil? %>');">Mark new activity as read</a><font style="color:green;margin-left:150px;"><%=flash[:file_notice]%></font></div>
+<div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"></div>
+<div  style="*margin-top:-20px;"  id="attach_notify" class="attach_not"></div>
+<div class="clear"><!-- --></div>
+<!-- thumbnail image container div start here-->
+<div id ="test" class="group_bg">
+<% params[:id]=params[:gid] if !params[:id]%>
+<%assign_filter%>
+<%form_tag(:url => {:controller=>'activities',:action => 'create',:id=>params[:gid],:control=>"myactivity"},:html => {:id => 'subject_form'})do%>
+  <div class="groupimg-groupmes">
+	  <div class="group_img">
+      <%=user_image(current_user)%>
+    </div>
+     <%=text_area_tag "status",session[:status_update],:class=>"group_mid_white"%>
+  </div>
+     <% if params[:gid]!="0" && !params[:gid].blank? %>
+  <%group_name=(group_name(params[:gid] || params[:id]))[0..20]%>
+ 	<div class="group-botton-links">
+			<div class="group-botton-checkbox">
+      <input  class="select_group" onclick="return check_value_status('<%=@group.is_active%>');" type="submit"  title="<%= group_name(params[:gid] || params[:id])%>" value="SHARE WITH <%=group_name%>"></input>
+         <%if @group.group_leader_id==current_user.id || @group.user==current_user%>
+	        <div class="checkbox-details" style="display:none; visibility:none" ><%#=check_box_tag "post","is_by_leader",false %>
+                    <span>Leader's Update</span>
+          </div><!--checkbox-details--><%end%>
+      </div>
+
+  <div class="attachfiles-selectgroup">
+		  <div   class="attach_file">
+		    <a href="/users/upload_file?id=<%=current_user.id%>&control=group"  id="attach_f">Attach File</a><span id ="count_file">()</span>
+        <script>new Control.Modal($('attach_f'), {className:'modal_container',width: 0,height: 0});</script>
+			</div>
+			<div class="select_group_link">
+			<%if @group.group_leader_id==current_user.id%><a href="#" id="status_update"><div  onclick="check_value('<%= params[:gid]%>');">Advanced share</div></a><%end%>
+			</div>
+    </div><!--attachfiles-selectgroup-->		
+		</div>
+
+  <%else%>  
+  
+   <div class="group-botton-links">
+			<div class="group-botton-checkbox">
+	      <div id="status_update">
+         <input class="select_group" onclick="check_value_my(0);" type="submit"  title="" value="SELECT GROUPS AND SHARE "></input>
+          </div>
+          <div class="checkbox-details" style="display:none; visibility:none" ><%#=check_box_tag "post","is_by_leader",false %>
+                    <span>Leader's Update</span>
+          </div><!--checkbox-details-->
+      </div>
+    <div class="attachfiles-selectgroup">
+		  <div   class="attach_file">
+		    <a href="/users/upload_file?id=<%=current_user.id%>&control=group"  id="attach_f">Attach File </a><span id ="count_file">()</span>
+        <script>new Control.Modal($('attach_f'), {className:'modal_container',width: 0,height: 0});</script>
+			</div>
+			<div class="select_group_link">
+			<%if current_user.is_leader?%><a href="#" id="status_update_1"><div onclick="check_value_my_advance();" >Advanced share</div></a><%end%>
+			</div>
+    </div><!--attachfiles-selectgroup-->		
+		</div><!--group-botton-links-->
+    <%end%>
+<% end%>
+ <br>
+</div>

@@ -1,0 +1,47 @@
+
+<%unless  @invitation.nil? || @invitation.empty? %>
+  <div class="recipient_text_scroll">
+    <% if @contacts %>
+      <% @contacts.each do |contact|  %>
+        <% unless contact.nil? %>
+          <%if contact[0].nil? || contact[0].empty? || (contact[0]==contact[1])%>
+            <%contact[0]=contact[1]%>
+            <%c=""%>
+          <%else%>
+            <%c=contact[0]%>
+          <%end%>
+          <div class="scroll_con">
+            <%= check_box "contact" , contact[0].to_s,{:class=>"scroll_chk",:checked=>@inv.include?(contact[1].to_s)},contact[1].to_s,0%>
+            <div class="scroll_square"></div>
+            <div class="scroll_content"><%=h c %></div>
+            <div class="scroll_content"> <%=h contact[1] %></div>  
+          </div>
+          <div class="clear"></div>   
+        <%end%>
+      <%end%>
+    <%end%>
+  </div>
+ <%else%>
+ 
+   <div class="recipient_text_scroll">
+    <% if @contacts %>
+      <% @contacts.each do |contact|  %>
+        <% unless contact.nil? %>
+          <%if contact[0].nil? || contact[0].empty? || (contact[0]==contact[1])%>
+            <%contact[0]=contact[1]%>
+            <%c=""%>
+          <%else%>
+            <%c=contact[0]%>
+          <%end%>
+          <div class="scroll_con">
+            <%= check_box "contact" , contact[0].to_s,{:class=>"scroll_chk",:checked=>true},contact[1].to_s,0%>
+            <div class="scroll_square"></div>
+            <div class="scroll_content"><%=h c %></div>
+            <div class="scroll_content"> <%=h contact[1] %></div>  
+          </div>
+          <div class="clear"></div>   
+        <%end%>
+      <%end%>
+    <%end%>
+  </div>
+ <%end%>

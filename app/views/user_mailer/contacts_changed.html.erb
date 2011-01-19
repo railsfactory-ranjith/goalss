@@ -1,0 +1,8 @@
+<%=h "#{@user.user_profile.first_name} #{@user.user_profile.last_name}"%> updated their contact information.
+   First Name: <%=h  @user.user_profile.first_name%>
+   Last Name: <%=h  @user.user_profile.last_name%>
+<%@items_to_send.each do |k,v|%>   <%=k%> <%=v%>
+<%end%>   Other Info: <%=h @user.user_profile.other_info%>
+
+Thanks,
+GroupHopper Team.

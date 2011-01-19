@@ -1,0 +1,16 @@
+<div id="group_landing_activity_left_container" >
+  <%=render :partial=>"group_landing"%>
+</div>
+<div id="footer_dashboard">
+<%=render :partial=>"footer_group_dashboard"%>
+</div>
+<script>
+Element.hide('basic_search');
+function footer_dashboard(gid)
+{
+new Ajax.Request('<%= footer_dashboard_groups_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'gid=' + gid});
+}
+
+
+
+</script>

@@ -1,0 +1,267 @@
+
+
+<div id="recent_activity_left_container" >
+<div class="clear"><!-- --></div>
+<!-- thumbnail image container div start here-->
+<div class="signup1">
+  <span class="profile-harry"><%=truncate(full_name(@user),40)%>'s Activity<a id="thrid_party_profile" href="<%=profile_thirdparty_user_path(:id=>@user.id)%>">View <%=truncate(full_name(@user),30)%>'s Profile</a>
+</div>
+<div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"/></div>
+<div style="*margin-top:-20px;" id="attach_notify" class="attach_not"></div>
+<div class="group_bg">
+<form id = "post_form" name="post_form" >
+<div class="group_img"><%=user_image(@user)%></div>
+<%form_tag :controller=>"users",:action=>"post_user_comment",:id=>params[:id] do%>
+<%=text_area_tag "status",nil,:class=>"group_mid_white"%>
+<a href="#" id="status_update"><input style="font-weight:bold;font-size:10px;" class="dynamic-button" onclick="return check_value(<%=@user.id%>);" type="submit"  title="<%= full_name(@user)%>" value="SHARE WITH <%=h truncate(full_name(@user),22)%>"></input></a><br />
+<div class="attachfiles-selectgroup">
+		  <div   class="attach_file">
+		    <a  href="/users/upload_file?id=<%=current_user.id%>&control=group"   id="attach_f">Attach File</a><span id ="count_file">()</span>
+        <script>new Control.Modal($('attach_f'), {className:'modal_container',width: 0,height: 0});</script>
+			</div>
+			<div class="select_group_link">
+			</div>
+      </div>
+<%end%></div>
+<br />
+<script>
+			 new Control.Modal($('attach_f'), {className:'modal_container',width: 0,height: 0});
+							 </script>
+
+<!-- thumbnail image container div ends here-->
+<!-- create group container div staryt here-->
+<!-- create group container div ends here-->
+
+<% if @attachment%>
+<%=link_to @attachment.filename,download_file_activities_path(:id=>@attachment.id)%>
+<%end%>
+<div class="create_group_form" >
+
+<!-- my asctivity left container div ends here-->
+<div  class="my_activity_left_container">
+<%i=0%>
+<%unless @collections.nil?%>
+<%for collection in @collections%>
+<%unless collection.nil? || collection.post.nil?%>
+<%i+=1%>
+<% back_ground_color_thrid_party(collection.post.group_id,current_user)%>
+<!-- my activity left inner container div start here-->
+<%if collection.post.is_by_leader && collection.is_read == false%>
+<div  style="border: 1px solid #<%= @group_color%>; margin-top: 2px; background-color: rgb(248, 96, 96);" class="my_acticity_inner_container">
+<%elsif collection.post.is_by_leader.nil? && collection.is_read == false%>
+<div  style="border: 1px solid #<%= @group_color%>; margin-top: 2px; background-color: rgb(254, 180, 114);" class="my_acticity_inner_container">
+<%else%>
+<div  style="border: 1px solid #<%= @group_color%>; margin-top: 2px; background-color" class="my_acticity_inner_container">
+<%end%>
+
+
+
+<!-- my activity div start here-->
+
+<%if collection.post.is_group_log%>
+<%if collection.post.objective_id %>
+<div class="my_activity_left_icon"><img alt="Information" src="/images/information.png"/></div>
+<div style="background: none repeat scroll 0% 0% #<%= @group_color%>; border-left: 1px solid rgb(213, 225, 234);" class="my_activity_right">
+<div class="sub_content1"><img alt="icon" src="/images/icon.png"/><a href="<%=group_updates_path(:id=>collection.post.group.id)%>"><%=h truncate(collection.post.group.name,40)%></a>
+<a style="text-decoration: none;" href="#"> </a><%=h collection.post.content%> <a href="<%=group_info_group_infos_path(:id=>collection.post.group_id)%>"><%=Objective.find_by_id(collection.post.objective_id).title%></a>
+<%end%>
+<%elsif collection.post.receiver_id%>
+<div class="my_activity_left_icon">
+<img alt="update" src="/images/comment.png" />
+</div>
+<div style="background: none repeat scroll 0% 0% #<%= @group_color%>; border-left: 1px solid rgb(213, 225, 234);" class="my_activity_right">
+<div class="left_squaer_img1"><%=user_image(collection.post.user)%></div>
+<div class="sub_content1"><img alt="icon" src="/images/icon.png"/><a href="<%=group_updates_path(:id=>collection.post.group.id)%>"><%=h truncate(collection.post.group.name,40)%></a><a style="text-decoration: none;" href="#"> :&nbsp;</a><a href="<%=user_activity_link(collection.post.user.id)%>"><%= truncate(full_name(collection.post.user),40)%></a>
+<%u=collection.post.receiver%>
+<a style="text-decoration: none;" href="#"> > </a><a href="<%=user_activity_link(collection.post.receiver_id)%>"><%= truncate(full_name(u),40)%>:</a>
+<div id="post<%=i%>" style="text-align: justify;"><pre><%=h wrap_text(truncate(collection.post.content,100),80)%></pre><%if collection.post.content.length>100%><%= link_to_remote "More" ,{:url => {:controller=>'activities',:action =>'expand_post', :id =>collection.post.id,:div=>"post#{i}"}},:style=>"color:#FF7800;"%><%end%></div>
+<%else%>
+<div class="my_activity_left_icon">
+<%if collection.post.is_by_leader%><img alt="alert" src="/images/alert.png"><%else%><img alt="alert" src="/images/comment.png"><%end%>
+</div>
+<div style="background: none repeat scroll 0% 0% #<%= @group_color%>; border-left: 1px solid rgb(213, 225, 234);" class="my_activity_right">
+<div class="left_squaer_img1"><%=user_image(collection.post.user)%></div>
+<div class="sub_content1"><img alt="icon" src="/images/icon.png"/><a href="<%=group_updates_path(:id=>collection.post.group.id)%>"><%=h truncate(collection.post.group.name,40)%></a><a style="text-decoration: none;" href="#"> :&nbsp;</a><a href="<%=user_activity_link(collection.post.user.id)%>"><%= truncate(full_name(collection.post.user),40)%></a>
+<div id="post<%=i%>" style="text-align: justify;"><pre><%=h wrap_text(truncate(collection.post.content,100),80)%></pre><%if collection.post.content.length>100%><%= link_to_remote "More" ,{:url => {:controller=>'activities',:action =>'expand_post', :id =>collection.post.id,:div=>"post#{i}"}},:style=>"color:#FF7800;"%><%end%></div>
+<%end%>
+<div class="hours1"><%=user_time_format(collection.post.created_at)%></div>
+
+<% @dup=DupAttachment.find_by_post_id(collection.post.id) %>
+<% unless @dup.nil? %>
+
+<div class="attachment"><a href="/activities/attachment?id=<%=collection.post.id%>" id="att<%=i%>">Attachment(s)</a><a class="arrow_bg" href="#"><img alt="arrow" src="/images/arrow.png"/></a><script>new Control.Modal($("att<%=i%>"), {className:'modal_container'})</script></div>
+<% end %>
+
+
+
+</div>
+<%if show_comment(collection.post)%> 
+<div class="comment">
+<%=link_to "Comment",status_comment_group_activities_path(:id=>collection.post.id,:receiver_id=>@user.id),{:id=>"status_comment#{i}"}%>
+<script>new Control.Modal($("status_comment<%=i%>"), {className:'modal_container'})</script></div><%end%>
+
+<%comments=Comment.find_all_by_post_id(collection.post.id)%>
+<%if !comments.empty?%>
+<%j=0%>
+<%comments.each do |com|%>
+<%j+=1%>
+<div class="clear"></div>
+<div class="left_squaer_img_inner"><%=user_image(com.user)%></div>
+<div class="sub_content_inner"><a href="<%=user_activity_link(com.user.id)%>"><%= truncate(full_name(com.user),40)%></a>
+<div id="<%=i%>comment<%=j%>" style="text-align: justify;"><pre><%=h truncate(com.content,60)%></pre>
+<%if com.content && com.content.length>60%>
+<%= link_to_remote "More" ,{:url => {:controller=>'activities',:action =>'expand_comment', :id =>com.id,:div=>"#{i}comment#{j}"}},:style=>"color:#FF7800;"%>
+<%end%>
+<div class="attachment">
+<%=comment_attachment(com)%>
+</div>
+</div>
+<div class="clear"></div>
+<div class="hours1"><%#=user_time_format(com.created_at)%></div>
+</div>
+<div class="clear"></div>
+<%end%>
+<%end%>
+<div class="comment"><a href="javascript:;" ></a>
+</div>
+</div>
+<!-- my activity div ends here-->
+</div>
+<!-- my activity left inner container div ends here-->
+<%end%>
+<%end%>
+<%end%>
+<div class="clear"><!-- --></div>
+<div  class="digg_pagination" >
+<%= will_paginate @collections, :container => false %>
+</div>
+</div>
+<!-- my_activity_right_container div start here-->
+<div class="my_activity_right_container">
+
+<%= render :partial=>"/messages/upcoming_objectives"%>
+
+<div class="gol_flow_container">
+<ul>
+<li>© GroupHopper 2010</li>
+<li><a href="<%= support_path%>">Support </a></li>
+<li><a href="<%= privacy_path%>">Privacy</a></li>
+</ul>
+</div>
+
+</div>
+<!-- my_activity_right_container div ends here-->
+
+
+</div></div>
+</div>
+</div>
+<!-- left sign div start here--><!-- left sign div ends here-->
+
+<!-- right sign div strat here-->
+<div class="clear"><!-- --></div>
+<!-- right sign div ends here-->
+
+ </div>
+
+
+   <!-- container div ends here-->
+   </div></div>
+    <!-- wrapper div ends here-->
+<div class="f-b-m-wrap">
+		<div class="footer-bottom-menu">
+		  <ul>
+        <li> <a href="<%= thirdparty_activity_user_path(:id=>@user.id,:filter=>"no")%>"><span style="<%=@group ? "":"background:#D5E1EA"%>">All</span></a> </li>
+
+        <% if @favorites && !@favorites.empty? %>
+            <% @common_groups.each do |id|%>
+                <% @favorites.each do |favourite|%>
+                  <% if favourite.group_id==id%>
+                    <% group=Group.find(id)%>
+                        <%group_color=current_user.group_users.find_by_group_id(favourite.group.id)%>
+                        <%if !group_color.nil?%>
+                                <%gcolor=group_color.color_code%>
+                        <%else%>
+                                <%gcolor="000000"%>
+                        <%end%>
+                         <li><a  href="<%= thirdparty_activity_user_path(:group_id=> id)%>"
+                         <% if favourite.group.id == session[:filter_group].to_i %> style="background:#<%=gcolor%>;border:1px solid black" 
+                         <%else%>  style="background:#<%=gcolor%>;border:1px solid white" <%end%> ><span><%=h truncate(group.name,15) %>(<%=new_activities(favourite.group.id)%>)</span></a></li>
+                      <%end%>
+                <%end%>
+                <%end%>
+        <%end%>
+        <li class=""><a id="more" href="/users/list_filter/<%= @user.id%>"><span id="lightbox">MORE <script>new lightbox($('more'), {className:'light_box_container_admin'});</script></span></a></li>
+ </ul>
+		 </div>  
+	</div><!--f-b-m-wrap-->
+	<div class="copy-wrap">	
+		  <div class="copy">
+		 &copy; GroupHopper 2010  <a href="<%= support_path%>">Support</a><a href="<%= privacy_path%>">Privacy</a>
+		  </div>    
+	</div><!--copy-wrap-->	  
+</div>
+
+
+
+
+
+
+<!-- container div ends here-->
+<script>
+
+function check_value(user_id)
+{
+if (document.getElementById('status').value=="")
+{
+alert("Please enter the Status");
+return false;
+}
+else
+{
+$("status_update").href="/users/post_user_comment?third_party="+user_id;
+  new Control.Modal($("status_update"), {className:'modal_container'});
+}
+}
+
+function check_value_post(event)
+{
+if (document.getElementById('status').value=="")
+{
+
+alert("Please enter the Status");
+ Event.stop(event)
+ }
+else
+{
+
+document.forms[0].submit();
+}
+}
+
+
+
+function check_value_post1(event)
+{
+if (document.getElementById('status').value=="")
+{
+
+alert("Please enter the Status");
+ Event.stop(event)
+ }
+else
+{
+
+$("attach_f").href="/users/upload_file?";
+ 
+	
+		 new Control.Modal($('attach_f'), {className:'modal_container',width: 0,height: 0});
+					
+												
+}
+}
+function thrid_party(gid)
+{
+new Ajax.Request('<%= %>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'gid=' + gid});
+}
+</script>

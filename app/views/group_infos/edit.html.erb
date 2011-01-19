@@ -1,0 +1,25 @@
+
+
+<div style="border: 1px solid rgb(205, 211, 216); background-color: rgb(255, 255, 255); float: left; width: 690px;height:250px;">
+<div class="light_box_close"><a onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"/></a></div>
+<div class="lightbox_header" style="width:643px;">Edit Objective</div>
+<div class="clear"></div>
+<div class="obj_edit">
+<%remote_form_for @objective,:url=>group_infos_path(:id=>params[:id]),:html =>{:multipart=>:true,:method=>:put} do |f|%>
+  <div class="left_title_label">Objective:</div>
+  <%=f.text_field :title,:class =>"left_taxt_box", :maxlength=>"100",:onkeyup=>"return ismaxlength(this)"%><div class="error_msg"><div id="errorpop"><%=error_message_on "objective","title"%></div></div>
+  <div class="clear"></div>
+  <div class="left_title_label">Description:</div>
+  <%=f.text_area :description, :class=>"text_area", :maxlength=>"500",:onkeyup=>"return ismaxlength(this)",:style=>"width:572px;"%><div class="error_msg"><%=error_message_on "objective","description"%></div>
+  <div class="clear"></div>
+  <div class="left_title_label">Due Date:</div>
+  <%= f.calendar_date_select :due_date ,:class=>"calendar_field",:popup => :force, :time => false,:valid_date_check => "date >= (new Date()).stripTime()",:onchange=>"clear_ckbox('objective_due_date','accept');",:style=>"margin-right:1px;"%> 
+    No Due Date <%= check_box_tag 'accept',nil,false,:onclick=>"clear_date('objective_due_date','accept');",:checked=>(@objective.due_date.nil?)%><div class="error_msg"><div style="margin-left:126px; margin-top:-20px;" id="errors"> </div></div>
+   <div style="margin:9px 2px 4px 564px;"><%=image_submit_tag "update.jpg" ,:id=>"update_objectives"%> 
+  <img style="margin: 2px 0px 0pt -181px;" alt="cancel" src="/images/cancel.jpg" onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'"/></div>
+    <div class="clear"></div>
+    <div class="clear"></div>
+</div>
+<%end%>
+</div> 
+</div>

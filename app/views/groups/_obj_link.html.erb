@@ -1,0 +1,5 @@
+<div class="inne_label attach_file_object">
+
+<%= link_to_remote "Add new Objective",:before=>"this.style.display='none'" ,:url => objectives_groups_path(:count => "#{@count.to_i+1}")%>
+<input type="hidden" name="count" value="<%= "#{@count.to_i}" %>" id="count"/>
+</div>

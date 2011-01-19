@@ -1,0 +1,3 @@
+
+<%= link_to_remote "Add new Objective",:before=>"this.style.display='none'" ,:url => new_group_infos_path(:id=>params[:id],:count => "#{@count.to_i+1}")%>
+<input type="hidden" name="count" value="<%= "#{@count.to_i+1}" %>" id="count"/>

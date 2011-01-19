@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<%= javascript_include_tag "prototype.js" %>
+<%if controller.controller_name == "groups"%>
+  <%= javascript_include_tag "jquery.js" %>
+  <%= javascript_include_tag "interface.js" %>
+  <%= javascript_include_tag "thickbox.js" %>
+  <%= stylesheet_link_tag "thickbox"%>
+<%end%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>GroupHopper</title>
+<link href="/stylesheets/default.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<!--main container div start here-->
+<div id="main_container">
+<!-- container div start here-->
+<div id="container">
+<div id="header_container">
+<!-- menu id div strat here-->
+<div id="menu1" style="margin-left:15px;">
+<ul>
+<li class="current"><a href="#">Home</a></li>
+<li><a href="#">Profile</a></li>
+<li><a href="#">Groups<img src="/images/down_arrow.png" alt="down" class="down" /></a></li>
+<li><a href="#">Messages <img src="/images/down_arrow.png" alt="down" class="down" /></a></li>
+</ul>
+</div>
+<!-- menu id div ends here-->
+
+<!-- menu id div strat here-->
+<div id="menu1" style="width:220px">
+<ul>
+<!--<li><a href="#">Account</a></li>-->
+<%if current_user%><li><%=  link_to "Account", edit_user_path(current_user.id), :method => :get   %></li><%end%>
+<li><a href="#">Setting</a></li>
+<%if current_user%><li><%=  link_to "Logout", session_path(current_user.id), :method => :delete   %></li><%end%>
+</ul>
+</div>
+<!-- menu id div ends here-->
+<div class="search">Search</div>
+<input name="" type="text" class="search_text" />
+<div class="go"><a href="#"><img src="/images/go.jpg" alt="go" /></a></div>
+<div class="advanced"><a href="#">Advanced search</a></div>
+<!-- form left div start here-->
+</div>
+
+<%= yield%>
+</div>
+<!-- container div ends here-->
+</div>
+<div id="new_promotion"></div>
+<!--main container div ends here-->
+</body>
+</html>

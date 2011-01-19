@@ -1,0 +1,71 @@
+
+
+
+<%= javascript_include_tag "prototype.js" %>
+<div  class="test-page-wrap">
+<div class="signup1">Create Grouphopper Account
+  <% if flash[:error]%>
+  <span style="color:red; font:12px; margin-left:250px;">
+    <%= flash[:error]%> </span>  <%else%>
+  <span style="color:green; font:12px; margin-left:250px;">
+    <%= flash[:notice]%> <%= "  " %><%= flash[:notice1]%></span> 
+  <%end%>
+</div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div class="clear"><!-- --></div>
+<!-- left sign div start here-->
+<div class="left_sign">
+<div class="inne_right_account">
+ <%form_for :access_codes, :url=>access_code_path(:id=>current_admin.id), :html=>{:method=>:put} do |f|%>
+ <%# form_for :accesscode, :url=>{:action=>'update',:controller=>'access_codes',:id=>1}do |f| %>
+  <%if !@access_codes.nil? && !@access_codes.empty?%>
+    <div id="new_access_code">
+      <% for @count in 1..@access_codes.size %>
+        <%=render :partial=>"generate_code"%>    
+      <%end%>
+    </div>
+  <%else%>  
+  <div id="new_access_code">
+    <%= check_box_tag "access[access#{@count}][is_active#{@count}]",1,nil%> 
+    <span class="active-text">Active</span>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label">Access Code:</div>
+    <%= text_field "access[access#{@count}]","code#{@count}",:value=> "" , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>
+  </div>
+  <%end%>
+  <div class="cancelnew-updatebutton">
+	<input class="update-button" type="submit" value="" onclick="return blank_check(<%= @count%>)";/>
+	<button class="cancel_new" type="submit"  name="cancel"><img src="/images/cancel.jpg" alt="login"/></button>
+	
+</div>	
+
+<div class="clear"><!-- --></div>
+<%end%>
+<div id="access_code">
+  <%=render :partial=>"access_code"%>
+</div>
+<div class="registered-user-wrap">
+	<h4>Registered Users</h4>
+    <%= link_to 'Export registrations', formatted_export_excel_regist_user_betasignups_url(:xls)	%>
+</div>
+<div class="invitations-requests-wrap">
+	<h4>Invitation Requests</h4>
+  <%= link_to 'Export Invitation Requests', formatted_export_excel_invit_req_betasignups_url(:xls)	%>
+</div>
+<div class="clear"><!-- --></div>
+
+</div></div></div>
+<!-- main container div ends here-->
+<script>
+function blank_check()
+{
+ if ($("status").value=="")
+  {
+    alert("Please enter the code");
+    return false;
+  }
+  else
+  {return true;}
+}
+</script>

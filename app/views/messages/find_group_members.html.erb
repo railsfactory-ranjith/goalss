@@ -1,0 +1,62 @@
+<div class="light_box_container">
+<!-- db_lightbox_activity div start here-->
+<!-- lightbox div start here-->
+<div class="lightbox">
+  <div class="lightbox_header" >Select users from: <%=h @group.name%></div>
+  <div class="light_box_close"><a href="#" onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"/></a></div>
+    <div class="clear"><!-- --></div>
+    <div class="light-box-check-wrap">
+            	<div class="select-deselect">
+                	<a class="cancel_share" href="#" onclick="select_all_in_form('message_form')";>Select All</a>
+                    <a class="cancel_share" href="#" onclick="deselect_all_in_form('message_form');">Deselect All</a>
+                </div>
+  <%unless @group_members.empty?%>             
+  <%remote_form_for :member, :url=>new_message_path,:html=>{:id=>"message_form"}do |f|%>
+  <div class="message_members">  
+  <!--<div class="clear"></div>-->
+  <%@group_members.each do |member|%>
+  <%unless member.nil?%>
+  <div class="checkbox-info-wrap" style="width:266px;">
+     <input type="checkbox" class="light_box_check" value="<%=member.id%>" name="<%= member.user_profile.first_name%> <%= member.user_profile.last_name%>" id="<%=member.id%>" />
+      <div class="check_letter" style="width:240px;" ><%=truncate(full_name(member),30)%></div>
+  </div>
+  
+  <%end%>
+  <%end%>
+  </div>
+  <div class="clear"></div>
+  <div class="button_share_container">
+      <a onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)" class="cancel_share"><img alt="cancel" src="/images/share_cancel.jpg"/></a>
+      <%=image_submit_tag "select1.png",:class=>"cancel_share",:onclick=>"return addRecepients();"%>
+      <!--<a class="cancel_share" href="#" onclick="select_all_in_form('message_form');">Select All</a>
+      <a class="cancel_share" href="#" onclick="deselect_all_in_form('message_form');">Deselect All</a>-->
+      <div class="error_msg">
+             <div id="check_boxx_error"></div>
+      </div>
+  </div>
+    <%end%>
+    <%else%>
+      <div style="margin-bottom:40px;">
+        <font color="Red">Sorry, your group currently doesn't have any active members.</font>
+      </div>
+      
+    <%end%>
+</div>
+ </div>
+ <!-- lightbox div ends here-->
+<!-- db_lightbox_activity div start here-->
+</div>
+<!-- lightbox contianer div ends here-->
+
+<script>
+
+var a= new Array;
+if (document.getElementById('member'))
+{
+c=document.getElementById('member').value;
+a=c.split(",");
+for(i=0;i<a.length;i++)
+if (document.getElementById(a[i]))
+document.getElementById(a[i]).checked=true;
+}
+</script>

@@ -1,0 +1,32 @@
+<div style="background-color:#FFFFFF; border:1px solid #CDD3D8; float:left; width:604px;">
+<div class="lightbox_header">Select a group</div>
+<div class="light_box_close"><a onclick="document.getElementById('lightbox_container').style.display='none';document.getElementById('lightbox_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="clear"><!-- --></div>
+<%form_for "group", :url=>group_activities_path,  :html=>{:method=>:post}  do |f|%>
+<div class="light_box_check_container">
+<%=(@groups.count>8) ? "<div class='new_group_wrap'>" : ""%>
+<%for group in @groups%>
+<% if params["1"]=="6"%>
+<div class="check_letter click-group-style" style="width:550px;"><a  href="<%=group_updates_path(:id=>group.group.id)%>" onclick="document.getElementById('lightbox_container').style.display='none';
+document.getElementById('lightbox_overlay').style.display='none';"><%=h wrap_text(group.group.name)%>(<%=new_activities(group.group.id)%>)</a></div>
+<div class="clear"><!-- --></div>
+<%else%>
+<div class="check_letter click-group-style" style="width:550px;"><a  href="#" onclick="footer_dashboard(<%=group.group.id%>);document.getElementById('lightbox_container').style.display='none';
+document.getElementById('lightbox_overlay').style.display='none';"><%=h wrap_text(group.group.name)%>(<%=new_activities(group.group.id)%>)</a></div>
+<div class="clear"><!-- --></div>
+<%end%>
+<%end%>
+<%=(@groups.count>8) ? "</div>" : ""%>
+<input type="hidden" value="" id="status_update1" name="status" />
+</div>
+<div class="clear"><!-- --></div>
+</div>
+<%end%>
+</div>
+<script>
+function footer_dashboard(gid)
+{
+new Ajax.Request('<%= footer_dashboard_groups_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'gid=' + gid});
+}
+
+</script>

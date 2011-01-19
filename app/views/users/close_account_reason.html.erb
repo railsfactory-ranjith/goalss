@@ -1,0 +1,12 @@
+<div style="float:left;height:480px;width:960px;">
+<% form_for :user, :url => close_account_path do |f| %>
+<font color="red"><%#=flash[:error]%></font><br/>
+Are you sure you want to close your account?
+<p> <%= f.radio_button :didnt_find_useful, true %>I didnt find it useful </p>
+<p> <%= f.radio_button :couldnt_get_people, true %>Couldnt get people to join my groups</p>
+<p> <%= f.radio_button :have_better_option , true %>There are better options out there</p>
+<p> <%= f.radio_button :not_for_me, true %>It was fine, just not for me</p><br/>
+<p> <%= f.submit "Dont close my Account" %> 
+<%= f.submit "Yes, close my Account" %> </p>
+<% end %>
+</div>

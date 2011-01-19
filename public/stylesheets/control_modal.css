@@ -1,0 +1,23 @@
+#modal_container {  
+  padding:5px;    
+  font-family:"Lucida Grande",Verdana;  
+  font-size:12px;  
+  color:black;  
+  text-align:left; 
+ background-color:white;  
+ width:604px;
+
+} 
+
+
+
+#modal_overlay {  
+  background-color:black;  
+}  
+
+#control_modal_container #modal_container{background:none}
+#control_modal_container .error_msg { float:none}
+
+#reply_thread_control_modal_container #modal_container{width:820px}
+
+#autocomplete_populate{width: 358px; height: auto; overflow-y: hidden; left: 102px !important; top: 80px !important; }

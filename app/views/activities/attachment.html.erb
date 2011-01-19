@@ -1,0 +1,14 @@
+<div style="background-color:#FFFFFF; border:1px solid #CDD3D8; float:left; width:604px;">
+<div class="lightbox_header">Attachments</div>
+<div class="light_box_close"><a onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="clear"><!-- --></div>
+
+<div class="light_box_check_container">
+<%for att in @dup%>
+<div style="color:#2673AF;margin-left:10px;font-weight:bold;">
+<% a=Attachment.find_by_id(att.attach_id) %>
+<div style="padding-bottom:5px;margin-top:2px;margin-bottom:2px;"><%=link_to a.filename, download_file_activities_path(:id=>att.attach_id),:style=>"color:#2673AF" %></div></div>
+<%end%>
+</div>
+</div>
+ 

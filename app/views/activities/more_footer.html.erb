@@ -1,0 +1,65 @@
+<div style="background-color:#FFFFFF; border:1px solid #CDD3D8; float:left; width:700px; margin:6px">
+<div class="lightbox_header" style="width:660px;">Select a group</div>
+<div class="light_box_close"><a onclick="document.getElementById('lightbox_container').style.display='none';document.getElementById('lightbox_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="clear"><!-- --></div>
+<%form_for "group", :url=>group_activities_path,  :html=>{:method=>:post}  do |f|%>
+<div class="light_box_check_container">
+<%=(@groups.count>8) ? "<div class='new_group_wrap'>" : ""%>
+<%for group in @groups%>
+<% if params["1"]=="1"%>
+<div class="check_letter click-group-style" style="width:600px;"><a  href="#" onclick="footer(<%=group.group.id%>);document.getElementById('lightbox_container').style.display='none';
+document.getElementById('lightbox_overlay').style.display='none';"><%=h wrap_text(group.group.name)%>(<%=new_activities(group.group.id)%>)</a></div>
+<div class="clear"><!-- --></div>
+<%elsif params["1"]=="3"%>
+<div class="check_letter click-group-style" style="width:600px;"><a  href="<%= group_updates_path(:id=>group.group.id)%>" ;document.getElementById('lightbox_container').style.display='none';
+document.getElementById('lightbox_overlay').style.display='none';"><%=h wrap_text(group.group.name)%>(<%=new_activities(group.group.id)%>)</a></div>
+<div class="clear"><!-- --></div>
+<%elsif params["1"]=="4"%>
+<div class="check_letter click-group-style" style="width:600px;"><a  href="<%=group_info_group_infos_path(:id=>group.group.id)%>" ;document.getElementById('lightbox_container').style.display='none';
+document.getElementById('lightbox_overlay').style.display='none';"><%=h wrap_text(group.group.name)%>(<%=new_activities(group.group.id)%>)</a></div>
+<div class="clear"><!-- --></div>
+<% elsif params["1"]=="5"%>
+<div class="check_letter click-group-style" style="width:600px;"><a  href="/drafts?gid=<%=group.group.id%>";document.getElementById('lightbox_container').style.display='none';
+document.getElementById('lightbox_overlay').style.display='none';"><%=h wrap_text(group.group.name)%>(<%=new_activities(group.group.id)%>)</a></div>
+<div class="clear"><!-- --></div>
+<% elsif params["1"]=="6"%>
+<div class="check_letter click-group-style" style="width:600px;"><a  href="/sentitems?gid=<%=group.group.id%>";document.getElementById('lightbox_container').style.display='none';
+document.getElementById('lightbox_overlay').style.display='none';"><%=h wrap_text(group.group.name)%>(<%=new_activities(group.group.id)%>)</a></div>
+<div class="clear"><!-- --></div>
+<% elsif params["1"]=="7"%>
+<div class="check_letter click-group-style" style="width:600px;"><a  href="/inbox?gid=<%=group.group.id%>";document.getElementById('lightbox_container').style.display='none';
+document.getElementById('lightbox_overlay').style.display='none';"><%=h wrap_text(group.group.name)%>(<%=new_activities(group.group.id)%>)</a></div>
+<div class="clear"><!-- --></div>
+<%elsif params["search"]%>
+<div class="check_letter click-group-style" style="width:600px;"><a  href="#" onclick="filter_search_footer('<%= params["search"]%>',<%= group.group_id%>,1,'<%= params["fav_count"]%>') ;document.getElementById('lightbox_container').style.display='none';
+document.getElementById('lightbox_overlay').style.display='none';"><%=h wrap_text(group.group.name)%>(<%=new_activities(group.group.id)%>)</a></div>
+<div class="clear"><!-- --></div>
+<%else%>
+<div class="check_letter click-group-style" style="width:600px;"><a  href="#" onclick="footer_myactivity(<%=group.group.id%>);document.getElementById('lightbox_container').style.display='none';
+document.getElementById('lightbox_overlay').style.display='none';"><%=h wrap_text(group.group.name)%>(<%=my_new_activities(group.group.id)%>)</a></div>
+<div class="clear"><!-- --></div>
+<%end%>
+<%end%>
+<input type="hidden" value="" id="status_update1" name="status" />
+</div>
+<div class="clear"><!-- --></div>
+</div>
+<%=(@groups.count>8) ? "</div>" : ""%>
+<%end%>
+</div>
+<script>
+function footer(gid)
+{
+new Ajax.Request('<%= footer_activities_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'gid=' + gid});
+}
+function footer_myactivity(gid)
+{
+new Ajax.Request('<%= footer_myactivity_activities_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'gid=' + gid});
+}
+
+function footer_draft(gid)
+{
+new Ajax.Request('<%= footer_activities_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'gid=' + gid});
+}
+
+</script>

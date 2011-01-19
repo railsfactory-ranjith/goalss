@@ -1,0 +1,8 @@
+ <%  c = (@access_codes) ? (@access_codes[@count.to_i-1].is_active)  : nil %>
+ <%= check_box_tag "access[access#{@count}][is_active#{@count}]",1,c%> 
+    <span class="active-text">Active</span>
+    <div class="clear"><!-- --></div>
+    <div class="inne_label">Access Code:</div>
+    <%  c = (@access_codes) ? (@access_codes[@count.to_i-1].access_code)  : "" %>
+         <%= text_field "access[access#{@count}]","code#{@count}",:value=> c , :class=>"inner_field"%>
+    <div class="clear"><!-- --></div>

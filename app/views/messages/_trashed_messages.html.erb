@@ -1,0 +1,58 @@
+<%if @trash.empty?%>
+No Messages
+<%else%>
+<%i=0%>
+<%@trash.each do |trash|%>
+<%@message=trash.message if trash.message.parent_id.nil?%>
+<%@message=Message.find_by_parent_id(trash.message.parent_id) if @message.nil?%>
+<%i+=1%>
+<%if trash.message.group_id%>
+<% back_ground_color(trash.message.group_id)%>
+<%else%>
+<%@group_color="FFFFFF"%>
+<%end%>
+<%@group_color%>
+<%m=Message.find_last_by_parent_id(trash.message_id)%>
+<%m=Message.find_by_id(trash.message_id) if m.nil?%>
+<%msg_user=current_user.message_users.find_by_message_id(m.id)%>
+<%if msg_user.is_read%>
+<div  style="border: 1px solid rgb(213, 225, 234); margin-top: 2px; background-color" class="my_acticity_inner_container">
+<%else%>
+<div  style="border: 1px solid rgb(213, 225, 234); margin-top: 2px; background-color: rgb(254, 180, 114);" class="my_acticity_inner_container">
+<%end%>
+
+  <div class="my_activity_left_icon"><%=check_box "message_users", @message.id,{},@message.id%></div>
+  <div class="my_activity_right" style="border-left: 1px solid #CDD3D8; background: #<%= trash.message.group ? back_ground_color(trash.message.group.id) : "FFFFFF"%>; none repeat scroll 0% 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+    <div class="left_squaer_img1"><%=user_image(trash.message.user)%></div>
+    <div class="sub_content1">
+      <img alt="icon" src="/images/icon.png"/>
+      <%unless trash.message.nil? || trash.message.group.nil?%>
+        <a href="<%=group_updates_path(:id=>trash.message.group.id)%>"><%=h truncate(trash.message.group.name,25)%></a>
+        <a style="text-decoration: none;" href="#">:</a>
+        <a href="<%=user_activity_link(trash.message.user.id)%>">
+        <%trash.message.message_users.each do |msg_user|%>
+          <% unless msg_user.nil? || msg_user.user.nil? %>
+            <a href="<%=user_activity_link(msg_user.user.id)%>"><%=h truncate(full_name(msg_user.user),20)%>,</a>
+          <%end%>
+        <%end%>
+      <%end%>
+      </a>
+      <p>Subject: <%unless trash.message.nil? || trash.message.group.nil?%><%=h truncate(trash.message.subject,100)%><%end%></p>
+      <%= link_to "Read",message_thread_messages_path(:id=>trash.message.id),:style=>"float:right;" %> 
+    </div>
+    <div class="hours1"><%=user_time_format(trash.message.created_at)%></div>
+    
+    <%unless trash.message.attachments.empty?%>
+      <%if trash.message.attachments.count>1%>
+        <div class="attachment"><a href="/messages/attachment?id=<%=trash.message.id%>" id="att<%=i%>">Attachment(s)</a><a class="arrow_bg" href="#"><img alt="arrow" src="/images/arrow.png"/></a><script>new Control.Modal($("att<%=i%>"), {className:'modal_container'})</script></div>
+      <%else%>
+        <div class="attachment"><%#=link_to trash.message.attachments[0].filename,trash.message.attachments[0].public_filename%><%=link_to trash.message.attachments[0].filename, download_file_activities_path(:id=>trash.message.attachments[0].id) %></a></div><%end%>
+    <%end%>
+    
+    <div class="clear"></div>
+  </div>
+</div>
+<%end%>
+
+    
+<%end%>

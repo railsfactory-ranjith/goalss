@@ -1,0 +1,25 @@
+<div style="background-color:#FFFFFF; border:1px solid #CDD3D8; float:left; width:700px; margin:6px">
+<div class="lightbox_header" style="width:660px;">Select a group</div>
+<div class="light_box_close"><a onclick="document.getElementById('lightbox_container').style.display='none';document.getElementById('lightbox_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="clear"><!-- --></div>
+ <div class="light_box_check_container">
+<% if !@day.nil?%>
+<%=(@groups.count>8) ? "<div class='new_group_wrap'>" : ""%>
+<%for grou in @groups%>
+<div class="check_letter click-group-style" style="width:600px;"><a  href="/calender_infos/group_week?date=<%= @day%>&month=<%= @month%>&right=true&year=<%=@year%>&group_id=<%=grou.group_id%>"><%=h wrap_text(grou.group.name)%>(<%=new_activities(grou.group.id)%>)</a></div>
+<div class="clear"><!-- --></div>
+<%end%>
+<%=(@groups.count>8) ? "</div>" : ""%>
+<%else%>
+<%=(@groups.count>8) ? "<div class='new_group_wrap'>" : ""%>
+<%for grou in @groups%>
+<div class="check_letter click-group-style" style="width:600px;"><a  href="/calender_infos/group_move?month=<%=@month%>&year=<%=@year%>&group_id=<%= grou.group_id %>"><%=h wrap_text(grou.group.name)%>(<%=new_activities(grou.group.id)%>)</a></div>
+<div class="clear"><!-- --></div>
+<%end%>
+<%=(@groups.count>8) ? "</div>" : ""%>
+<%end%>
+<input type="hidden" value="" id="status_update1" name="status" />
+</div>
+<div class="clear"><!-- --></div>
+</div>
+</div>

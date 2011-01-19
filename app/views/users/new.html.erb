@@ -1,0 +1,144 @@
+<!--<script type="text/javascript">
+  var rpxJsHost = (("https:" == document.location.protocol) ? "https://" : "http://static.");
+  document.write(unescape("%3Cscript src='" + rpxJsHost +
+  "rpxnow.com/js/lib/rpx.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  RPXNOW.                                                                                                                                                                                                                     = true;
+  RPXNOW.language_preference = 'en';
+</script>
+<a class="rpxnow" onclick="return false;" href="https://grouphopper.rpxnow.com/openid/v2/signin?token_url=<%#= APP_CONFIG[:site_url] %>/users/rpx">
+  Open Id Sign In
+</a>-->
+
+ <!--<a class="rpxnow" onclick="return false;"
+href="https://grouphopper.rpxnow.com/openid/v2/signin?token_url=http%3A%2F%2Flocalhost%3A3000%2Fusers%2Frpx"> Sign In </a> -->
+
+
+
+<div class="signup1">Sign Up for GroupHopper</div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div class="clear"><!-- --></div>
+<!-- left sign div start here-->
+<div class="left_sign">
+<div class="signup2">Sign up using an existing account</div>
+<div class="clear"><!-- --></div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div class="clear"><!-- --></div>
+<div class="signup_account">
+<a class="rpxnow" onclick="return false;" href="https://login.yahoo.com/config/login?.intl=us&.src=openid&.partner=&.pd=c%3DmZmAFpe.2e7WuWzcHD2ZPYQ-%26ockey%3Dgrouphopper.rpxnow.com%26op%3D0&.done=https%3A%2F%2Fopen.login.yahoo.com%2Fopenid%2Fop%2Fstart%3Fz%3DouSJJ_RGDwclxE6Rz700sfaQk1bMsnLWl1.AIPtMIZ_LH6F_FXEKx_L.KzDcRfAvcSHsMM_Im0j1oJPoD5QJ7FoSH1YXDAVbVe0twcmNA9yN_vGcUF9_wyzGtu4h3eoJus3uarA2Yhx6f.usHzvmXcbosAK3KF8QABSpw2w6Er3SME6Azp7MAPIOgS6cnBrkCb.i1.2MRKmYnNfwzUd6bS3G7Gbuz6Lv6VbRVTHDRiTbFeMJum7BaLnchaSw2r.2MkpU2LnAnS3mO2mdCvttBkyHxcVSU_fNcYyCl.mOqPrgTQbZ.XyhBYNQBZIk1iJt0rU.SkVKeCGHU8XawwcVrP36jiticMoZgdhmn_y69v.vSz9BpbjwANre8X7fBfhaTzc8FtIDKaxbNFwtq2HbaTGqne9rUoq1bp6Qpz4jG32MeTzPwLHR5eYNWb7ZG_IbFK0EyoNkn2RJ0q9EGfNkvsz6qJ6g2Y_JyD6M33KvQu36WwZQGCqsvXSk71gn1PZXthAHaA9CxWM6JP3vXFHL3FEAFsh1f1ThnPB8aGBZTwgTHE0LewyZa.tr3Jv07a8obI0DTiJRCGpoJlSOiQFQw3wY0xcFRgQApyOe_ha.61HAiyiQL9PAPH1pf9irIsSNYrsiCxXvjISzfaWs5w--%26.intl%3Dus%26.scrumb%3D0">
+
+<script type="text/javascript">
+  var rpxJsHost = (("https:" == document.location.protocol) ? "https://" : "http://static.");
+  document.write(unescape("%3Cscript src='" + rpxJsHost +
+  "rpxnow.com/js/lib/rpx.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  RPXNOW.                                                                                                                                                                                                                     = true;
+  RPXNOW.language_preference = 'en';
+</script>
+<a class="rpxnow" onclick="return false;" href="https://grouphopper.rpxnow.com/openid/v2/signin?token_url=/users/rpx">
+<div class="inner_signup_account"><img src="/images/sign_up_group.jpg" alt="sign up" /></div>
+</a>
+</a>
+
+
+<div class="cancel"><a href="#">Cancel</a></div>
+</div>
+</div>
+<!-- left sign div ends here-->
+
+<!-- right sign div strat here-->
+<div class="right_sign" style="margin-top: 0px;">
+<div class="signup2">Sign up For a GroupHopper Account</div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div class="clear"><!-- --></div>
+<div class="inne_right_account">
+<% form_for :user, :url => users_path do  -%>
+<div class="inne_label"><span class="star">*</span>Email address</div>
+<%= text_field :user, :email, :class=>"inner_field", :maxlength=>100, :onkeyup=>"return ismaxlength(this)" %>
+<div class="error_msg"><%= error_message_on "user", "email" %></div>
+<div class="error_msg"><%= flash[:error]%></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label"><span class="star">*</span>Re-Enter Email Address </div>
+<input type="text" name="user[email1]" class="inner_field", maxlength="100", onkeyup="return ismaxlength(this)" value="<%= params[:user]&&params[:user][:email1] ? "#{params[:user][:email1]}" : ""%>"/>
+<div class="error_msg"><%= flash[:confirmation_email_error]%></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label"><span class="star">*</span>First Name </div>
+<%= text_field:user_profile,:first_name, :class=>"inner_field", :maxlength=>40, :onkeyup=>"return ismaxlength(this)" %>
+<div class="error_msg"><%= error_message_on "user_profile", "first_name" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label"><span class="star">*</span> Last Name </div>
+<%= text_field :user_profile, :last_name, :class=>"inner_field", :maxlength=>40, :onkeyup=>"return ismaxlength(this)" %>
+<div class="error_msg"><%= error_message_on "user_profile", "last_name" %></div>
+<div class="clear"><!-- --></div>
+<!--<div class="inne_label"><span class="star" style="visibility:hidden">*</span>Username </div>
+<%#= text_field :user,:user_name, :class=>"inner_field" , :maxlength=>50, :onkeyup=>"return ismaxlength(this)"%>
+<div class="error_msg"><%#= error_message_on "user", "user_name" %></div>-->
+<div class="clear"><!-- --></div>
+<div class="inne_label"><span class="star">*</span>Password</div>
+<%= password_field :user,:password, :class=>"inner_field" , :maxlength=>32, :onkeyup=>"return ismaxlength(this)"%>
+<div class="error_msg"><%= error_message_on "user", "password" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label"><span class="star">*</span>Re-enter Password </div>
+<%= password_field :user,:password_confirmation, :class=>"inner_field", :maxlength=>32, :onkeyup=>"return ismaxlength(this)" %>
+<div class="error_msg"><%= error_message_on "user", "password_confirmation" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label"><span class="star">*</span> Postal Code </div>
+<%= text_field :user_profile,:zipcode, :class=>"inner_field", :maxlength=>10, :onkeyup=>"return ismaxlength(this)"%>
+<div class="error_msg"><%= error_message_on "user_profile", "zipcode" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label"><span class="star">*</span>Country </div>
+<% list_country%>
+<%= select :user_profile, :country, @country,{:prompt=>"-select-"},:class=>"inner_field" %>
+<div class="error_msg"><%= error_message_on "user_profile", "country" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label"><span class="star">*</span> Use</div>
+<%= select :user_profile, :demographic_id, Demographic.all.collect {|p| [ p.name, p.id ] }, {:prompt=>"-select-"}, :class=>"inner_field" %>
+ <div class="error_msg"><%= error_message_on "user_profile", "demographic_id" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label"><span class="star">*</span>Enter your gender</div>
+<select name="user_profile[gender]" class="inner_field" ><option value ="">-select-</option>
+
+<%if params[:user_profile] && params[:user_profile][:gender]=="1"%>
+<option value="1" selected="yes">Male</option>
+<%else%>
+<option value="1">Male</option>
+<%end%>
+<%if params[:user_profile] && params[:user_profile][:gender]=="0"%>
+<option value="0" selected="yes">Female</option>
+<%else%>
+<option value="0">Female</option>
+<%end%>
+</select>
+<div class="error_msg"> <%= error_message_on "user_profile", "gender" %></div>
+<div class="clear"><!-- --></div>
+<div class="inne_label"><span class="star">*</span> Date of Birth</div>
+<%if params[:date] && params[:date][:month]!=""%>
+<%#=select("date","month",Date::MONTHNAMES.compact, {:prompt=>"#{params[:date][:month]}"}, :class=>"inner_birth" )%>
+<%= select :date, :month, Date::MONTHNAMES.compact, {:selected=> "#{params[:date][:month]}"}, :class=>"inner_birth" %>
+<%else%>
+<%#=select("date","month",Date::MONTHNAMES.compact, {:prompt=>"-month-"}, :class=>"inner_birth" )%>
+<%=select :date,:month,Date::MONTHNAMES.compact, {:prompt=>"-month-"}, :class=>"inner_birth" %>
+<%end%>
+
+<%if params[:date] && params[:date][:day]!=""%>
+<%= select :date, :day, (1..31).entries, {:selected=> params[:date][:day].to_i}, :class=>"inner_birth" %>
+<%else%>
+<%=select :date, :day, (1..31).entries, {:prompt=>"-day-"},:class=>"inner_birth" %>
+<%end%>
+<%if params[:date] && params[:date][:year]!="" %>
+<%= select :date, :year, (1920..Time.now.year).entries, {:selected=> params[:date][:year].to_i}, :class=>"inner_birth" %>
+<%else%>
+<%=select :date,:year,(1920..Time.now.year).entries, {:prompt=>"-year-"}, :class=>"inner_birth" %>
+<%end%>
+<div class="error_msg"><%= flash.now[:dob_error] %></div>
+<div class="clear"><!-- --></div>
+<div class="clear"><!-- --></div><br>
+<input type="hidden" value="<%= params[:access_code]%>" id="user" name="access_code" />
+<!--<div class="sign_up"><a href="#"><img src="images/sign_up_btn.jpg" alt="sign up" /></a></div>-->
+<div class="sign_up"><%= image_submit_tag "signup1.jpg",:id=>"Signup"%></div>
+<%end%>
+</div>
+</div>
+

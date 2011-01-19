@@ -1,0 +1,138 @@
+
+<script>
+Element.hide('basic_search');
+function filter_search(search,id,fav_count)
+{
+
+var z=new Array();
+var location=new Array();
+var d;
+d=++fav_count;
+for(i=1;i<=d;i++)
+{
+ if (document.getElementById('groups['+i+']').checked==true )
+ z[i]=document.getElementById('groups['+i+']').value
+ }
+for(j=7;j<=10;j++)
+{
+ if (document.getElementById('groups['+j+']').checked==true )
+ location[j]=document.getElementById('groups['+j+']').value
+ }
+
+ if (document.getElementById('groups['+id+']').checked==true)
+  {
+    if (id==1)
+    {
+      for (i=1;i<=(fav_count);i++)
+      document.getElementById('groups['+i+']').checked=true;
+    }
+    else if (id==7)
+    {
+      for (i=7;i<=10;i++)
+      document.getElementById('groups['+i+']').checked=true;
+    }
+    else if (id>7)
+    document.getElementById('groups[7]').checked=false;
+    else 
+    document.getElementById('groups[1]').checked=false;
+  }
+else
+  {
+  if (id==1)
+  {
+    for (i=1;i<=(fav_count);i++)
+    document.getElementById('groups['+i+']').checked=false;
+  }
+  else if(id==7)
+  {
+   for (i=7;i<=10;i++)
+   document.getElementById('groups['+i+']').checked=false;
+  }
+  else if(id<7)
+  document.getElementById('groups[1]').checked=false;
+  else
+  document.getElementById('groups[7]').checked=false;
+  }
+    new Ajax.Request('<%= search_results_searchs_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'group=' +z+ '&locations=' +location+ '&search=' +search});
+} 
+function filter_search_footer(search,id,v,fav_count,footer)
+{
+var z=new Array();
+var location=new Array();
+d=++fav_count;
+for(i=7;i<11;i++)
+{
+ if (document.getElementById('groups['+i+']').checked==true)
+ {
+   location[i]=document.getElementById('groups['+i+']').value
+   } 
+  }
+   z=id
+  for(i=1;i<=d;i++)
+    {
+    if (document.getElementById('groups['+i+']').value==id)
+    {if (id =="all")
+    {for (i=1;i<=d;i++)
+      document.getElementById('groups['+i+']').checked=true;}
+      else
+      document.getElementById('groups['+i+']').checked=true;}
+     else
+     document.getElementById('groups['+i+']').checked=false;
+    }
+    if (footer =="footer" || footer== "no"){
+
+    new Ajax.Request('<%= search_results_searchs_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'group=' +z+ '&locations=' +location+ '&search=' +search+ '&footer=' +footer});}
+    else
+    new Ajax.Request('<%= search_results_searchs_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'group=' +z+ '&locations=' +location+ '&search=' +search});
+
+}
+</script>
+<div class="signup1">Search results for “<%= @search%>”</div>
+<div class="down_arrow"><img src="/images/down_arrow.jpg" alt="down_arrow" /></div>
+<div class="clear"><!-- --></div>
+<!-- thumbnail image container div start here-->
+<div class="group_bg" id="stat_field">
+<%=render :partial=>"group_activities/status_update"%>
+<br />
+</div>
+<div class="create_group_form" >
+<div class="searchresult-option-wrap">
+    	<div class="serachin-wrap">
+        <div class="search-in">Search in:</div>
+        <%i=1%>
+        <div class="sr-cbox-details"><input type="checkbox" value="all" name="" id="groups[1]" <% if params[:all] %>checked="true"<%end%>  onclick="filter_search('<%= @search%>','1','<%= @favorites.count%>')"/> <span class="allgroups">All Groups</span></div>
+
+<%for g in @favorites%>
+<%unless g.nil?%>
+<% i=i+1%>
+<% if !params[:groups].nil? %>
+<%z=0%>
+<% for j in 1..@groups.count%>
+<% if ((params[:groups][:"#{j}"]).to_i== g.group_id) %>
+<% z=1%>
+<%end%>
+<%end%><%end%>
+<div class="sr-cbox-details"><input type="checkbox"  value="<%=g.group_id%>" name="groups[<%= i%>]" id="groups[<%= i%>]" <% if ( params[:all_loc] || (z==1) )%>checked="true"<%end%> onclick="filter_search('<%= @search%>','<%= i%>','<%= @favorites.count unless @favorites.nil?%>')">
+<span class="allgroups"><%= truncate(g.group.name,15) %></span></div>
+<%end%><%end%>
+               </div><!--serach-in-wrap-->
+        <div class="filter-wrap">
+          <div class="filter">Filter:</div>
+   
+          <div class="sr-cbox-details"><input type="checkbox" value="all_loc" name="" id="groups[7]" <% if params[:all_loc] || (params[:location] && params[:location][:all_loc]) %>checked="true"<%end%> onclick="filter_search('<%= @search%>',7)"/> <span class="allgroups">All</span></div>
+          <div class="sr-cbox-details"><input type="checkbox" value="status_update" name="" id="groups[8]" <% if params[:all_loc] || (params[:location] && params[:location][:status_update])%>checked="true"<%end%>       onclick="filter_search('<%= @search%>',8)" /> <span class="allgroups">Status Updates</span></div>
+          <div class="sr-cbox-details"><input type="checkbox" value="message" name="" id="groups[9]" <% if params[:all_loc] || (params[:location] && params[:location][:message])%>checked="true"<%end%>   onclick="filter_search('<%= @search%>',9)"/> <span class="allgroups">  Messages</span></div>
+          <div class="sr-cbox-details"><input type="checkbox" value="goal_obj" name="" id="groups[10]" <% if params[:all_loc]||(params[:location] && params[:location][:goal_obj]) %>checked="true"<%end%> onclick="filter_search('<%= @search%>',10)"/> <span class="allgroups">Goals/Objectives</span></div>
+        </div><!--filter-wrap-->
+      </div>    
+
+<div id="group_bgc">
+    <%=render :partial=>"results"%>
+    </div> </div>
+<div id="search_footer">
+  <%=render :partial=>"footer_search"%>
+ </div>
+    
+    
+    
+    

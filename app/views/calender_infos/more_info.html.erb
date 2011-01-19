@@ -1,0 +1,43 @@
+<!-- lightbox div start here-->
+<div class="lightbox" style="margin-top:3px;"  id ="lightbox_div">
+<div class="lightbox_header">
+<div class="cal_arrow"><%=link_to_remote image_tag("/images/left_arrow.jpg" ,:alt=>"left arrow" ) ,:url =>{:action => "move_day",:left => true,:year => params[:year],:month => params[:month],:date => params[:date]},:update => "lightbox"%></div>
+<div class="arrow_header"><%=Date::MONTHNAMES[params[:month].to_i]%> - <%=params[:date]%> - <%=params[:year]%> </div>
+<div class="cal_arrow"><%=link_to_remote image_tag("/images/right_arrow.jpg" ,:alt=>"left arrow" ) ,:url =>{:action => "move_day",:right => true,:year => params[:year],:month => params[:month],:date => params[:date]},:update => "lightbox"%></div>
+<div class="arrow_header">Calendar events from all groups </div>
+</div>
+<div class="light_box_close"><a href="#" onclick='Control.Modal.close();return false;'><img src="/images/close_light_box.jpg" alt="close" /></a></div>
+<div class="clear"><!-- --></div>
+<!-- color box container div start here-->
+<div id="color_box_container">
+
+			<% if !@objectives.empty?%>
+						<% for obj in @objectives%>
+									<%  color= 'ffffff';
+									ug = GroupUser.find_by_group_id_and_user_id(obj.group.id,current_user.id)
+									if !ug.nil?
+									color = ug.color_code if !ug.color_code.nil?
+									end %>
+									<div class="yellow_box" style="background:#<%=color%>">
+                                      <%truncate_group_name(obj.group.name)%>
+									<div class="color_header calenderevent_icon"><strong>Group: <a href="<%=group_updates_path(:id=>obj.group.id)%>" style="color:#085FA3;"><%=h obj.group.name%> </a></strong><br/>
+                   Objective: <%=h truncate(obj.title, 50)%><br/>
+                  Due Date: <%=user_date_format(obj.due_date)%> <br/>
+                  Responsible: <%obj.responsible_members.each do |user|%><a href="<%=user_activity_link(user.user_id)%>" style="color:#085FA3;"><%=h full_name(user.user)%></a>,<%end%><br/>
+                		</div>
+									</div>
+							<% end %>
+				<%else%>
+								<div class="yellow_box" style="background:#fbffd1">
+								No Objective Available 
+								</div>
+				<%end%>
+</div>
+<!-- color box container div ends here-->
+<div class="clear"><!-- --></div>
+<div class="button_share_container" style="margin-left:18px;">
+<button class="cancel_share" onclick='Control.Modal.close();return false;'><img src="/images/close.jpg" alt="cancel" /></button>
+
+</div>
+</div>
+<!-- lightbox div ends here-->

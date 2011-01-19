@@ -1,0 +1,48 @@
+<div class="invite_people_left">
+    <div class="new_group"><%= link_to " &lt;&lt; Back ", :back %></div>
+    <div class="invite_header">Group Information</div>
+    <div class="clear"><!-- --></div>
+    <div class="recipient_form">
+      <div class="inne_label"> Group Name:</div>
+      <div class="new_group"><%= truncate(@group.name)%></div>
+      <div class="clear"><!-- --></div>
+      <div class="inne_label">Owner:</div>
+      <div class="new_group"><%= link_to truncate(@group.user.user_profile.first_name+''+@group.user.user_profile.last_name), :controller => 'admin/billing_informations', :action => 'owner_account',:id=>@group.id %>
+      <%#=@groups.name%></div>
+      <input type="hidden" name="planid" value="<%= @group.user.pricing_plan_id%>">
+      <div class="clear"><!-- --></div>
+      <div class="inne_label"> Group Leader:</div>
+      <div class="new_group"><%= truncate( @group_leader.first_name+''+@group_leader.last_name )%></div>
+      <div class="clear"><!-- --></div>
+      <div class="inne_label"> Current Status:</div>
+      <div class="new_group"><%= (@group.is_active == true) ? "Active":"Suspend"%></div>
+      <div class="clear"><!-- --></div>
+      <div class="inne_label"> Date Created:</div>
+      <div class="new_group"><%= @group.created_at.strftime("%m/%d/%Y")%></div>
+      <div class="clear"><!-- --></div>
+      <div class="inne_label"> Date of last activity:</div>
+      <div class="new_group"><%= @group.updated_at.strftime("%m/%d/%Y")%></div>
+      <div class="clear"><!-- --></div>
+      <div class="new_group"><%= link_to "Edit",:controller=>'admin/groups',:action=>'group_update',:id=>@group.id%></div>
+      <div class="clear"><!-- --></div>
+      <div class="invite_header">Billing Information</div>
+      <div class="new_group"><a href="<%= billing_history_admin_billing_informations_path(:id=>@group.user_id)%>"> View Billing History</a></div>
+      <div class="clear"><!-- --></div>
+      <div class="clear"><!-- --></div><br>
+      <%unless @group.user.is_free_user%>
+      <div class="inne_label">Current Balance:</div>
+      <div class="new_group">$<%= @outstanding_balance%></div>
+      <%end%>
+      <div class="clear"><!-- --></div>
+    </div>
+    </div>
+    <div class="invite_people_right">
+    <div class="inne_label" style="border: medium none ; visibility: hidden;">Due Date:</div>
+      <div class="invite_header">CSR Change Log for this Group</div>
+        <div class="recipient_form">
+            <div class="new_group_right"><%= link_to "View Log",view_log_group_csrs_path(:id=>@group.id)%></div>
+        </div>
+    
+</div>
+
+

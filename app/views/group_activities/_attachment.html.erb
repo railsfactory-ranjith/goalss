@@ -1,0 +1,5 @@
+<%= javascript_include_tag "prototype.js" %>
+ <div class="aaf-link">
+<%= link_to_remote "Attach Another File", :before=>"this.style.display='none'" ,:url => attachment_file_group_activities_path(:count => "#{@count.to_i+1}")%>
+
+ </div>

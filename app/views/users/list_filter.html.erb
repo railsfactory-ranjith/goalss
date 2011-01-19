@@ -1,0 +1,19 @@
+<div style="background-color:#FFFFFF; border:1px solid #CDD3D8; float:left; width:700px; margin:6px">
+<div class="lightbox_header" style="width:660px;">Select a group</div>
+<div class="light_box_close"><a onclick="document.getElementById('lightbox_container').style.display='none';document.getElementById('lightbox_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="clear"><!-- --></div>
+<%form_for "group", :url=>group_activities_path,  :html=>{:method=>:post}  do |f|%>
+<div class="light_box_check_container">
+<%for id in @common_groups %>
+<% group=Group.find(id)%>
+<div class="check_letter click-group-style"><a   href="<%= thirdparty_activity_user_path(
+:group_id=> id)%>" onclick="document.getElementById('lightbox_container').style.display='none';
+document.getElementById('lightbox_overlay').style.display='none';"><%=wrap_text(group.name)%></a></div>
+<div class="clear"><!-- --></div>
+<%end%>
+<input type="hidden" value="" id="status_update1" name="status" />
+</div>
+<div class="clear"><!-- --></div>
+</div>
+<%end%>
+</div>

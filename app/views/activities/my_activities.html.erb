@@ -1,0 +1,64 @@
+ 
+ <%=link_to  (:url => activities_path(:control=>"activities",:method=>"new_update") ,:frequency => '10')%> 
+ <div id="top_my_activity">
+  <%= render :partial=>"top_my_activity"%>
+ </div>
+ 
+<div id="my_activity_left_container" >
+    <%=render :partial=>"my_collection"%>
+</div>
+<div id="footer_myactivity">
+   <%=render :partial=>"footer_myactivity"%>
+</div>
+<script>
+function mark_new_activity(gid)
+{
+    Element.show('loader') 
+     new Ajax.Request('/activities/my_activity_save_user_detail/', {asynchronous: true, evalScripts: true,  method: 'POST',parameters:'gid=' + gid, onComplete: function(request) {
+   Element.hide('loader')}});
+}
+function send_read_recepit(coll)
+{
+      Element.show('loader') 
+      new Ajax.Request('<%= my_activity_send_leader_mail_activities_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'id=' + coll});
+  //  new Ajax.Request('/activities/send_leader_mail/?id='+coll, {asynchronous: true, evalScripts: true, method: 'get'});
+
+
+}
+function older_post(limit)
+{
+    Element.show('loader') 
+    new Ajax.Request('<%= my_older_post_activities_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'limit=' + limit});
+    
+}
+
+function older_post_group(gid,limit)
+{
+    Element.show('loader') 
+    new Ajax.Request('<%= my_older_post_group_activities_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'limit=' + limit + '&gid=' + gid});
+}
+
+function check_value(event)
+{
+if (document.getElementById('status').value=="")
+{
+
+alert("Please enter the Status");
+ Event.stop(event)
+ }
+else
+{
+$("status_update").href="/group_activities/create?"
+  new Control.Modal($("status_update"), {className:'modal_container'});
+}
+}
+function check_group()
+{
+alert("Please select atleast one group")
+}
+function footer_myactivity(gid)
+{
+new Ajax.Request('<%= footer_myactivity_activities_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'gid=' + gid});
+}
+
+</script>

@@ -1,0 +1,23 @@
+
+   <ul>
+        <li> <a href="javascript:;" onclick="new Ajax.Request('<%=footer_messages_path%>', {asynchronous: true, evalScripts: true,  method: 'get'});"><span style="<%=@group ? "":"background:#D5E1EA"%>">All</span></a> </li>
+        <% if @favorites && !@favorites.empty? %>
+                <% @favorites.each do |fav|%>
+                        <%group_color=current_user.group_users.find_by_group_id(fav.group.id)%>
+                        <%if !group_color.nil?%>
+                                <%gcolor=group_color.color_code%>
+                        <%else%>
+                                <%gcolor="000000"%>
+                        <%end%>
+                         <%if current_user.is_active_member?(fav.group_id)%><li> <a href="javascript:;" onclick="new Ajax.Request('<%=footer_messages_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'group_id=<%=fav.group.id%>'});"
+                                       <% if @group && @group.id==fav.group.id%> style="background:#<%=gcolor%>;border:1px solid black" 
+                         <%else%>  style="background:#<%=gcolor%>;border:1px solid white" <%end%> ><span title="<%= fav.group.name unless fav.nil?%>"><%= h truncate(fav.group.name,10) unless fav.nil?%>(<%=new_activities(fav.group.id)%>)</span></a></li>
+                         <%end%>
+                         <%end%>
+        <%end%>
+        <li class=""><a id="more" href="/messages/more_groups"><span id="lightbox">MORE <script>new lightbox($('more'), {className:'light_box_container_admin'});</script></span></a></li>
+    </ul>
+
+
+ 
+ 

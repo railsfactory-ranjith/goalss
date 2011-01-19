@@ -1,0 +1,11 @@
+<% form_for :static_page, :url => staticpages_path , :html=>{:method=>:put} do |f| -%>
+<p><label for="title">Title</label><br/>
+<%= f.text_field :title %></p>
+<p><label for="page_center">Content</label><br/>
+<%= f.text_area 'page_center', :class=>"text_box", :cols=>80, :rows=>"20"  %>
+<%#= javascript_include_tag :fckeditor %>
+
+	<%#= fckeditor_textarea(:static_page, :page_center, :toolbarSet => 'Simple', :width => '500px', :height => '500px', :id=>'staticedit') %></p>
+<input type="hidden", name="id", value="<%= params[:id]%>">
+<p><%= submit_tag 'Update' %></p>
+<%end%>

@@ -1,0 +1,32 @@
+
+<div style="background-color:#FFFFFF; border:1px solid #CDD3D8; float:left; width:604px;">
+<div class="lightbox_header">Select which groups you want to see your post and attachments</div>
+<div class="light_box_close"><a onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" href="javascript:void(0)"><img alt="close" src="/images/close_light_box.jpg"></a></div>
+<div class="clear"><!-- --></div>
+
+<%form_for "group", :url=>post_user_comment_user_path(:id=>params[:third_party]),  :html=>{:method=>:post}  do |f|%>
+<div class="light_box_check_container">
+<%unless @groups.nil?%>
+<% leader_update=0%>
+<% @groups.each do |group|%>
+<input type="checkbox" class="light_box_check" value="<%=group.id%>" name="groups[<%=group.name%>]" id="<%=group.name%>" >
+<%#= check_box_tag  "groups[#{group.name}]",group.id,false,:class=>"light_box_check"%><%#=group.name%>
+<div class="check_letter"><%=group.name%></div>
+<div class="clear"><!-- --></div>
+<%end%>
+</div>
+<input type="hidden" value="" id="status_update1" name="status" />
+<div class="clear"><!-- --></div>
+<div class="button_share_container">
+<!--<button class="cancel_share"><img alt="cancel" src="/images/share_cancel.jpg"></button>
+<button><img alt="share" src="/images/share.jpg"></button>-->
+<img src="/images/share_cancel.jpg" onclick="document.getElementById('modal_container').style.display='none';document.getElementById('modal_overlay').style.display='none'" />
+<%= image_submit_tag "/images/share.jpg",:id=>"share", :onclick=>"return check_checkboxes_status();" %>
+<div id="check_error"></div>
+</div>
+<%end%>
+<%end%>
+</div>
+<script>
+document.getElementById('status_update1').value = document.getElementById('status').value;
+</script>

@@ -1,0 +1,267 @@
+<%=stylesheet_link_tag 'pagination' %>
+<script>
+ Element.hide('loader');
+
+ </script>
+ 
+ 
+ <%#=periodically_call_remote(:url => update_inbox_messages_path, :frequency => '10')%>
+
+ 
+ <%#=link_to  (:url => activities_path(:control=>"activities",:method=>"new_update") ,:frequency => '10')%> 
+ 
+ 
+ <%#=periodically_call_remote(:url => new_updates_activities_path(:control=>"recent_activities") ,:frequency => '10')%>
+
+<%=link_to  (:url => messages_path(:control=>"messages",:method=>"update_inbox") ,:frequency => '10')%> 
+ 
+ 
+ 
+ 
+ 
+<div id="recent_div">
+<%=render :partial=>"activ"%></div>
+<div class="down_arrow"><img alt="down_arrow" src="/images/down_arrow.jpg"></div>
+<div class="clear"><!-- --></div>
+<!-- thumbnail image container div start here-->
+<div class="group_bg">
+<%=render :partial=>"group_activities/status_update"%>
+<br>
+</div>
+<!-- thumbnail image container div ends here-->
+<!-- create group container div staryt here-->
+<!-- create group container div ends here-->
+<%if current_user.group_users.empty?%>
+  <div style="font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:bold;">You are not a member of any groups.
+  <%if current_user.is_free_user !=0%>
+    <a id="callsss" href="<%= check_user_account_users_path%>" style="color:#2673AF;margin-left:10px;text-decoration:underline;">Create New Group </a><script>new Control.Modal($("callsss"), {className:'modal_container'});</script>
+  <%else%>
+    <a href="<%= new_group_path%>" style="color:#2673AF;margin-left:10px;text-decoration:underline;">Create New Group </a>
+  <%end%></div>
+<%end%>
+<div class="create_group_form">
+<div  class="my_activity_left_container">
+<div id="recent_activity_left_container" >
+
+    <%=render :partial=>"inbox_collection"%></div>
+    
+   
+    
+   <div  class="digg_pagination" >
+ <%= will_paginate @collections, :container => false%>
+    </div>
+   
+   
+ 
+</div>
+
+<!-- my asctivity left container div start here-->
+
+<!-- my asctivity left container div ends here-->
+<div class="my_activity_right_container">
+<div id="up_objectives"%>
+<%=render :partial=>"upcoming_objectives"%>
+</div>
+
+
+<div class="gol_flow_container">
+<ul>
+<li>&copy; GroupHopper 2010</li>
+<li><a href="<%= support_path%>">Support </a></li>
+<li><a href="<%= privacy_path%>">Privacy</a></li>
+</ul>
+</div>
+</div>
+<!-- my_activity_right_container div ends here-->
+</div>
+<!-- left sign div start here--><!-- left sign div ends here-->
+<!-- right sign div strat here-->
+<div class="clear"><!-- --></div>
+<!-- right sign div ends here-->
+<div class="clear"><!-- --></div>
+
+ </div>
+
+
+   <!-- container div ends here-->
+   </div></div>
+
+
+
+<div class="f-b-m-wrap">
+		<div class="footer-bottom-menu">
+		  <ul>
+        <li> <a href="/inbox?filter=all"><span style="<%=@group ? "":"background:#D5E1EA"%>">All</span></a> </li>
+        <% if @favorites && !@favorites.empty? %>
+                <% @favorites.each do |favourite|%>
+                        <%group_color=current_user.group_users.find_by_group_id(favourite.group.id)%>
+                        <%if !group_color.nil?%>
+                                <%gcolor=group_color.color_code%>
+                        <%else%>
+                                <%gcolor="000000"%>
+                        <%end%>
+                       <%if current_user.is_active_member?(favourite.group_id)%>  <li> <a href="/inbox?gid=<%=favourite.group.id%>" <% if @group && @group.id==favourite.group.id %> style="background:#<%=gcolor%>;border:1px solid black" 
+                         <%else%>  style="background:#<%=gcolor%>;border:1px solid white" <%end%> ><span title="<%= favourite.group.name unless favourite.nil?%>" ><%= h truncate(favourite.group.name,10) unless favourite.nil?%>(<%=new_activities(favourite.group.id)%>)</span></a></li>
+           
+                         
+                <%end%>
+        <%end%>
+        <%end%>
+        <li class=""><a id="more" href="/activities/more_footer?1=7"><span id="lightbox">MORE <script>new lightbox($('more'), {className:'light_box_container_admin'});</script></span></a></li>
+</ul>
+		 </div>  
+	</div><!--f-b-m-wrap-->
+	<div class="copy-wrap">	
+		  <div class="copy">
+		 &copy; GroupHopper 2010  <a href="<%= support_path%>">Support</a><a href="<%= privacy_path%>">Privacy</a>
+		  </div>    
+	</div><!--copy-wrap-->	  
+</div>
+
+<script>
+
+function mark_new_activity()
+{
+     Element.show('loader') 
+     new Ajax.Request('/messages/save_user_detail/', {asynchronous: true, evalScripts: true,  method: 'POST',onComplete: function(request) {
+   Element.hide('loader')
+  }
+});
+}
+function send_read_recepit(coll)
+
+{
+      Element.show('loader') 
+      new Ajax.Request('<%= send_leader_mail_activities_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'id=' + coll});
+     
+  //  new Ajax.Request('/messages/send_leader_mail/?id='+coll, {asynchronous: true, evalScripts: true, method: 'get'});
+}
+function check_all()
+{
+var i;
+
+var test=document.getElementById('hello').value;
+for(i=1; i<=test; i++)
+{
+
+  var hello=document.getElementById(i).checked;
+  document.getElementById(i).checked=true;
+}
+ }
+ function uncheck_all()
+{
+var i;
+var test=document.getElementById('hello').value;
+for(i=1; i<=test; i++)
+{
+  var hello=document.getElementById(i).checked;
+  document.getElementById(i).checked=false;
+}
+ }
+  
+function unmar()
+{
+  Element.show('loader') 
+  var i,k;
+  var doit=document.getElementById('page').value;
+  var test=document.getElementById('hello').value;
+  var group=document.getElementById('groupvalue').value;
+  var ids=new Array();
+  for(i=1; i<=test; i++)
+  {
+    k=i+1000;
+    var check_box=document.getElementById(i)
+    if (!(check_box==null))
+    {
+      var checked=check_box.checked;
+      if(checked==true)
+      {
+        ids[i-1]=$(check_box).value;
+        if(doit<2)
+        {
+          doit=1;
+        }
+      }
+    }
+  }
+  new Ajax.Request('/messages/read_save_user_detail/', {asynchronous: true, evalScripts: true,  method: 'POST',  parameters:'ids=' + ids+ '&page=' + doit+ '&gid=' + group+'&unread='+true});
+  Element.hide('loader');
+}
+
+function mar()
+{
+  Element.show('loader') 
+  var i,k;
+  var doit=document.getElementById('page').value;
+  var test=document.getElementById('hello').value;
+  var group=document.getElementById('groupvalue').value;
+  var ids=new Array();
+  for(i=1; i<=test; i++)
+  {
+    k=i+1000;
+    var check_box=document.getElementById(i)
+    if (!(check_box==null))
+    {
+      var checked=check_box.checked;
+      if(checked==true)
+      {
+        ids[i-1]=$(check_box).value;
+        if(doit<2)
+        {
+          doit=1;
+        }
+      }
+    }
+  }
+  new Ajax.Request('/messages/read_save_user_detail/', {asynchronous: true, evalScripts: true,  method: 'POST',  parameters:'ids=' + ids+ '&page=' + doit+ '&gid=' + group});
+  Element.hide('loader');
+}
+
+function tra()
+{
+ 
+var i;
+var k;
+var doit=document.getElementById('page').value;
+var test=document.getElementById('hello').value;
+var group=document.getElementById('groupvalue').value;
+var ids=new Array();
+for(i=1; i<=test; i++)
+  {
+    k=i+1000;
+    var check_box=document.getElementById(i)
+    if (!(check_box==null))
+    {
+      var checked=check_box.checked;
+      if(checked==true)
+      {
+        ids[i-1]=$(check_box).value;
+        if(doit<2)
+        {
+          doit=1;
+        } 
+      }
+    }
+  }
+  new Ajax.Request('/messages/read_save_trash_detail/', {asynchronous: true, evalScripts: true,  method: 'POST',  parameters:'ids=' + ids+ '&page=' + doit+'&group_id='+group});
+}
+
+
+function older_post(limit)
+{
+    Element.show('loader') 
+    new Ajax.Request('<%= older_post_activities_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'limit=' + limit});
+}
+function footer(gid)
+{
+var doit=document.getElementById('page').value;
+    Element.show('loader') 
+    new Ajax.Request('/inbox', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'gid=' + gid});
+}
+function older_post_group(gid,limit)
+{
+    Element.show('loader') 
+    new Ajax.Request('<%= older_post_group_activities_path%>', {asynchronous: true, evalScripts: true,  method: 'get', parameters:'limit=' + limit + '&gid=' + gid});
+}
+
+</script>
